@@ -1,13 +1,31 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export const Canvas = ({width, height}) => (
-    <div className="component canvas" style={{width, height}}>
-        canvas
-    </div>
-);
+import SvgElement, * as SVG from '../SVG';
+
+export class Canvas extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.parent = React.createRef();
+
+        this.svg = new SvgElement(this.props.width, this.props.height);
+    }
+
+    componentDidUpdate() {
+        this.svg.changeSize(this.props.width, this.props.height);
+        this.svg.add(new SVG.Rect(200, 200, 'red').el);
+        this.svg.render(this.parent.current);
+    }
+
+    render() {
+        return (
+            <div className="component canvas" ref={this.parent} />
+        );
+    }
+}
 
 Canvas.propTypes = {
-    width:  PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    width:  PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired
 };
