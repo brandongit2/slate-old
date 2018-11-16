@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SvgElement, * as SVG from '../SVG';
+import SvgElement, * as SVG from '../SVG/src';
 
 export class Canvas extends React.Component {
     constructor(props) {
@@ -10,11 +10,14 @@ export class Canvas extends React.Component {
         this.parent = React.createRef();
 
         this.svg = new SvgElement(this.props.width, this.props.height);
+
+        let link = new SVG.Link('https://google.com');
+        link.add(new SVG.Rect(200, 200, 'red'));
+        this.svg.add(link);
     }
 
     componentDidUpdate() {
         this.svg.changeSize(this.props.width, this.props.height);
-        this.svg.add(new SVG.Rect(200, 200, 'red').el);
         this.svg.render(this.parent.current);
     }
 

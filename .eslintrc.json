@@ -336,7 +336,7 @@
                     "arg": "param",
                     "argument": "param",
                     "augments": "extends",
-                    "constructor": "class",
+                    "class": "constructor",
                     "constant": "const",
                     "defaultvalue": "default",
                     "desc": "description",
