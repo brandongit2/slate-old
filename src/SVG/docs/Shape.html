@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Container</title>
+    <title>JSDoc: Class: Shape</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Container</h1>
+    <h1 class="page-title">Class: Shape</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature">(abstract) </span></span>Container<span class="signature">(tagName, width<span class="signature-attributes">opt</span>, height<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Shape<span class="signature">(type, fill<span class="signature-attributes">opt</span>, strokeColor<span class="signature-attributes">opt</span>, strokeWidth<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">An SVG element which contains other elements.</div>
+            <div class="class-description">An abstract shape.</div>
         
     
 </header>
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="Container"><span class="type-signature">(abstract) </span>new Container<span class="signature">(tagName, width<span class="signature-attributes">opt</span>, height<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Shape"><span class="type-signature"></span>new Shape<span class="signature">(type, fill<span class="signature-attributes">opt</span>, strokeColor<span class="signature-attributes">opt</span>, strokeWidth<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -89,7 +89,7 @@
 
         <tr>
             
-                <td class="name"><code>tagName</code></td>
+                <td class="name"><code>type</code></td>
             
 
             <td class="type">
@@ -117,14 +117,92 @@
                 </td>
             
 
-            <td class="description last">The name of the container tag (i.e. 'g' for a &lt;g&gt; tag).</td>
+            <td class="description last">The name of the shape (i.e. 'rect' for a &lt;rect&gt;).</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>width</code></td>
+                <td class="name"><code>fill</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    'black'
+                
+                </td>
+            
+
+            <td class="description last">The fill color of the shape.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>strokeColor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    'black'
+                
+                </td>
+            
+
+            <td class="description last">The stroke color of the shape.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>strokeWidth</code></td>
             
 
             <td class="type">
@@ -156,46 +234,7 @@
                 </td>
             
 
-            <td class="description last">The width of the container.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>height</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    0
-                
-                </td>
-            
-
-            <td class="description last">The height of the container.</td>
+            <td class="description last">The stroke width of the shape.</td>
         </tr>
 
     
@@ -236,7 +275,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="abstract_Container.js.html">abstract/Container.js</a>, <a href="abstract_Container.js.html#line12">line 12</a>
+        <a href="abstract_Shape.js.html">abstract/Shape.js</a>, <a href="abstract_Shape.js.html#line8">line 8</a>
     </li></ul></dd>
     
 
@@ -290,7 +329,7 @@
     
 
     
-    <h4 class="name" id="add"><span class="type-signature"></span>add<span class="signature">(element)</span><span class="type-signature"> &rarr; {<a href="Element.html">Element</a>}</span></h4>
+    <h4 class="name" id="changeFill"><span class="type-signature"></span>changeFill<span class="signature">(color)</span><span class="type-signature"> &rarr; {<a href="Element.html">Element</a>}</span></h4>
     
 
     
@@ -298,7 +337,7 @@
 
 
 <div class="description">
-    Add a child element to the container.
+    Change the fill color of the shape.
 </div>
 
 
@@ -334,13 +373,13 @@
 
         <tr>
             
-                <td class="name"><code>element</code></td>
+                <td class="name"><code>color</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="Element.html">Element</a></span>
+<span class="param-type">string</span>
 
 
             
@@ -350,7 +389,7 @@
 
             
 
-            <td class="description last">An element to be added.</td>
+            <td class="description last">The new color of the shape fill.</td>
         </tr>
 
     
@@ -391,7 +430,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="abstract_Container.js.html">abstract/Container.js</a>, <a href="abstract_Container.js.html#line33">line 33</a>
+        <a href="abstract_Shape.js.html">abstract/Shape.js</a>, <a href="abstract_Shape.js.html#line47">line 47</a>
     </li></ul></dd>
     
 
@@ -447,7 +486,7 @@
     
 
     
-    <h4 class="name" id="changeSize"><span class="type-signature"></span>changeSize<span class="signature">(width, height)</span><span class="type-signature"> &rarr; {<a href="Element.html">Element</a>}</span></h4>
+    <h4 class="name" id="changeStroke"><span class="type-signature"></span>changeStroke<span class="signature">(color, width)</span><span class="type-signature"> &rarr; {<a href="Element.html">Element</a>}</span></h4>
     
 
     
@@ -455,7 +494,7 @@
 
 
 <div class="description">
-    Changes the dimensions of the container.
+    Change the stroke color of the shape.
 </div>
 
 
@@ -487,6 +526,29 @@
     </thead>
 
     <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The new color of the shape stroke.</td>
+        </tr>
+
     
 
         <tr>
@@ -497,7 +559,7 @@
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
             
@@ -507,30 +569,7 @@
 
             
 
-            <td class="description last">The width of the container.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>height</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The height of the container.</td>
+            <td class="description last">The new width of the shape stroke.</td>
         </tr>
 
     
@@ -571,115 +610,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="abstract_Container.js.html">abstract/Container.js</a>, <a href="abstract_Container.js.html#line46">line 46</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    This `Element` instance.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="Element.html">Element</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="unsetSize"><span class="type-signature"></span>unsetSize<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="Element.html">Element</a>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Unsets the dimensions of the container.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="abstract_Container.js.html">abstract/Container.js</a>, <a href="abstract_Container.js.html#line57">line 57</a>
+        <a href="abstract_Shape.js.html">abstract/Shape.js</a>, <a href="abstract_Shape.js.html#line34">line 34</a>
     </li></ul></dd>
     
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Link.js</title>
+    <title>JSDoc: Source: Polygon.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Link.js</h1>
+    <h1 class="page-title">Source: Polygon.js</h1>
 
     
 
@@ -27,26 +27,47 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @file Describes a `Link` class, equivalent to an SVG &amp;lt;a&amp;gt; tag.
+ * @file Describes a `Polygon` class which makes a polygon.
  * @author Brandon Tsang
  */
 
-import {Container} from './abstract';
+import {Shape} from './abstract';
 
-export class Link extends Container {
+/** Represents an SVG polygon. */
+export class Polygon extends Shape {
     /**
-     * Makes an &amp;lt;a&amp;gt; element.
+     * Makes an SVG &amp;lt;polygon&amp;gt; element.
      *
-     * @param {string} dest - The destination of the link.
+     * @param {object[]} points - The points that make up the polygon. In the format of [[x1, y1], [x2, y2], ...]
+     * @param {string} fill - The fill color of the polygon.
+     * @param {string} [strokeColor='black'] - The color of the polygon.
+     * @param {number} [strokeWidth=0] - The width of the polygon.
      */
-    constructor(dest) {
-        super('a');
+    constructor(points, fill, strokeColor = 'black', strokeWidth = 0) {
+        super('polygon', fill, strokeColor, strokeWidth);
 
-        this.props = {
-            dest
-        };
+        /** The points that make up the polygon. */
+        this.points = points;
 
-        this.attr('href', dest);
+        this.setPoints(points);
+    }
+
+    /**
+     * Sets the points of the polygon.
+     *
+     * @param {object[]} points - The points that make up the polygon.
+     *
+     * @returns {Shape} This `Shape` instance.
+     */
+    setPoints(points) {
+        let str = '';
+
+        for (let point of points) {
+            str += `${point[0]} ${point[1]}, `;
+        }
+        str = str.slice(0, -2);
+
+        return this.attr('points', str);
     }
 }
 </code></pre>

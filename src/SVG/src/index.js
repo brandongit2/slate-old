@@ -10,7 +10,11 @@ import {Container} from './abstract';
 
 export {Circle} from './Circle';
 export {Ellipse} from './Ellipse';
+export {Line} from './Line';
 export {Link} from './Link';
+export {Path} from './Path';
+export {Polygon} from './Polygon';
+export {PolyLine} from './PolyLine';
 export {Rect} from './Rect';
 
 /**
