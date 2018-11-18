@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: PolyLine</title>
+    <title>JSDoc: Class: Path</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: PolyLine</h1>
+    <h1 class="page-title">Class: Path</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>PolyLine<span class="signature">(points, strokeColor<span class="signature-attributes">opt</span>, strokeWidth<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Path<span class="signature">(path, strokeColor<span class="signature-attributes">opt</span>, strokeWidth<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Represents an SVG line.</div>
+            <div class="class-description">Represents an SVG path.</div>
         
     
 </header>
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="PolyLine"><span class="type-signature"></span>new PolyLine<span class="signature">(points, strokeColor<span class="signature-attributes">opt</span>, strokeWidth<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Path"><span class="type-signature"></span>new Path<span class="signature">(path, strokeColor<span class="signature-attributes">opt</span>, strokeWidth<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -53,7 +53,7 @@
 
 
 <div class="description">
-    Makes an SVG &lt;polyline&gt; element.
+    Makes an SVG &lt;path&gt; element.
 </div>
 
 
@@ -93,13 +93,13 @@
 
         <tr>
             
-                <td class="name"><code>points</code></td>
+                <td class="name"><code>path</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;object></span>
+<span class="param-type">number</span>
 
 
             
@@ -121,7 +121,7 @@
                 </td>
             
 
-            <td class="description last">The points that make up the polyline. In the format of [[x1, y1], [x2, y2], ...]</td>
+            <td class="description last">The commands for the path.</td>
         </tr>
 
     
@@ -160,7 +160,7 @@
                 </td>
             
 
-            <td class="description last">The color of the polyline.</td>
+            <td class="description last">The color of the line.</td>
         </tr>
 
     
@@ -199,7 +199,7 @@
                 </td>
             
 
-            <td class="description last">The width of the polyline.</td>
+            <td class="description last">The width of the line.</td>
         </tr>
 
     
@@ -240,7 +240,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PolyLine.js.html">PolyLine.js</a>, <a href="PolyLine.js.html#line9">line 9</a>
+        <a href="Path.js.html">Path.js</a>, <a href="Path.js.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -288,13 +288,13 @@
 
         
             
-<h4 class="name" id="points"><span class="type-signature"></span>points<span class="type-signature"></span></h4>
+<h4 class="name" id="path"><span class="type-signature"></span>path<span class="type-signature"></span></h4>
 
 
 
 
 <div class="description">
-    The points that make up the polyline.
+    The commands for the path.
 </div>
 
 
@@ -332,7 +332,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PolyLine.js.html">PolyLine.js</a>, <a href="PolyLine.js.html#line21">line 21</a>
+        <a href="Path.js.html">Path.js</a>, <a href="Path.js.html#line21">line 21</a>
     </li></ul></dd>
     
 
@@ -360,7 +360,7 @@
     
 
     
-    <h4 class="name" id="setPoints"><span class="type-signature"></span>setPoints<span class="signature">(points)</span><span class="type-signature"> &rarr; {<a href="Shape.html">Shape</a>}</span></h4>
+    <h4 class="name" id="setPath"><span class="type-signature"></span>setPath<span class="signature">(path)</span><span class="type-signature"> &rarr; {<a href="Shape.html">Shape</a>}</span></h4>
     
 
     
@@ -368,7 +368,7 @@
 
 
 <div class="description">
-    Sets the points of the polyline.
+    Sets the commands for the path.
 </div>
 
 
@@ -404,13 +404,13 @@
 
         <tr>
             
-                <td class="name"><code>points</code></td>
+                <td class="name"><code>path</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;object></span>
+<span class="param-type">string</span>
 
 
             
@@ -420,7 +420,7 @@
 
             
 
-            <td class="description last">The points that make up the polyline.</td>
+            <td class="description last">The commands for the path.</td>
         </tr>
 
     
@@ -461,7 +461,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PolyLine.js.html">PolyLine.js</a>, <a href="PolyLine.js.html#line33">line 33</a>
+        <a href="Path.js.html">Path.js</a>, <a href="Path.js.html#line33">line 33</a>
     </li></ul></dd>
     
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: PolyLine.js</title>
+    <title>JSDoc: Source: Path.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: PolyLine.js</h1>
+    <h1 class="page-title">Source: Path.js</h1>
 
     
 
@@ -27,46 +27,39 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @file Describes a `PolyLine` class which makes a polyline.
+ * @file Describes a `Path` class which makes a path.
  * @author Brandon Tsang
  */
 
 import {Shape} from './abstract';
 
-/** Represents an SVG line. */
-export class PolyLine extends Shape {
+/** Represents an SVG path. */
+export class Path extends Shape {
     /**
-     * Makes an SVG &amp;lt;polyline&amp;gt; element.
+     * Makes an SVG &amp;lt;path&amp;gt; element.
      *
-     * @param {object[]} points - The points that make up the polyline. In the format of [[x1, y1], [x2, y2], ...]
-     * @param {string} [strokeColor='black'] - The color of the polyline.
-     * @param {number} [strokeWidth=0] - The width of the polyline.
+     * @param {number} path - The commands for the path.
+     * @param {string} [strokeColor='black'] - The color of the line.
+     * @param {number} [strokeWidth=0] - The width of the line.
      */
-    constructor(points, strokeColor = 'black', strokeWidth = 0) {
-        super('polyline', 'none', strokeColor, strokeWidth);
+    constructor(path, strokeColor = 'black', strokeWidth = 0) {
+        super('path', 'none', strokeColor, strokeWidth);
 
-        /** The points that make up the polyline. */
-        this.points = points;
+        /** The commands for the path. */
+        this.path = path;
 
-        this.setPoints(points);
+        this.setPath(path);
     }
 
     /**
-     * Sets the points of the polyline.
+     * Sets the commands for the path.
      *
-     * @param {object[]} points - The points that make up the polyline.
+     * @param {string} path - The commands for the path.
      *
      * @returns {Shape} This `Shape` instance.
      */
-    setPoints(points) {
-        let str = '';
-
-        for (let point of points) {
-            str += `${point[0]} ${point[1]}, `;
-        }
-        str = str.slice(0, -2);
-
-        return this.attr('points', str);
+    setPath(path) {
+        return this.attr('d', path);
     }
 }
 </code></pre>
