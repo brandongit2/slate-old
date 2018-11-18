@@ -5,15 +5,16 @@
 
 /**
  * An SVG element.
+ * @abstract
  */
 export class Element {
     /**
      * Makes an element.
-     * @abstract
      *
      * @param {string} tagName - The name of the tag being created.
      */
     constructor(tagName) {
+        /** The element itself. */
         this.el = document.createElementNS('http://www.w3.org/2000/svg', tagName);
     }
 
@@ -38,8 +39,7 @@ export class Element {
      * @returns {Element} This `Element` instance.
      */
     setClass(name) {
-        this.attr('class', name);
-        return this;
+        return this.attr('class', name);
     }
 
     /**
@@ -50,8 +50,7 @@ export class Element {
      * @returns {Element} This `Element` instance.
      */
     addClass(name) {
-        this.attr('class', `${this.el.getAttribute('class')} ${name}`);
-        return this;
+        return this.attr('class', `${this.el.getAttribute('class')} ${name}`);
     }
 
     /**
@@ -62,8 +61,7 @@ export class Element {
      * @returns {Element} This `Element` instance.
      */
     id(id) {
-        this.attr('id', id);
-        return this;
+        return this.attr('id', id);
     }
 
     /**
@@ -74,8 +72,7 @@ export class Element {
      * @returns {Element} This `Element` instance.
      */
     lang(lang) {
-        this.attr('lang', lang);
-        return this;
+        return this.attr('lang', lang);
     }
 
     /**
@@ -92,9 +89,7 @@ export class Element {
             str += `${prop}: ${style[prop]}; `;
         }
 
-        this.attr('style', str);
-
-        return this;
+        return this.attr('style', str);
     }
 
     /**
@@ -111,8 +106,20 @@ export class Element {
             str += `${prop}: ${style[prop]}; `;
         }
 
-        this.attr('style', `${this.el.getAttribute('class')} ${str}`);
+        return this.attr('style', `${this.el.getAttribute('class')} ${str}`);
+    }
 
+    /**
+     * Moves the element.
+     *
+     * @param {number} x - The new x position of the element.
+     * @param {number} y - The new y position of the element.
+     *
+     * @returns {Element} This `Element` instance.
+     */
+    move(x, y) {
+        this.attr('x', x)
+            .attr('y', y);
         return this;
     }
 
@@ -124,8 +131,7 @@ export class Element {
      * @returns {Element} This `Element` instance.
      */
     tabIndex(value) {
-        this.attr('tabindex', value);
-        return this;
+        return this.attr('tabindex', value);
     }
 
     /**

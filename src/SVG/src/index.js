@@ -2,15 +2,20 @@
  * A library for creating and modifying SVGs with JavaScript.
  * @module SVG
  *
- * @file Describes a class `SvgElement` which makes an &lt;svg&gt; tag.
+ * @file Describes a class `SvgElement` which makes a root (&lt;svg&gt;) tag.
  * @author Brandon Tsang
  */
 
 import {Container} from './abstract';
 
+export {Circle} from './Circle';
+export {Ellipse} from './Ellipse';
 export {Link} from './Link';
 export {Rect} from './Rect';
 
+/**
+ * Represents the SVG container tag.
+ */
 class SvgElement extends Container {
     /**
      * Make an SVG element. Has the ability to contain child elements.

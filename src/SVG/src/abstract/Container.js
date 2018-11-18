@@ -1,11 +1,16 @@
+/**
+ * @file Describes a `Container` class which represents an SVG element which holds other elements.
+ * @author Brandon Tsang
+ **/
+
 import {Element} from './Element';
 
 /**
  * An SVG element which contains other elements.
+ * @abstract
  */
 export class Container extends Element {
     /**
-     * @constructor
      * @param {string} tagName - The name of the container tag (i.e. 'g' for a &lt;g&gt; tag).
      * @param {number} [width=0] - The width of the container.
      * @param {number} [height=0] - The height of the container.
