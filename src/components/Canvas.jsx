@@ -55,7 +55,9 @@ export class Canvas extends React.Component {
             mouseDown: true
         };
         this.parent.current.onmousemove = this.handleOnMouseMove;
+        this.parent.current.ontouchmove = this.handleOnMouseMove;
         this.parent.current.onmouseup = this.handleOnMouseUp;
+        this.parent.current.ontouchend = this.handleOnMouseUp;
     }
 
     handleOnMouseMove(e) {
@@ -81,7 +83,7 @@ export class Canvas extends React.Component {
 
     render() {
         return (
-            <div className="component canvas" onMouseDown={this.handleOnMouseDown} ref={this.parent} />
+            <div className="component canvas" onMouseDown={this.handleOnMouseDown} onTouchStart={this.handleOnMouseDown} ref={this.parent} />
         );
     }
 }

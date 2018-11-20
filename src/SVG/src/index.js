@@ -34,6 +34,7 @@ class SvgElement extends Container {
         super('svg', width, height);
 
         this.translate = [0, 0];
+        this.zoom = 1;
 
         this.el.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
         this.el.setAttribute('version', '1.1');
@@ -55,19 +56,21 @@ class SvgElement extends Container {
         return this;
     }
 
-    setViewBox(x1, y1, x2, y2) {
-        return this.attr('viewBox', [x1, y1, x2, y2].join(' '));
+    setViewBox(x, y) {
+        return this.attr('viewBox', [
+            x - this.width / 2,
+            y - this.height / 2,
+            this.width * this.zoom,
+            this.height * this.zoom
+        ].join(' '));
     }
 
     moveViewBox(dX, dY) {
         this.translate[0] += dX;
         this.translate[1] += dY;
-        console.log(this.translate[0], this.translate[1]);
         return this.setViewBox(
             this.translate[0],
-            this.translate[1],
-            this.translate[0] + this.width,
-            this.translate[1] + this.height,
+            this.translate[1]
         );
     }
 }
