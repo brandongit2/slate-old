@@ -26,55 +26,19 @@ class SvgElement extends Container {
      * @constructor
      * @param {number} width - The width of the SVG element.
      * @param {number} height - The height of the SVG element.
-     * @param {number} viewportX - The X coordinate of the top left of the viewport.
-     * @param {number} viewportY - The Y coordinate of the top left of the viewport.
-     * @param {number} viewportWidth - The width of the viewport.
-     * @param {number} viewportHeight - The height of the viewport.
-     * 
+     *
      * @classdesc
      * Represents an &lt;svg&gt; element.
      */
-    constructor(width, height, viewportX, viewportY, viewportWidth, viewportHeight) {
+    constructor(width, height) {
         super('svg', width, height);
 
-        this.viewport = {
-            viewportWidth,
-            viewportHeight,
-            viewportX,
-            viewportY
-        };
+        this.translate = [0, 0];
 
         this.el.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
         this.el.setAttribute('version', '1.1');
         this.el.setAttribute('baseProfile', 'full');
-
-        this.updateViewport = this.updateViewport.bind(this);
-        this.updateViewportSize = this.updateViewportSize.bind(this);
-        this.updateViewportPosition = this.updateViewportPosition.bind(this);
-
-        this.updateViewport();
-    }
-
-    updateViewportSize(width, height) {
-        this.viewport = {
-            ...this.viewport,
-            viewportWidth:  width,
-            viewportHeight: height
-        };
-        this.updateViewport();
-    }
-
-    updateViewportPosition(changeX, changeY) {
-        this.viewport = {
-            ...this.viewport,
-            viewportX: this.viewport.viewportX + changeX,
-            viewportY: this.viewport.viewportY + changeY
-        };
-        this.updateViewport();
-    }
-
-    updateViewport() {
-        this.el.setAttribute('viewBox', `${this.viewport.viewportX} ${this.viewport.viewportY} ${this.viewport.viewportWidth} ${this.viewport.viewportHeight}`);
+        this.changeSize(width, height);
     }
 
     /**
@@ -89,6 +53,22 @@ class SvgElement extends Container {
         tag.innerHTML = css;
         this.el.appendChild(tag);
         return this;
+    }
+
+    setViewBox(x1, y1, x2, y2) {
+        return this.attr('viewBox', [x1, y1, x2, y2].join(' '));
+    }
+
+    moveViewBox(dX, dY) {
+        this.translate[0] += dX;
+        this.translate[1] += dY;
+        console.log(this.translate[0], this.translate[1]);
+        return this.setViewBox(
+            this.translate[0],
+            this.translate[1],
+            this.translate[0] + this.width,
+            this.translate[1] + this.height,
+        );
     }
 }
 

@@ -43,6 +43,9 @@ export class Container extends Element {
      * @returns {Element} This `Element` instance.
      */
     changeSize(width, height) {
+        this.width = width;
+        this.height = height;
+
         this.attr('width', width);
         this.attr('height', height);
         return this;

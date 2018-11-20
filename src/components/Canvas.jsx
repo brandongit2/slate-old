@@ -3,21 +3,13 @@ import React from 'react';
 
 import SvgElement, * as SVG from '../SVG/src';
 
-const canvasSize = [100000, 10000];
-
 export class Canvas extends React.Component {
     constructor(props) {
         super(props);
 
-        this.mouse = {
-            mouseX:    null,
-            mouseY:    null,
-            mouseDown: false
-        };
-
         this.parent = React.createRef();
 
-        this.svg = new SvgElement(canvasSize[0], canvasSize[1], 0, 0, this.props.width, this.props.height);
+        this.svg = new SvgElement(this.props.width, this.props.height);
 
         this.svg.add(new SVG.Rect(20, 20, 100, 100, 'red', 0, 0, 'black', 3));
         this.svg.add(new SVG.Rect(140, 20, 100, 100, 'orange', 10, 10, 'black', 3));
@@ -45,13 +37,14 @@ export class Canvas extends React.Component {
         this.svg.add(new SVG.Line(60, 570, 60, 670, 'green', 3).strokeLineCap('round').strokeDashArray(20, 10, 1, 10));
 
         this.svg.add(new SVG.Polygon([[20, 790], [120, 690], [120, 790]]));
-        this.handleOnMouseUp = this.handleOnMouseUp.bind(this);
+
         this.handleOnMouseDown = this.handleOnMouseDown.bind(this);
         this.handleOnMouseMove = this.handleOnMouseMove.bind(this);
+        this.handleOnMouseUp = this.handleOnMouseUp.bind(this);
     }
 
     componentDidUpdate() {
-        this.svg.updateViewportSize(this.props.width, this.props.height);
+        this.svg.changeSize(this.props.width, this.props.height);
         this.svg.render(this.parent.current);
     }
 
@@ -68,7 +61,8 @@ export class Canvas extends React.Component {
     handleOnMouseMove(e) {
         let deltaX =  this.mouse.mouseX - e.screenX;
         let deltaY = this.mouse.mouseY - e.screenY;
-        this.svg.updateViewportPosition(deltaX, deltaY);
+
+        this.svg.moveViewBox(deltaX, deltaY);
         this.mouse = {
             ...this.state,
             mouseX: e.screenX,
