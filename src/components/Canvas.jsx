@@ -63,20 +63,17 @@ export class Canvas extends React.Component {
         };
         this.parent.current.onmousemove = this.handleOnMouseMove;
         this.parent.current.onmouseup = this.handleOnMouseUp;
-        console.log('Mouse down!');
     }
 
     handleOnMouseMove(e) {
         let deltaX =  this.mouse.mouseX - e.screenX;
         let deltaY = this.mouse.mouseY - e.screenY;
-        console.log(deltaX, deltaY);
         this.svg.updateViewportPosition(deltaX, deltaY);
         this.mouse = {
             ...this.state,
             mouseX: e.screenX,
             mouseY: e.screenY,
         };
-        console.log('Mouse Move!');
     }
 
     handleOnMouseUp(e) {
@@ -86,7 +83,6 @@ export class Canvas extends React.Component {
         };
         this.parent.current.onmousemove = null;
         this.parent.current.onmouseup = null;
-        console.log('Mouse Up!');
     }
 
     render() {
