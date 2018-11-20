@@ -12,15 +12,14 @@ import {Element} from './Element';
 export class Container extends Element {
     /**
      * @param {string} tagName - The name of the container tag (i.e. 'g' for a &lt;g&gt; tag).
-     * @param {number} [width=0] - The width of the container.
-     * @param {number} [height=0] - The height of the container.
+     * @param {(number|string)} [width='unset'] - The width of the container. ('unset' for no value)
+     * @param {(number|string)} [height='unset'] - The height of the container. ('unset' for no value)
      */
-    constructor(tagName, width = 0, height = 0) {
+    constructor(tagName, width = 'unset', height = 'unset') {
         super(tagName);
 
-        this.props = {
-            width, height
-        };
+        this.width = width;
+        this.height = height;
     }
 
     /**
@@ -38,25 +37,14 @@ export class Container extends Element {
     /**
      * Changes the dimensions of the container.
      *
-     * @param {number} width - The width of the container.
-     * @param {number} height - The height of the container.
+     * @param {(number|string)} width - The width of the container. ('unset' for no value)
+     * @param {(number|string)} height - The height of the container. ('unset' for no value)
      *
      * @returns {Element} This `Element` instance.
      */
     changeSize(width, height) {
         this.attr('width', width);
         this.attr('height', height);
-        return this;
-    }
-
-    /**
-     * Unsets the dimensions of the container.
-     *
-     * @returns {Element} This `Element` instance.
-     */
-    unsetSize() {
-        this.removeAttribute('width');
-        this.removeAttribute('height');
         return this;
     }
 }

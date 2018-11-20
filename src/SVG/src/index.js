@@ -38,6 +38,20 @@ class SvgElement extends Container {
         this.el.setAttribute('baseProfile', 'full');
         this.changeSize(width, height);
     }
+
+    /**
+     * Replaces the current global CSS.
+     *
+     * @param {string} css - The new CSS.
+     *
+     * @returns {Container} This `Container` element.
+     */
+    css(css) {
+        let tag = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+        tag.innerHTML = css;
+        this.el.appendChild(tag);
+        return this;
+    }
 }
 
 export default SvgElement;

@@ -27,14 +27,30 @@ export class Element {
      * @returns {Element} This `Element` instance.
      */
     attr(name, value) {
-        this.el.setAttributeNS(null, name, value);
+        if (value === 'unset') {
+            this.rmAttr(name);
+        } else {
+            this.el.setAttributeNS(null, name, value);
+        }
+        return this;
+    }
+
+    /**
+     * Removes the specified attribute from the element.
+     *
+     * @param {string} name - The vame of the attribute to be removed.
+     *
+     * @returns {Element} This `Element` instance.
+     */
+    rmAttr(name) {
+        this.el.removeAttributeNS(null, name);
         return this;
     }
 
     /**
      * Set the class name of this element.
      *
-     * @param {string} name - The new class name.
+     * @param {string} name - The new class name. ('unset' for no value)
      *
      * @returns {Element} This `Element` instance.
      */
@@ -56,7 +72,7 @@ export class Element {
     /**
      * Set/Change the id for this element.
      *
-     * @param {string} id - The new id for this element.
+     * @param {string} id - The new id for this element. ('unset' for no value)
      *
      * @returns {Element} This `Element` instance.
      */
@@ -67,7 +83,7 @@ export class Element {
     /**
      * Set/Change the language for this element.
      *
-     * @param {string} lang - The new langauge for this element.
+     * @param {string} lang - The new langauge for this element. ('unset' for no value)
      *
      * @returns {Element} This `Element` instance.
      */

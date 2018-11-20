@@ -10,7 +10,7 @@ export class PolyLine extends Shape {
     /**
      * Makes an SVG &lt;polyline&gt; element.
      *
-     * @param {object[]} points - The points that make up the polyline. In the format of [[x1, y1], [x2, y2], ...]
+     * @param {Array.<number[]>} points - The points that make up the polyline. In the format of [[x1, y1], [x2, y2], ...]
      * @param {string} [strokeColor='black'] - The color of the polyline.
      * @param {number} [strokeWidth=0] - The width of the polyline.
      */

@@ -329,7 +329,7 @@
     
 
     
-    <h4 class="name" id="changeFill"><span class="type-signature"></span>changeFill<span class="signature">(color)</span><span class="type-signature"> &rarr; {<a href="Element.html">Element</a>}</span></h4>
+    <h4 class="name" id="changeFill"><span class="type-signature"></span>changeFill<span class="signature">(color)</span><span class="type-signature"> &rarr; {<a href="Shape.html">Shape</a>}</span></h4>
     
 
     
@@ -457,7 +457,7 @@
 
         
 <div class="param-desc">
-    This `Element` instance.
+    This `Shape` instance.
 </div>
 
 
@@ -468,7 +468,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="Element.html">Element</a></span>
+<span class="param-type"><a href="Shape.html">Shape</a></span>
 
 
     </dd>
@@ -486,7 +486,7 @@
     
 
     
-    <h4 class="name" id="changeStroke"><span class="type-signature"></span>changeStroke<span class="signature">(color, width)</span><span class="type-signature"> &rarr; {<a href="Element.html">Element</a>}</span></h4>
+    <h4 class="name" id="changeStroke"><span class="type-signature"></span>changeStroke<span class="signature">(color, width)</span><span class="type-signature"> &rarr; {<a href="Shape.html">Shape</a>}</span></h4>
     
 
     
@@ -637,7 +637,7 @@
 
         
 <div class="param-desc">
-    This `Element` instance.
+    This `Shape` instance.
 </div>
 
 
@@ -648,7 +648,961 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="Element.html">Element</a></span>
+<span class="param-type"><a href="Shape.html">Shape</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="fillOpacity"><span class="type-signature"></span>fillOpacity<span class="signature">(opacity)</span><span class="type-signature"> &rarr; {<a href="Shape.html">Shape</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Change the fill opacity of the shape.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>opacity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A number from 0 to 1 which represents the opacity of the fill.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="abstract_Shape.js.html">abstract/Shape.js</a>, <a href="abstract_Shape.js.html#line69">line 69</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    This `Shape` instance.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Shape.html">Shape</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="fillRule"><span class="type-signature"></span>fillRule<span class="signature">(rule)</span><span class="type-signature"> &rarr; {<a href="Shape.html">Shape</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Determines how shapes are filled. If set to 'nonzero', all space within a shape will be filled. If set to 'evenodd', only areas filled an even amount of times are shown filled. See <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill-rule">https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill-rule</a> for more details.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>rule</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Either 'nonzero' or 'evenodd'.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="abstract_Shape.js.html">abstract/Shape.js</a>, <a href="abstract_Shape.js.html#line58">line 58</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    This `Shape` instance.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Shape.html">Shape</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="strokeDashArray"><span class="type-signature"></span>strokeDashArray<span class="signature">(&hellip;dashArray)</span><span class="type-signature"> &rarr; {<a href="Shape.html">Shape</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Change the dash type of the shape's stroke.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>dashArray</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last">A list of numbers representing the dash array of the shape's stroke.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="abstract_Shape.js.html">abstract/Shape.js</a>, <a href="abstract_Shape.js.html#line80">line 80</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    This `Shape` instance.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Shape.html">Shape</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="strokeLineCap"><span class="type-signature"></span>strokeLineCap<span class="signature">(type)</span><span class="type-signature"> &rarr; {<a href="Shape.html">Shape</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Change the linecap type of the shape's stroke.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Either 'butt', 'square', or 'round'.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="abstract_Shape.js.html">abstract/Shape.js</a>, <a href="abstract_Shape.js.html#line96">line 96</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    This `Shape` instance.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Shape.html">Shape</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="strokeLineJoin"><span class="type-signature"></span>strokeLineJoin<span class="signature">(type)</span><span class="type-signature"> &rarr; {<a href="Shape.html">Shape</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Change the linejoin type of the shape's stroke.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Either 'miter', 'round', or 'bevel'.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="abstract_Shape.js.html">abstract/Shape.js</a>, <a href="abstract_Shape.js.html#line107">line 107</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    This `Shape` instance.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Shape.html">Shape</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="strokeOpacity"><span class="type-signature"></span>strokeOpacity<span class="signature">(opacity)</span><span class="type-signature"> &rarr; {<a href="Shape.html">Shape</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Change the stroke opacity of the shape.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>opacity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A number from 0 to 1 which represents the opacity of the stroke.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="abstract_Shape.js.html">abstract/Shape.js</a>, <a href="abstract_Shape.js.html#line118">line 118</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    This `Shape` instance.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Shape.html">Shape</a></span>
 
 
     </dd>
@@ -682,7 +1636,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Nov 17 2018 23:05:57 GMT-0500 (GMT-05:00)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 18 2018 14:43:56 GMT-0500 (GMT-05:00)
 </footer>
 
 <script> prettyPrint(); </script>
