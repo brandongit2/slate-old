@@ -3,13 +3,21 @@ import React from 'react';
 
 import SvgElement, * as SVG from '../SVG/src';
 
+const canvasSize = [100000, 10000];
+
 export class Canvas extends React.Component {
     constructor(props) {
         super(props);
 
+        this.mouse = {
+            mouseX:    null,
+            mouseY:    null,
+            mouseDown: false
+        };
+
         this.parent = React.createRef();
 
-        this.svg = new SvgElement(this.props.width, this.props.height);
+        this.svg = new SvgElement(canvasSize[0], canvasSize[1], 0, 0, this.props.width, this.props.height);
 
         this.svg.add(new SVG.Rect(20, 20, 100, 100, 'red', 0, 0, 'black', 3));
         this.svg.add(new SVG.Rect(140, 20, 100, 100, 'orange', 10, 10, 'black', 3));
@@ -37,16 +45,53 @@ export class Canvas extends React.Component {
         this.svg.add(new SVG.Line(60, 570, 60, 670, 'green', 3).strokeLineCap('round').strokeDashArray(20, 10, 1, 10));
 
         this.svg.add(new SVG.Polygon([[20, 790], [120, 690], [120, 790]]));
+        this.handleOnMouseUp = this.handleOnMouseUp.bind(this);
+        this.handleOnMouseDown = this.handleOnMouseDown.bind(this);
+        this.handleOnMouseMove = this.handleOnMouseMove.bind(this);
     }
 
     componentDidUpdate() {
-        this.svg.changeSize(this.props.width, this.props.height);
+        this.svg.updateViewportSize(this.props.width, this.props.height);
         this.svg.render(this.parent.current);
+    }
+
+    handleOnMouseDown(e) {
+        this.mouse = {
+            mouseX:    e.screenX,
+            mouseY:    e.screenY,
+            mouseDown: true
+        };
+        this.parent.current.onmousemove = this.handleOnMouseMove;
+        this.parent.current.onmouseup = this.handleOnMouseUp;
+        console.log('Mouse down!');
+    }
+
+    handleOnMouseMove(e) {
+        let deltaX =  this.mouse.mouseX - e.screenX;
+        let deltaY = this.mouse.mouseY - e.screenY;
+        console.log(deltaX, deltaY);
+        this.svg.updateViewportPosition(deltaX, deltaY);
+        this.mouse = {
+            ...this.state,
+            mouseX: e.screenX,
+            mouseY: e.screenY,
+        };
+        console.log('Mouse Move!');
+    }
+
+    handleOnMouseUp(e) {
+        this.mouse = {
+            mouseX: e.screenX,
+            mouseY: e.screenY,
+        };
+        this.parent.current.onmousemove = null;
+        this.parent.current.onmouseup = null;
+        console.log('Mouse Up!');
     }
 
     render() {
         return (
-            <div className="component canvas" ref={this.parent} />
+            <div className="component canvas" onMouseDown={this.handleOnMouseDown} ref={this.parent} />
         );
     }
 }

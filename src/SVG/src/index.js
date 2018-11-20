@@ -26,17 +26,55 @@ class SvgElement extends Container {
      * @constructor
      * @param {number} width - The width of the SVG element.
      * @param {number} height - The height of the SVG element.
-     *
+     * @param {number} viewportX - The X coordinate of the top left of the viewport.
+     * @param {number} viewportY - The Y coordinate of the top left of the viewport.
+     * @param {number} viewportWidth - The width of the viewport.
+     * @param {number} viewportHeight - The height of the viewport.
+     * 
      * @classdesc
      * Represents an &lt;svg&gt; element.
      */
-    constructor(width, height) {
+    constructor(width, height, viewportX, viewportY, viewportWidth, viewportHeight) {
         super('svg', width, height);
+
+        this.viewport = {
+            viewportWidth,
+            viewportHeight,
+            viewportX,
+            viewportY
+        };
 
         this.el.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
         this.el.setAttribute('version', '1.1');
         this.el.setAttribute('baseProfile', 'full');
-        this.changeSize(width, height);
+
+        this.updateViewport = this.updateViewport.bind(this);
+        this.updateViewportSize = this.updateViewportSize.bind(this);
+        this.updateViewportPosition = this.updateViewportPosition.bind(this);
+
+        this.updateViewport();
+    }
+
+    updateViewportSize(width, height) {
+        this.viewport = {
+            ...this.viewport,
+            viewportWidth:  width,
+            viewportHeight: height
+        };
+        this.updateViewport();
+    }
+
+    updateViewportPosition(changeX, changeY) {
+        this.viewport = {
+            ...this.viewport,
+            viewportX: this.viewport.viewportX + changeX,
+            viewportY: this.viewport.viewportY + changeY
+        };
+        this.updateViewport();
+    }
+
+    updateViewport() {
+        this.el.setAttribute('viewBox', `${this.viewport.viewportX} ${this.viewport.viewportY} ${this.viewport.viewportWidth} ${this.viewport.viewportHeight}`);
     }
 
     /**
