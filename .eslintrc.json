@@ -281,7 +281,7 @@
             "never"
         ],
         "prefer-arrow-callback": "error",
-        "prefer-template": "warn",
+        "prefer-template": "off",
         "quote-props": [
             "error",
             "as-needed"

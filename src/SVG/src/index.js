@@ -33,6 +33,7 @@ class SvgElement extends Container {
     constructor(width, height) {
         super('svg', width, height);
 
+        
         this.translate = [0, 0];
         this.zoom = 1;
 
@@ -56,6 +57,11 @@ class SvgElement extends Container {
         return this;
     }
 
+    changeSize(width, height) {
+        super.changeSize(width, height);
+        this.setViewBox(0, 0);
+    }
+
     setViewBox(x, y) {
         return this.attr('viewBox', [
             x - this.width / 2,
@@ -66,6 +72,7 @@ class SvgElement extends Container {
     }
 
     moveViewBox(dX, dY) {
+        console.table(this.translate);
         this.translate[0] += dX;
         this.translate[1] += dY;
         return this.setViewBox(

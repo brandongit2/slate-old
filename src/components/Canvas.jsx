@@ -11,7 +11,7 @@ export class Canvas extends React.Component {
 
         this.parent = React.createRef();
 
-        this.svg = new SvgElement(this.props.width, this.props.height);
+        this.svg = new SvgElement(props.width, props.height);
 
         this.svg.add(new SVG.Rect(20, 20, 100, 100).attrs({
             fill:        'red',
