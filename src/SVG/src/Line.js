@@ -3,10 +3,10 @@
  * @author Brandon Tsang
  */
 
-import {Shape} from './abstract';
+import {Element} from './abstract';
 
 /** Represents an SVG line. */
-export class Line extends Shape {
+export class Line extends Element {
     /**
      * Makes an SVG &lt;line&gt; element.
      *
@@ -14,11 +14,9 @@ export class Line extends Shape {
      * @param {number} y1 - The y position of the beginning of the line.
      * @param {number} x2 - The x position of the end of the line.
      * @param {number} y2 - The y position of the end of the line.
-     * @param {string} [strokeColor='black'] - The color of the line.
-     * @param {number} [strokeWidth=0] - The width of the line.
      */
-    constructor(x1, y1, x2, y2, strokeColor = 'black', strokeWidth = 0) {
-        super('line', 'none', strokeColor, strokeWidth);
+    constructor(x1, y1, x2, y2) {
+        super('line');
 
         /** The x position of the end of the line. */
         this.x1 = x1;
@@ -39,7 +37,7 @@ export class Line extends Shape {
      * @param {number} x - The new x position of the beginning of the line.
      * @param {number} y - The new y position of the beginning of the line.
      *
-     * @returns {Shape} This `Shape` instance.
+     * @returns {Line} This `Line` instance.
      */
     beginning(x, y) {
         this.attr('x1', x)
@@ -53,7 +51,7 @@ export class Line extends Shape {
      * @param {number} x - The new x position of the end of the line.
      * @param {number} y - The new y position of the end of the line.
      *
-     * @returns {Shape} This `Shape` instance.
+     * @returns {Line} This `Line` instance.
      */
     end(x, y) {
         this.attr('x2', x)

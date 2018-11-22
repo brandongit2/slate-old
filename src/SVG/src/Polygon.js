@@ -3,10 +3,10 @@
  * @author Brandon Tsang
  */
 
-import {Shape} from './abstract';
+import {Element} from './abstract';
 
 /** Represents an SVG polygon. */
-export class Polygon extends Shape {
+export class Polygon extends Element {
     /**
      * Makes an SVG &lt;polygon&gt; element.
      *
@@ -26,7 +26,7 @@ export class Polygon extends Shape {
      *
      * @param {object[]} points - The points that make up the polygon.
      *
-     * @returns {Shape} This `Shape` instance.
+     * @returns {Polygon} This `Polygon` instance.
      */
     setPoints(points) {
         let str = '';

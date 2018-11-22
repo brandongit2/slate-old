@@ -3,10 +3,10 @@
  * @author Brandon Tsang
  */
 
-import {Shape} from './abstract';
+import {Element} from './abstract';
 
 /** Represents an SVG ellipse. */
-export class Ellipse extends Shape {
+export class Ellipse extends Element {
     /**
      * Makes an SVG &lt;ellipse&gt; element.
      *
@@ -14,12 +14,9 @@ export class Ellipse extends Shape {
      * @param {number} cy - The y position of the center of the ellipse.
      * @param {number} rx - The x radius of the ellipse.
      * @param {number} ry - The y radius of the ellipse.
-     * @param {string} fill - The color of the ellipse's fill.
-     * @param {string} strokeColor - The color of the ellipse's stroke.
-     * @param {number} strokeWidth - The width of the ellipse's stroke.
      */
-    constructor(cx, cy, rx, ry, fill, strokeColor = 'black', strokeWidth = 0) {
-        super('ellipse', fill, strokeColor, strokeWidth);
+    constructor(cx, cy, rx, ry) {
+        super('ellipse');
 
         /** The x position of the center of the ellipse. */
         this.cx = cx;
@@ -40,7 +37,7 @@ export class Ellipse extends Shape {
      * @param {number} cx - The new x position of the center of the ellipse.
      * @param {number} cy - The new y position of the center of the ellipse.
      *
-     * @returns {Shape} This `Shape` instance.
+     * @returns {Ellipse} This `Ellipse` instance.
      */
     move(cx, cy) {
         this.attr('cx', cx)
@@ -49,12 +46,12 @@ export class Ellipse extends Shape {
     }
 
     /**
-     * Resize the rectangle.
+     * Resize the ellipse.
      *
      * @param {number} rx - The new x radius of the ellipse.
      * @param {number} ry - The new y radius of the ellipse.
      *
-     * @returns {Shape} This `Shape` instance.
+     * @returns {Ellipse} This `Ellipse` instance.
      */
     resize(rx, ry) {
         this.attr('rx', rx)

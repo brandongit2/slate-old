@@ -3,10 +3,10 @@
  * @author Brandon Tsang
  */
 
-import {Shape} from './abstract';
+import {Element} from './abstract';
 
 /** Represents an SVG rectangle. */
-export class Rect extends Shape {
+export class Rect extends Element {
     /**
      * Makes an SVG &lt;rect&gt; element.
      *
@@ -14,14 +14,11 @@ export class Rect extends Shape {
      * @param {number} y - The y position of the rectangle.
      * @param {number} width - The width of the rectangle.
      * @param {number} height - The height of the rectangle.
-     * @param {string} fill - The color of the rectangle's fill.
      * @param {number} [rx=0] - The horizontal aspect of the rectangle's corner roundness.
      * @param {number} [ry=0] - The vertical aspect of the rectangle's corner roundness.
-     * @param {string} [strokeColor='black'] - The color of the rectangle's stroke.
-     * @param {number} [strokeWidth=0] - The width of the rectangle's stroke.
      */
-    constructor(x, y, width, height, fill, rx = 0, ry = 0, strokeColor = 'black', strokeWidth = 0) {
-        super('rect', fill, strokeColor, strokeWidth);
+    constructor(x, y, width, height, rx = 0, ry = 0) {
+        super('rect');
 
         /** The x position of the rectangle. */
         this.x = x;
@@ -47,7 +44,7 @@ export class Rect extends Shape {
      * @param {number} x - The new x position of the rectangle.
      * @param {number} y - The new y position of the rectangle.
      *
-     * @returns {Shape} This `Shape` instance.
+     * @returns {Rect} This `Rect` instance.
      */
     move(x, y) {
         this.attr('x', x)
@@ -61,7 +58,7 @@ export class Rect extends Shape {
      * @param {number} width - The new width of the rectangle.
      * @param {number} height - The new height of the rectangle.
      *
-     * @returns {Shape} This `Shape` instance.
+     * @returns {Rect} This `Rect` instance.
      */
     resize(width, height) {
         this.attr('width', width)
@@ -75,7 +72,7 @@ export class Rect extends Shape {
      * @param {number} rx - The horizontal aspect of the corner roundness.
      * @param {number} ry - The vertical aspect of the corner roundness.
      *
-     * @returns {Shape} This `Shape` instance.
+     * @returns {Rect} This `Rect` instance.
      */
     round(rx, ry) {
         this.attr('rx', rx)

@@ -3,19 +3,17 @@
  * @author Brandon Tsang
  */
 
-import {Shape} from './abstract';
+import {Element} from './abstract';
 
 /** Represents an SVG line. */
-export class PolyLine extends Shape {
+export class PolyLine extends Element {
     /**
      * Makes an SVG &lt;polyline&gt; element.
      *
      * @param {Array.<number[]>} points - The points that make up the polyline. In the format of [[x1, y1], [x2, y2], ...]
-     * @param {string} [strokeColor='black'] - The color of the polyline.
-     * @param {number} [strokeWidth=0] - The width of the polyline.
      */
-    constructor(points, strokeColor = 'black', strokeWidth = 0) {
-        super('polyline', 'none', strokeColor, strokeWidth);
+    constructor(points) {
+        super('polyline');
 
         /** The points that make up the polyline. */
         this.points = points;
@@ -28,7 +26,7 @@ export class PolyLine extends Shape {
      *
      * @param {object[]} points - The points that make up the polyline.
      *
-     * @returns {Shape} This `Shape` instance.
+     * @returns {PolyLine} This `PolyLine` instance.
      */
     setPoints(points) {
         let str = '';

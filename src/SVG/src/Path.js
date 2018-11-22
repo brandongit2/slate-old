@@ -3,19 +3,17 @@
  * @author Brandon Tsang
  */
 
-import {Shape} from './abstract';
+import {Element} from './abstract';
 
 /** Represents an SVG path. */
-export class Path extends Shape {
+export class Path extends Element {
     /**
      * Makes an SVG &lt;path&gt; element.
      *
      * @param {number} path - The commands for the path.
-     * @param {string} [strokeColor='black'] - The color of the line.
-     * @param {number} [strokeWidth=0] - The width of the line.
      */
-    constructor(path, strokeColor = 'black', strokeWidth = 0) {
-        super('path', 'none', strokeColor, strokeWidth);
+    constructor(path) {
+        super('path');
 
         /** The commands for the path. */
         this.path = path;
@@ -28,7 +26,7 @@ export class Path extends Shape {
      *
      * @param {string} path - The commands for the path.
      *
-     * @returns {Shape} This `Shape` instance.
+     * @returns {Path} This `Path` instance.
      */
     setPath(path) {
         return this.attr('d', path);

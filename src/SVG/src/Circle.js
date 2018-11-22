@@ -3,22 +3,19 @@
  * @author Brandon Tsang
  */
 
-import {Shape} from './abstract';
+import {Element} from './abstract';
 
 /** Represents an SVG circle. */
-export class Circle extends Shape {
+export class Circle extends Element {
     /**
      * Makes an SVG &lt;circle&gt; element.
      *
      * @param {number} cx - The x position of the center of the circle.
      * @param {number} cy - The y position of the center of the circle.
      * @param {number} r - The radius of the circle.
-     * @param {string} fill - The color of the circle's fill.
-     * @param {string} [strokeColor] - The color of the circle's stroke.
-     * @param {number} [strokeWidth] - The width of the circle's stroke.
      */
-    constructor(cx, cy, r, fill, strokeColor = 'black', strokeWidth = 0) {
-        super('circle', fill, strokeColor, strokeWidth);
+    constructor(cx, cy, r) {
+        super('circle');
 
         /** The x position of the center of the circle. */
         this.cx = cx;
@@ -37,7 +34,7 @@ export class Circle extends Shape {
      * @param {number} cx - The new x position of the center of the circle.
      * @param {number} cy - The new y position of the center of the circle.
      *
-     * @returns {Shape} This `Shape` instance.
+     * @returns {Circle} This `Circle` instance.
      */
     move(cx, cy) {
         this.attr('cx', cx)
@@ -46,11 +43,11 @@ export class Circle extends Shape {
     }
 
     /**
-     * Resize the rectangle.
+     * Resize the circle.
      *
      * @param {number} r - The new radius of the circle.
      *
-     * @returns {Shape} This `Shape` instance.
+     * @returns {Circle} This `Circle` instance.
      */
     resize(r) {
         return this.attr('r', r);

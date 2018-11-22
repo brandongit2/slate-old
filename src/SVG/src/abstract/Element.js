@@ -19,7 +19,7 @@ export class Element {
     }
 
     /**
-     * Set/Change an attribute for this element.
+     * Set/Change an attribute for this element. See {@link Element#attrs} to set multiple attributes at once.
      *
      * @param {string} name - The name of the attribute to be modified.
      * @param {(string|number)} value - The value of the attribute.
@@ -44,6 +44,23 @@ export class Element {
      */
     rmAttr(name) {
         this.el.removeAttributeNS(null, name);
+        return this;
+    }
+
+    /**
+     * Set multiple attributes for the element at once.
+     *
+     * @param {object} attrs - The attributes to set.
+     *
+     * @returns {Element} This `Element` instance.
+     */
+    attrs(attrs) {
+        for (let attr in attrs) {
+            let newAttrName = attr.replace(/([A-Z])/gu, $1 => `-${$1.toLowerCase()}`);
+            console.log(attr, newAttrName);
+            this.attr(newAttrName, attrs[attr]);
+        }
+
         return this;
     }
 
