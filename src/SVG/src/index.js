@@ -72,7 +72,6 @@ class SvgElement extends Container {
     }
 
     moveViewBox(dX, dY) {
-        console.table(this.translate);
         this.translate[0] += dX;
         this.translate[1] += dY;
         return this.setViewBox(

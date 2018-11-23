@@ -57,7 +57,6 @@ export class Element {
     attrs(attrs) {
         for (let attr in attrs) {
             let newAttrName = attr.replace(/([A-Z])/gu, $1 => `-${$1.toLowerCase()}`);
-            console.log(attr, newAttrName);
             this.attr(newAttrName, attrs[attr]);
         }
 

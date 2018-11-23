@@ -123,6 +123,7 @@ export class Canvas extends React.Component {
         this.handleOnMouseMove = this.handleOnMouseMove.bind(this);
         this.handleOnMouseUp = this.handleOnMouseUp.bind(this);
         this.handleTouch = this.handleTouch.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     componentDidUpdate() {
@@ -173,6 +174,10 @@ export class Canvas extends React.Component {
         console.log(e.touches);
     }
 
+    handleKeyPress(e) {
+        console.log(e);
+    }
+
     render() {
         return (
             <div
@@ -180,6 +185,7 @@ export class Canvas extends React.Component {
                 onMouseDown={this.handleOnMouseDown}
                 onTouchStart={this.handleTouch}
                 onTouchMove={this.handleTouchMove}
+                onKeyPress={this.handleKeyPress}
                 ref={this.parent}
             />
         );
