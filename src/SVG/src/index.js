@@ -33,7 +33,6 @@ class SvgElement extends Container {
     constructor(width, height) {
         super('svg', width, height);
 
-        
         this.translate = [0, 0];
         this.zoom = 1;
 
@@ -59,7 +58,6 @@ class SvgElement extends Container {
 
     changeSize(width, height) {
         super.changeSize(width, height);
-        this.setViewBox(0, 0);
     }
 
     setViewBox(x, y) {

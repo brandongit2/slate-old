@@ -8,7 +8,13 @@ export class Canvas extends React.Component {
 
         this.parent = React.createRef();
 
+        this.prevTouches = {};
         this.touches = {};
+        this.state = {
+            canvasTranslate: [0, 0],
+            pX:              0,
+            pY:              0
+        };
 
         this.svg = new SvgElement(props.width, props.height);
 
@@ -121,19 +127,22 @@ export class Canvas extends React.Component {
         this.handleOnMouseDown = this.handleOnMouseDown.bind(this);
         this.handleOnMouseMove = this.handleOnMouseMove.bind(this);
         this.handleOnMouseUp = this.handleOnMouseUp.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.touchChange = this.touchChange.bind(this);
     }
 
     componentDidMount() {
         let handleTouches = e => {
             e.preventDefault();
+            this.prevTouches = this.touches;
             for (let touch of e.changedTouches) {
-                this.touches[touch.identifier] = [touch.screenX, touch.screenY];
+                this.touches[touch.identifier] = [touch.pageX, touch.pageY];
             }
+            this.touchChange();
         };
 
         let removeTouches = e => {
             e.preventDefault();
+            this.prevTouches = this.touches;
             for (let touch of e.changedTouches) {
                 delete this.touches[touch.identifier];
             }
@@ -146,48 +155,72 @@ export class Canvas extends React.Component {
 
     componentDidUpdate() {
         this.svg.changeSize(this.props.width, this.props.height);
+        this.svg.setViewBox(...this.state.canvasTranslate);
         this.svg.render(this.parent.current);
+    }
+
+    distance(a, b) {
+        return Math.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2);
+    }
+
+    midpoint(a, b) {
+        return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
     }
 
     handleOnMouseDown(e) {
         if (e.buttons === 4) {
             e.preventDefault();
             this.mouse = {
-                mouseX:    e.screenX,
-                mouseY:    e.screenY,
+                mouseX:    e.pageX,
+                mouseY:    e.pageY,
                 mouseDown: true
             };
             this.parent.current.onmousemove = this.handleOnMouseMove;
             this.parent.current.onmouseup = this.handleOnMouseUp;
+            this.parent.current.onmouseleave = e => { this.handleOnMouseUp(e, true); };
         }
     }
 
     handleOnMouseMove(e) {
-        let deltaX = this.mouse.mouseX - e.screenX;
-        let deltaY = this.mouse.mouseY - e.screenY;
+        let deltaX = this.mouse.mouseX - e.pageX;
+        let deltaY = this.mouse.mouseY - e.pageY;
 
+        this.setState({
+            ...this.state,
+            canvasTranslate: [
+                this.state.canvasTranslate[0] + deltaX,
+                this.state.canvasTranslate[1] + deltaY
+            ]
+        });
         this.svg.moveViewBox(deltaX, deltaY);
         this.mouse = {
             ...this.state,
-            mouseX: e.screenX,
-            mouseY: e.screenY,
+            mouseX: e.pageX,
+            mouseY: e.pageY,
         };
     }
 
-    handleOnMouseUp(e) {
-        if (e.button === 1) {
+    handleOnMouseUp(e, force = false) {
+        if (e.button === 1 || force) {
             e.preventDefault();
             this.mouse = {
-                mouseX: e.screenX,
-                mouseY: e.screenY,
+                mouseX: e.pageX,
+                mouseY: e.pageY,
             };
             this.parent.current.onmousemove = null;
             this.parent.current.onmouseup = null;
+            this.parent.current.onmouseleave = null;
         }
     }
 
-    handleKeyPress(e) {
-        console.log(e);
+    touchChange() {
+        if (Object.keys(this.touches).length === 2) {
+            let midpoint = this.midpoint(this.touches[0], this.touches[1]);
+            this.setState({
+                pX: midpoint[0],
+                pY: midpoint[1]
+            });
+        }
     }
 
     render() {
@@ -198,7 +231,17 @@ export class Canvas extends React.Component {
                 onMouseDown={this.handleOnMouseDown}
                 onKeyPress={this.handleKeyPress}
                 ref={this.parent}
-            />
+            >
+                <div style={{
+                    position:     'fixed',
+                    top:          this.state.pY,
+                    left:         this.state.pX,
+                    width:        '7px',
+                    height:       '7px',
+                    background:   'blue',
+                    borderRadius: '10px'
+                }} /> {/* eslint-disable-line */}
+            </div>
         );
     }
 }

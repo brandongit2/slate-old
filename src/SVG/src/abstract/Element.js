@@ -50,10 +50,13 @@ export class Element {
      * @returns {Element} This `Element` instance.
      */
     rmAttr(name) {
+        /* eslint-disable no-fallthrough */
         switch (name) {
             case 'gradient':
                 if (!this.el.getAttribute('fill').match(/^url\(#.+\)$/u)) return;
+            default:
         }
+        /* eslint-enable no-fallthrough */
         this.el.removeAttributeNS(null, name);
         return this;
     }
