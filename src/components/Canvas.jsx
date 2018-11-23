@@ -1,8 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {connect} from 'react-redux';
-
-import {newTouch} from '../actions';
 import SvgElement, * as SVG from '../SVG/src';
 
 export class Canvas extends React.Component {
@@ -11,6 +8,8 @@ export class Canvas extends React.Component {
 
         this.parent = React.createRef();
 
+        this.touches = {};
+
         this.svg = new SvgElement(props.width, props.height);
 
         this.svg.add(new SVG.Rect(20, 20, 100, 100).attrs({
@@ -18,7 +17,7 @@ export class Canvas extends React.Component {
             stroke:      'black',
             strokeWidth: 3
         }));
-        this.svg.add(new SVG.Rect(140, 20, 100, 100).attrs({
+        this.svg.add(new SVG.Rect(140, 20, 100, 100, 20, 20).attrs({
             fill:        'orange',
             stroke:      'black',
             strokeWidth: 3
@@ -122,28 +121,49 @@ export class Canvas extends React.Component {
         this.handleOnMouseDown = this.handleOnMouseDown.bind(this);
         this.handleOnMouseMove = this.handleOnMouseMove.bind(this);
         this.handleOnMouseUp = this.handleOnMouseUp.bind(this);
-        this.handleTouch = this.handleTouch.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
+    componentDidMount() {
+        let handleTouches = e => {
+            e.preventDefault();
+            for (let touch of e.changedTouches) {
+                this.touches[touch.identifier] = [touch.screenX, touch.screenY];
+            }
+        };
+
+        let removeTouches = e => {
+            e.preventDefault();
+            for (let touch of e.changedTouches) {
+                delete this.touches[touch.identifier];
+            }
+        };
+
+        this.parent.current.addEventListener('touchstart', handleTouches);
+        this.parent.current.addEventListener('touchmove', handleTouches);
+        this.parent.current.addEventListener('touchend', removeTouches);
+    }
+
     componentDidUpdate() {
-        console.log(this.props.height);
         this.svg.changeSize(this.props.width, this.props.height);
         this.svg.render(this.parent.current);
     }
 
     handleOnMouseDown(e) {
-        this.mouse = {
-            mouseX:    e.screenX,
-            mouseY:    e.screenY,
-            mouseDown: true
-        };
-        this.parent.current.onmousemove = this.handleOnMouseMove;
-        this.parent.current.onmouseup = this.handleOnMouseUp;
+        if (e.buttons === 4) {
+            e.preventDefault();
+            this.mouse = {
+                mouseX:    e.screenX,
+                mouseY:    e.screenY,
+                mouseDown: true
+            };
+            this.parent.current.onmousemove = this.handleOnMouseMove;
+            this.parent.current.onmouseup = this.handleOnMouseUp;
+        }
     }
 
     handleOnMouseMove(e) {
-        let deltaX =  this.mouse.mouseX - e.screenX;
+        let deltaX = this.mouse.mouseX - e.screenX;
         let deltaY = this.mouse.mouseY - e.screenY;
 
         this.svg.moveViewBox(deltaX, deltaY);
@@ -155,24 +175,15 @@ export class Canvas extends React.Component {
     }
 
     handleOnMouseUp(e) {
-        this.mouse = {
-            mouseX: e.screenX,
-            mouseY: e.screenY,
-        };
-        this.parent.current.onmousemove = null;
-        this.parent.current.onmouseup = null;
-    }
-
-    handleTouch(e) {
-        this.props.dispatch(newTouch(
-            e.touches.length - 1,
-            e.touches[e.touches.length - 1].screenX,
-            e.touches[e.touches.length - 1].screenY
-        ));
-    }
-
-    handleTouchMove(e) {
-        console.log(e.touches);
+        if (e.button === 1) {
+            e.preventDefault();
+            this.mouse = {
+                mouseX: e.screenX,
+                mouseY: e.screenY,
+            };
+            this.parent.current.onmousemove = null;
+            this.parent.current.onmouseup = null;
+        }
     }
 
     handleKeyPress(e) {
@@ -185,8 +196,6 @@ export class Canvas extends React.Component {
                 className="component canvas"
                 style={{display: 'block', lineHeight: 0}}
                 onMouseDown={this.handleOnMouseDown}
-                onTouchStart={this.handleTouch}
-                onTouchMove={this.handleTouchMove}
                 onKeyPress={this.handleKeyPress}
                 ref={this.parent}
             />
@@ -194,10 +203,7 @@ export class Canvas extends React.Component {
     }
 }
 
-Canvas = connect(null)(Canvas); // eslint-disable-line no-class-assign
-
 Canvas.propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    width:    PropTypes.number.isRequired,
-    height:   PropTypes.number.isRequired
+    width:  PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired
 };

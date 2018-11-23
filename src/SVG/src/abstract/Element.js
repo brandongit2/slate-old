@@ -29,9 +29,16 @@ export class Element {
     attr(name, value) {
         if (value === 'unset') {
             this.rmAttr(name);
-        } else {
-            this.el.setAttributeNS(null, name, value);
         }
+
+        switch (name) {
+            case 'gradient':
+                this.el.setAttributeNS(null, 'fill', `url(#${value.name})`);
+                break;
+            default:
+                this.el.setAttributeNS(null, name, value);
+        }
+
         return this;
     }
 
@@ -43,6 +50,10 @@ export class Element {
      * @returns {Element} This `Element` instance.
      */
     rmAttr(name) {
+        switch (name) {
+            case 'gradient':
+                if (!this.el.getAttribute('fill').match(/^url\(#.+\)$/u)) return;
+        }
         this.el.removeAttributeNS(null, name);
         return this;
     }
