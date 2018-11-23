@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import {windowResize} from './actions';
 import {Canvas} from './components';
+import ui from './ui.json';
 
 class App extends React.Component {
     componentDidMount() {
@@ -37,13 +38,15 @@ class App extends React.Component {
     render() {
         return (
             <div id="app-container">
-                <div style={{padding: 5, backgroundColor: '#dddddd'}}>
-                    Temporary Toolbar
-                    <button onClick={this.handleDownload} style={{marginLeft: 10}}>Download</button>
+                <div style={{backgroundColor: '#dddddd', height: ui['toolbar']['height'], alignItems: 'center', display: 'flex'}}>
+                    <div style={{padding: 5}}>
+                        Temporary Toolbar
+                        <button onClick={this.handleDownload} style={{marginLeft: 10}}>Download</button>
+                    </div>
                 </div>
                 <Canvas
                     width={this.props.width}
-                    height={this.props.height}
+                    height={Math.max(this.props.height - ui['toolbar']['height'], 0)}
                 />
             </div>
         );

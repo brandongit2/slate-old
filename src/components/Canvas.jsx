@@ -127,6 +127,7 @@ export class Canvas extends React.Component {
     }
 
     componentDidUpdate() {
+        console.log(this.props.height);
         this.svg.changeSize(this.props.width, this.props.height);
         this.svg.render(this.parent.current);
     }
@@ -182,6 +183,7 @@ export class Canvas extends React.Component {
         return (
             <div
                 className="component canvas"
+                style={{display: 'block', lineHeight: 0}}
                 onMouseDown={this.handleOnMouseDown}
                 onTouchStart={this.handleTouch}
                 onTouchMove={this.handleTouchMove}
