@@ -124,6 +124,8 @@ export class Canvas extends React.Component {
         this.handleOnMouseUp = this.handleOnMouseUp.bind(this);
         this.handleTouch = this.handleTouch.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.handleOnMouseUp = this.handleOnMouseUp.bind(this);
+        this.handleOnMouseLeave = this.handleOnMouseLeave.bind(this);
     }
 
     componentDidUpdate() {
@@ -140,6 +142,7 @@ export class Canvas extends React.Component {
         };
         this.parent.current.onmousemove = this.handleOnMouseMove;
         this.parent.current.onmouseup = this.handleOnMouseUp;
+        this.parent.current.onmouseleave = this.handleOnMouseLeave;
     }
 
     handleOnMouseMove(e) {
@@ -161,6 +164,12 @@ export class Canvas extends React.Component {
         };
         this.parent.current.onmousemove = null;
         this.parent.current.onmouseup = null;
+        this.parent.current.onmouseleave = null;
+    }
+
+    handleOnMouseLeave(e) {
+        console.log('MOUSE OUT');
+        this.handleOnMouseUp(e);
     }
 
     handleTouch(e) {
