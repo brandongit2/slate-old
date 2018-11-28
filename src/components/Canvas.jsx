@@ -10,10 +10,14 @@ export class Canvas extends React.Component {
 
         this.prevTouches = {};
         this.touches = {};
+        this.prevTouchCenter = [null, null];
+        this.touchCenter = [null, null];
+        this.initialTouchDistance = null;
+        this.touchDistance = null;
+        this.initialZoom = 1;
         this.state = {
             canvasTranslate: [0, 0],
-            pX:              0,
-            pY:              0
+            canvasZoom:      1
         };
 
         this.svg = new SvgElement(props.width, props.height);
@@ -132,29 +136,42 @@ export class Canvas extends React.Component {
 
     componentDidMount() {
         let handleTouches = e => {
-            e.preventDefault();
             this.prevTouches = this.touches;
             for (let touch of e.changedTouches) {
                 this.touches[touch.identifier] = [touch.pageX, touch.pageY];
             }
-            this.touchChange();
         };
 
         let removeTouches = e => {
             e.preventDefault();
             this.prevTouches = this.touches;
+            this.touchCenter = [null, null];
+            this.prevTouchCenter = [null, null];
             for (let touch of e.changedTouches) {
                 delete this.touches[touch.identifier];
             }
         };
 
-        this.parent.current.addEventListener('touchstart', handleTouches);
-        this.parent.current.addEventListener('touchmove', handleTouches);
+        this.parent.current.addEventListener('touchstart', e => {
+            e.preventDefault();
+            handleTouches(e);
+            if (Object.keys(this.touches).length === 2) {
+                this.initialZoom = this.svg.zoom;
+                this.initialTouchDistance = this.distance(this.touches[0], this.touches[1]);
+            }
+            this.touchChange();
+        });
+        this.parent.current.addEventListener('touchmove', e => {
+            e.preventDefault();
+            handleTouches(e);
+            this.touchChange();
+        });
         this.parent.current.addEventListener('touchend', removeTouches);
     }
 
     componentDidUpdate() {
         this.svg.changeSize(this.props.width, this.props.height);
+        this.svg.setZoom(this.state.canvasZoom);
         this.svg.setViewBox(...this.state.canvasTranslate);
         this.svg.render(this.parent.current);
     }
@@ -164,7 +181,9 @@ export class Canvas extends React.Component {
     }
 
     midpoint(a, b) {
-        return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+        if (a && b) {
+            return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+        }
     }
 
     handleOnMouseDown(e) {
@@ -192,7 +211,6 @@ export class Canvas extends React.Component {
                 this.state.canvasTranslate[1] + deltaY
             ]
         });
-        this.svg.moveViewBox(deltaX, deltaY);
         this.mouse = {
             ...this.state,
             mouseX: e.pageX,
@@ -215,11 +233,28 @@ export class Canvas extends React.Component {
 
     touchChange() {
         if (Object.keys(this.touches).length === 2) {
-            let midpoint = this.midpoint(this.touches[0], this.touches[1]);
-            this.setState({
-                pX: midpoint[0],
-                pY: midpoint[1]
-            });
+            let newState = this.state;
+
+            this.prevTouchCenter = this.touchCenter;
+            this.touchCenter = this.midpoint(this.touches[0], this.touches[1]);
+            this.touchDistance = this.distance(this.touches[0], this.touches[1]);
+            if (this.prevTouchCenter[0] !== null && this.touchCenter[0] !== null) {
+                let dTouchCenter = [
+                    this.prevTouchCenter[0] - this.touchCenter[0],
+                    this.prevTouchCenter[1] - this.touchCenter[1]
+                ];
+                newState.canvasTranslate = [
+                    this.state.canvasTranslate[0] + dTouchCenter[0] * this.state.canvasZoom,
+                    this.state.canvasTranslate[1] + dTouchCenter[1] * this.state.canvasZoom
+                ];
+            }
+
+            if (this.initialTouchDistance !== null && this.touchDistance !== null) {
+                let dTouchDistance = this.initialTouchDistance / this.touchDistance;
+                newState.canvasZoom = this.initialZoom * dTouchDistance;
+            }
+
+            this.setState(newState);
         }
     }
 
@@ -231,17 +266,7 @@ export class Canvas extends React.Component {
                 onMouseDown={this.handleOnMouseDown}
                 onKeyPress={this.handleKeyPress}
                 ref={this.parent}
-            >
-                <div style={{
-                    position:     'fixed',
-                    top:          this.state.pY,
-                    left:         this.state.pX,
-                    width:        '7px',
-                    height:       '7px',
-                    background:   'blue',
-                    borderRadius: '10px'
-                }} /> {/* eslint-disable-line */}
-            </div>
+            />
         );
     }
 }
