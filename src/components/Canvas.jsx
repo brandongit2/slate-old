@@ -248,8 +248,8 @@ export class Canvas extends React.Component {
     }
 
     handleOnMouseMove(e) {
-        let deltaX = this.mouse.mouseX - e.pageX;
-        let deltaY = this.mouse.mouseY - e.pageY;
+        let deltaX = (this.mouse.mouseX - e.pageX) * this.state.canvasZoom;
+        let deltaY = (this.mouse.mouseY - e.pageY) * this.state.canvasZoom;
 
         this.setState({
             ...this.state,
