@@ -1,0 +1,12 @@
+{
+    "ui": {
+        "toolbar": {
+            "height": 30
+        }
+    },
+    "animation": {
+        "zoom": {
+            "length": 200
+        }
+    }
+}

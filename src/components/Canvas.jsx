@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import SvgElement, * as SVG from '../SVG/src';
+import Animation from '../Animation/src';
+import config from '../config.json';
 
 export class Canvas extends React.Component {
     constructor(props) {
@@ -18,8 +20,9 @@ export class Canvas extends React.Component {
         this.zoomFactor = 2;
         this.state = {
             canvasTranslate: [0, 0],
-            canvasZoom:      1
+            canvasZoom:      1,
         };
+        this.zoomAnimation = null;
 
         this.svg = new SvgElement(props.width, props.height);
 
@@ -173,7 +176,6 @@ export class Canvas extends React.Component {
     }
 
     componentDidUpdate() {
-        console.log(this.state.canvasTranslate, this.state.canvasZoom);
         this.svg.changeSize(this.props.width, this.props.height);
         this.svg.setZoom(this.state.canvasZoom);
         this.svg.setViewBox(...this.state.canvasTranslate);
@@ -193,36 +195,47 @@ export class Canvas extends React.Component {
     handleMouseWheel(e) {
         e.preventDefault();
         e.persist();
-        let boundingRect = e.currentTarget.getBoundingClientRect();
+        let target = e.currentTarget;
+        let boundingRect = target.getBoundingClientRect();
         let scrollMousePos = [(e.clientX - boundingRect.left) - (this.props.width / 2), (e.clientY - boundingRect.top) - (this.props.height / 2)];
+        let newZoom, newCanvasTranslate;
+        let prevState = this.state;
+        let oldZoom = prevState.canvasZoom;
+        let oldCanvasTranslate = this.state.canvasTranslate;
         if (e.deltaY < 0) {
-            this.setState(prevState => {
-                let newZoom = prevState.canvasZoom * (1 / this.zoomFactor);
-                return {
-                    canvasTranslate: [
-                        this.state.canvasTranslate[0] + ((scrollMousePos[0] * prevState.canvasZoom) * (1 / this.zoomFactor)),
-                        this.state.canvasTranslate[1] + ((scrollMousePos[1] * prevState.canvasZoom) * (1 / this.zoomFactor))
-                    ],
-                    canvasZoom: newZoom
-                };
-            });
+            target.style.cursor = 'zoom-in';
+            newZoom = prevState.canvasZoom * (1 / this.zoomFactor);
+            newCanvasTranslate = [
+                this.state.canvasTranslate[0] + ((scrollMousePos[0] * prevState.canvasZoom) * (1 / this.zoomFactor)),
+                this.state.canvasTranslate[1] + ((scrollMousePos[1] * prevState.canvasZoom) * (1 / this.zoomFactor))
+            ];
         } else if (e.deltaY > 0) {
-            this.setState(prevState => {
-                let newZoom = prevState.canvasZoom * this.zoomFactor;
-                return {
-                    canvasTranslate: [
-                        this.state.canvasTranslate[0] - ((scrollMousePos[0] * prevState.canvasZoom)),
-                        this.state.canvasTranslate[1] - ((scrollMousePos[1] * prevState.canvasZoom))
-                    ],
-                    canvasZoom: newZoom
-                };
-            });
+            target.style.cursor = 'zoom-out';
+            newZoom = prevState.canvasZoom * this.zoomFactor;
+            newCanvasTranslate = [
+                this.state.canvasTranslate[0] - ((scrollMousePos[0] * prevState.canvasZoom)),
+                this.state.canvasTranslate[1] - ((scrollMousePos[1] * prevState.canvasZoom))
+            ];
         }
+
+        this.zoomAnimation = new Animation(config['animation']['zoom']['length'], [oldCanvasTranslate[0], oldCanvasTranslate[1], oldZoom], [newCanvasTranslate[0], newCanvasTranslate[1], newZoom], newValues => {
+            this.setState({
+                canvasZoom:      newValues[2],
+                canvasTranslate: [
+                    newValues[0],
+                    newValues[1]
+                ]
+            });
+        }, () => {
+            target.style.cursor = 'default';
+        });
     }
+
 
     handleOnMouseDown(e) {
         if (e.buttons === 4) {
             e.preventDefault();
+            e.currentTarget.style.cursor = 'move';
             this.mouse = {
                 mouseX:    e.pageX,
                 mouseY:    e.pageY,
@@ -255,6 +268,7 @@ export class Canvas extends React.Component {
     handleOnMouseUp(e, force = false) {
         if (e.button === 1 || force) {
             e.preventDefault();
+            e.currentTarget.style.cursor = 'default';
             this.mouse = {
                 mouseX: e.pageX,
                 mouseY: e.pageY,
