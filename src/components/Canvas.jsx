@@ -15,6 +15,7 @@ export class Canvas extends React.Component {
         this.initialTouchDistance = null;
         this.touchDistance = null;
         this.initialZoom = 1;
+        this.zoomFactor = 2;
         this.state = {
             canvasTranslate: [0, 0],
             canvasZoom:      1
@@ -132,6 +133,7 @@ export class Canvas extends React.Component {
         this.handleOnMouseMove = this.handleOnMouseMove.bind(this);
         this.handleOnMouseUp = this.handleOnMouseUp.bind(this);
         this.touchChange = this.touchChange.bind(this);
+        this.handleMouseWheel = this.handleMouseWheel.bind(this);
     }
 
     componentDidMount() {
@@ -166,10 +168,12 @@ export class Canvas extends React.Component {
             handleTouches(e);
             this.touchChange();
         });
+
         this.parent.current.addEventListener('touchend', removeTouches);
     }
 
     componentDidUpdate() {
+        console.log(this.state.canvasTranslate, this.state.canvasZoom);
         this.svg.changeSize(this.props.width, this.props.height);
         this.svg.setZoom(this.state.canvasZoom);
         this.svg.setViewBox(...this.state.canvasTranslate);
@@ -183,6 +187,36 @@ export class Canvas extends React.Component {
     midpoint(a, b) {
         if (a && b) {
             return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+        }
+    }
+
+    handleMouseWheel(e) {
+        e.preventDefault();
+        e.persist();
+        let boundingRect = e.currentTarget.getBoundingClientRect();
+        let scrollMousePos = [(e.clientX - boundingRect.left) - (this.props.width / 2), (e.clientY - boundingRect.top) - (this.props.height / 2)];
+        if (e.deltaY < 0) {
+            this.setState(prevState => {
+                let newZoom = prevState.canvasZoom * (1 / this.zoomFactor);
+                return {
+                    canvasTranslate: [
+                        this.state.canvasTranslate[0] + ((scrollMousePos[0] * prevState.canvasZoom) * (1 / this.zoomFactor)),
+                        this.state.canvasTranslate[1] + ((scrollMousePos[1] * prevState.canvasZoom) * (1 / this.zoomFactor))
+                    ],
+                    canvasZoom: newZoom
+                };
+            });
+        } else if (e.deltaY > 0) {
+            this.setState(prevState => {
+                let newZoom = prevState.canvasZoom * this.zoomFactor;
+                return {
+                    canvasTranslate: [
+                        this.state.canvasTranslate[0] - ((scrollMousePos[0] * prevState.canvasZoom)),
+                        this.state.canvasTranslate[1] - ((scrollMousePos[1] * prevState.canvasZoom))
+                    ],
+                    canvasZoom: newZoom
+                };
+            });
         }
     }
 
@@ -265,6 +299,7 @@ export class Canvas extends React.Component {
                 style={{display: 'block', lineHeight: 0}}
                 onMouseDown={this.handleOnMouseDown}
                 onKeyPress={this.handleKeyPress}
+                onWheel={this.handleMouseWheel}
                 ref={this.parent}
             />
         );
