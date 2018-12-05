@@ -62,8 +62,8 @@ class SvgElement extends Container {
 
     setViewBox(x, y) {
         return this.attr('viewBox', [
-            x - (this.width * this.zoom) / 2,
-            y - (this.height * this.zoom) / 2,
+            x - this.width / 2 * this.zoom,
+            y - this.height / 2 * this.zoom,
             this.width * this.zoom,
             this.height * this.zoom
         ].join(' '));
@@ -71,6 +71,12 @@ class SvgElement extends Container {
 
     setZoom(zoom) {
         this.zoom = zoom;
+        return this;
+    }
+
+    zoomFrom(x, y, zoom) {
+        this.setViewBox(x, y);
+        this.setZoom(zoom);
         return this;
     }
 }

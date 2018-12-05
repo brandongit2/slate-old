@@ -1,4 +1,3 @@
-
 class Animation {
     /**
      * @callback updateCallback
@@ -11,7 +10,7 @@ class Animation {
      */
 
     /**
-    * @param {number} length - Length of the animation in milliseconds 
+    * @param {number} length - Length of the animation in milliseconds
     * @param {array} startValues - Array of values at the start of the animation
     * @param {array} endValues - Array of values at the end of the animation
     * @param {updateCallback} updateCallback - Callback for updating value when animation
@@ -19,18 +18,18 @@ class Animation {
     */
     constructor(length, startValues, endValues, updateCallback, onCompleteCallback) {
         const curTime = Date.now();
-        const interval = (1 / Animation.framesPerSecond) * 1000;
+        const interval = 1000 / Animation.framesPerSecond;
         this.props = {
             startTime:         curTime,
             endTime:           curTime + length,
+            animationInterval: setInterval(() => {
+                this.animate();
+            }, interval),
             interval,
             startValues,
             endValues,
             updateCallback,
             onCompleteCallback,
-            animationInterval: setInterval(() => {
-                this.animate();
-            }, interval)
         };
     }
 

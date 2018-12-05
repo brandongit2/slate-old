@@ -209,22 +209,22 @@ export class Canvas extends React.Component {
             target.style.cursor = 'zoom-in';
             newZoom = prevState.canvasZoom * (1 / this.zoomFactor);
             newCanvasTranslate = [
-                this.state.canvasTranslate[0] + ((scrollMousePos[0] * prevState.canvasZoom) * (1 / this.zoomFactor)),
-                this.state.canvasTranslate[1] + ((scrollMousePos[1] * prevState.canvasZoom) * (1 / this.zoomFactor))
+                this.state.canvasTranslate[0] + scrollMousePos[0] * prevState.canvasZoom / this.zoomFactor,
+                this.state.canvasTranslate[1] + scrollMousePos[1] * prevState.canvasZoom / this.zoomFactor
             ];
         } else if (e.deltaY > 0) {
             target.style.cursor = 'zoom-out';
             newZoom = prevState.canvasZoom * this.zoomFactor;
             newCanvasTranslate = [
-                this.state.canvasTranslate[0] - ((scrollMousePos[0] * prevState.canvasZoom)),
-                this.state.canvasTranslate[1] - ((scrollMousePos[1] * prevState.canvasZoom))
+                this.state.canvasTranslate[0] - scrollMousePos[0] * prevState.canvasZoom,
+                this.state.canvasTranslate[1] - scrollMousePos[1] * prevState.canvasZoom
             ];
         } else {
             target.style.cursor = 'default';
             return;
         }
 
-        this.zoomAnimation = new Animation(config['animation']['zoom']['length'], [oldCanvasTranslate[0], oldCanvasTranslate[1], oldZoom], [newCanvasTranslate[0], newCanvasTranslate[1], newZoom], newValues => {
+        this.zoomAnimation = new Animation(config.animation.zoom.length, [oldCanvasTranslate[0], oldCanvasTranslate[1], oldZoom], [newCanvasTranslate[0], newCanvasTranslate[1], newZoom], newValues => {
             this.setState({
                 canvasZoom:      newValues[2],
                 canvasTranslate: [
