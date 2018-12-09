@@ -38,15 +38,25 @@ class App extends React.Component {
     render() {
         return (
             <div id="app-container">
-                <div style={{backgroundColor: '#dddddd', height: config['ui']['toolbar']['height'], alignItems: 'center', display: 'flex'}}>
+                <div style={{
+                    backgroundColor: '#ddd',
+                    height:          config.ui.toolbar.height,
+                    alignItems:      'center',
+                    display:         'flex'
+                }}> {/* eslint-disable-line */}
                     <div style={{padding: 5}}>
                         Temporary Toolbar
-                        <button onClick={this.handleDownload} style={{marginLeft: 10}}>Download</button>
+                        <button
+                            onClick={this.handleDownload}
+                            style={{marginLeft: 10}}
+                        >
+                            Download
+                        </button>
                     </div>
                 </div>
                 <Canvas
                     width={this.props.width}
-                    height={Math.max(this.props.height - config['ui']['toolbar']['height'], 0)}
+                    height={Math.max(this.props.height - config.ui.toolbar.height, 0)}
                 />
             </div>
         );

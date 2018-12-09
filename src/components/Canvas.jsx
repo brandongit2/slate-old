@@ -17,12 +17,17 @@ export class Canvas extends React.Component {
         this.initialTouchDistance = null;
         this.touchDistance = null;
         this.initialZoom = 1;
-        this.zoomFactor = 2;
-        this.state = {
-            canvasTranslate: [0, 0],
-            canvasZoom:      1,
-        };
+        this.zoomFactor = 1.3;
         this.zoomAnimation = null;
+        this.lastScrollTime = 0;
+        this.scrollMode = null;
+        this.lastDeltaY = null;
+        this.state = {
+            canvas: {
+                translate: [0, 0],
+                zoom:      1
+            }
+        };
 
         this.svg = new SvgElement(props.width, props.height);
 
@@ -174,13 +179,14 @@ export class Canvas extends React.Component {
         });
 
         this.parent.current.addEventListener('touchend', removeTouches);
+
+        this.svg.render(this.parent.current);
     }
 
     componentDidUpdate() {
         this.svg.changeSize(this.props.width, this.props.height);
-        this.svg.setZoom(this.state.canvasZoom);
-        this.svg.setViewBox(...this.state.canvasTranslate);
-        this.svg.render(this.parent.current);
+        this.svg.setZoom(this.state.canvas.zoom);
+        this.svg.setTranslate(...this.state.canvas.translate);
     }
 
     distance(a, b) {
@@ -194,59 +200,76 @@ export class Canvas extends React.Component {
     }
 
     zoomToPoint(focusX, focusY, zoom, target) {
-        console.log(focusX, focusY, zoom);
         let scrollMousePos = [focusX, focusY];
         let newZoom, newCanvasTranslate;
         let prevState = this.state;
-        let oldZoom = prevState.canvasZoom;
-        let oldCanvasTranslate = this.state.canvasTranslate;
+        let oldZoom = prevState.canvas.zoom;
+        let oldCanvasTranslate = this.state.canvas.translate;
 
         if (zoom < 1) {
             target.style.cursor = 'zoom-in';
-            newZoom = prevState.canvasZoom * zoom;
+            newZoom = prevState.canvas.zoom * zoom;
             newCanvasTranslate = [
-                this.state.canvasTranslate[0] + ((scrollMousePos[0] * prevState.canvasZoom) * zoom),
-                this.state.canvasTranslate[1] + ((scrollMousePos[1] * prevState.canvasZoom) * zoom)
+                this.state.canvas.translate[0] + ((scrollMousePos[0] * prevState.canvas.zoom) * zoom),
+                this.state.canvas.translate[1] + ((scrollMousePos[1] * prevState.canvas.zoom) * zoom)
             ];
         } else if (zoom > 1) {
             target.style.cursor = 'zoom-out';
-            newZoom = prevState.canvasZoom * zoom;
+            newZoom = prevState.canvas.zoom * zoom;
             newCanvasTranslate = [
-                this.state.canvasTranslate[0] - scrollMousePos[0] * prevState.canvasZoom,
-                this.state.canvasTranslate[1] - scrollMousePos[1] * prevState.canvasZoom
+                this.state.canvas.translate[0] - scrollMousePos[0] * prevState.canvas.zoom,
+                this.state.canvas.translate[1] - scrollMousePos[1] * prevState.canvas.zoom
             ];
         } else {
             target.style.cursor = 'default';
             return;
         }
 
-        this.zoomAnimation = new Animation(config.animation.zoom.length, [oldCanvasTranslate[0], oldCanvasTranslate[1], oldZoom], [newCanvasTranslate[0], newCanvasTranslate[1], newZoom], newValues => {
-            this.setState({
-                canvasZoom:      newValues[2],
-                canvasTranslate: [
-                    newValues[0],
-                    newValues[1]
-                ]
-            });
-        }, () => {
-            target.style.cursor = 'default';
-        });
+        this.zoomAnimation = new Animation(
+            config.animation.zoom.length,
+            [oldCanvasTranslate[0], oldCanvasTranslate[1], oldZoom],
+            [newCanvasTranslate[0], newCanvasTranslate[1], newZoom],
+            newValues => {
+                this.setState({
+                    canvasZoom:      newValues[2],
+                    canvasTranslate: [
+                        newValues[0],
+                        newValues[1]
+                    ]
+                });
+            }, () => {
+                target.style.cursor = 'default';
+            }
+        );
     }
 
     handleMouseWheel(e) {
         e.preventDefault();
         e.persist();
-        let target = e.currentTarget;
-        let boundingRect = target.getBoundingClientRect();
-        let scrollMousePos = [(e.clientX - boundingRect.left) - (this.props.width / 2), (e.clientY - boundingRect.top) - (this.props.height / 2)];
 
-        if (e.deltaY < 0) {
-            this.zoomToPoint(scrollMousePos[0], scrollMousePos[1], 1 / this.zoomFactor, target);
-        } else if (e.deltaY > 0) {
-            this.zoomToPoint(scrollMousePos[0], scrollMousePos[1], this.zoomFactor, target);
+        let timeSinceLastScroll = Date.now() - this.lastScrollTime;
+        // console.log(timeSinceLastScroll);
+        this.lastScrollTime = Date.now();
+        // this.svg.zoomBy(e.deltaY > 0 ? this.zoomFactor : 1 / this.zoomFactor);
+        if (timeSinceLastScroll < 60 && this.lastDeltaY !== 0 && this.lastDeltaY - e.deltaY > 5) {
+            console.log('trackpad');
+        } else {
+            console.log('mouse wheel');
         }
+        // let target = e.currentTarget;
+        // let br = target.getBoundingClientRect();
+        // let scrollMousePos = [
+        //     (e.clientX - br.left) - (this.props.width / 2),
+        //     (e.clientY - br.top) - (this.props.height / 2)
+        // ];
+        //
+        // if (e.deltaY < 0) {
+        //     this.zoomToPoint(scrollMousePos[0], scrollMousePos[1], 1 / this.zoomFactor, target);
+        // } else if (e.deltaY > 0) {
+        //     this.zoomToPoint(scrollMousePos[0], scrollMousePos[1], this.zoomFactor, target);
+        // }
+        this.lastDeltaY = e.deltaY;
     }
-
 
     handleOnMouseDown(e) {
         if (e.buttons === 4) {
@@ -259,19 +282,21 @@ export class Canvas extends React.Component {
             };
             this.parent.current.onmousemove = this.handleOnMouseMove;
             this.parent.current.onmouseup = this.handleOnMouseUp;
-            this.parent.current.onmouseleave = e => { this.handleOnMouseUp(e, true); };
+            this.parent.current.onmouseleave = e => {
+                this.handleOnMouseUp(e, true);
+            };
         }
     }
 
     handleOnMouseMove(e) {
-        let deltaX = (this.mouse.mouseX - e.pageX) * this.state.canvasZoom;
-        let deltaY = (this.mouse.mouseY - e.pageY) * this.state.canvasZoom;
+        let deltaX = (this.mouse.mouseX - e.pageX) * this.state.canvas.zoom;
+        let deltaY = (this.mouse.mouseY - e.pageY) * this.state.canvas.zoom;
 
         this.setState({
             ...this.state,
             canvasTranslate: [
-                this.state.canvasTranslate[0] + deltaX,
-                this.state.canvasTranslate[1] + deltaY
+                this.state.canvas.translate[0] + deltaX,
+                this.state.canvas.translate[1] + deltaY
             ]
         });
         this.mouse = {
@@ -308,14 +333,14 @@ export class Canvas extends React.Component {
                     this.prevTouchCenter[1] - this.touchCenter[1]
                 ];
                 newState.canvasTranslate = [
-                    this.state.canvasTranslate[0] + dTouchCenter[0] * this.state.canvasZoom,
-                    this.state.canvasTranslate[1] + dTouchCenter[1] * this.state.canvasZoom
+                    this.state.canvas.translate[0] + dTouchCenter[0] * this.state.canvas.zoom,
+                    this.state.canvas.translate[1] + dTouchCenter[1] * this.state.canvas.zoom
                 ];
             }
 
             if (this.initialTouchDistance !== null && this.touchDistance !== null) {
                 let dTouchDistance = this.initialTouchDistance / this.touchDistance;
-                newState.canvasZoom = this.initialZoom * dTouchDistance;
+                newState.canvas.zoom = this.initialZoom * dTouchDistance;
             }
 
             this.setState(newState);

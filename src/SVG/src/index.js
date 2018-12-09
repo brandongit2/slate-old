@@ -43,6 +43,25 @@ class SvgElement extends Container {
     }
 
     /**
+     * Changes the dimensions of the SVG.
+     * @override
+     *
+     * @param {(number|string)} width - The width of the container. ('unset' for no value)
+     * @param {(number|string)} height - The height of the container. ('unset' for no value)
+     *
+     * @returns {SvgElement} This `SvgElement` instance.
+     */
+    changeSize(width, height) {
+        this.width = width;
+        this.height = height;
+
+        this.attr('width', width);
+        this.attr('height', height);
+        this.updateViewBox();
+        return this;
+    }
+
+    /**
      * Replaces the current global CSS.
      *
      * @param {string} css - The new CSS.
@@ -56,28 +75,48 @@ class SvgElement extends Container {
         return this;
     }
 
-    changeSize(width, height) {
-        super.changeSize(width, height);
+    /**
+     * Sets the translation of the SVG element. (For panning)
+     *
+     * @param {number} x - The new x coordinate of the origin, relative to the center of the SVG.
+     * @param {number} y - The new y coordinate of the origin, relative to the center of the SVG.
+     *
+     * @returns {SvgElement} This `SvgElement` element.
+     */
+    setTranslate(x, y) {
+        this.translate = [x, y];
+        this.updateViewBox();
+        return this;
     }
 
-    setViewBox(x, y) {
-        return this.attr('viewBox', [
-            x - this.width / 2 * this.zoom,
-            y - this.height / 2 * this.zoom,
-            this.width * this.zoom,
-            this.height * this.zoom
-        ].join(' '));
-    }
-
+    /**
+     * Sets the zoom of the SVG element.
+     *
+     * @param {number} zoom - The new x coordinate of the origin, relative to the center of the SVG.
+     *
+     * @returns {SvgElement} This `SvgElement` element.
+     */
     setZoom(zoom) {
         this.zoom = zoom;
+        this.updateViewBox();
         return this;
     }
 
-    zoomFrom(x, y, zoom) {
-        this.setViewBox(x, y);
-        this.setZoom(zoom);
-        return this;
+    zoomBy(factor) {
+        return this.setZoom(this.zoom * factor);
+    }
+
+    /**
+     * Updates the translation and zoom of the SVG. For internal use only.
+     */
+    updateViewBox() {
+        this.attr(
+            'viewBox',
+            `${this.translate[0]} ` +
+            `${this.translate[1]} ` +
+            `${this.width * this.zoom} ` +
+            `${this.height * this.zoom}`
+        );
     }
 }
 
