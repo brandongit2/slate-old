@@ -112,8 +112,8 @@ class SvgElement extends Container {
     updateViewBox() {
         this.attr(
             'viewBox',
-            `${this.translate[0]} ` +
-            `${this.translate[1]} ` +
+            `${this.translate[0] - (this.width * this.zoom) / 2} ` +
+            `${this.translate[1] - (this.height * this.zoom) / 2} ` +
             `${this.width * this.zoom} ` +
             `${this.height * this.zoom}`
         );
