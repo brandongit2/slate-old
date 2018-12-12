@@ -272,7 +272,7 @@ export class Canvas extends React.Component {
     }
 
     handleOnMouseDown(e) {
-        if (e.buttons === 4) {
+        if (e.buttons === 4 || (e.buttons === 1 && e.ctrlKey)) {
             e.preventDefault();
             e.currentTarget.style.cursor = 'move';
             this.mouse = {
@@ -307,7 +307,7 @@ export class Canvas extends React.Component {
     }
 
     handleOnMouseUp(e, force = false) {
-        if (e.button === 1 || force) {
+        if (e.buttons === 0 || force) {
             e.preventDefault();
             e.currentTarget.style.cursor = 'default';
             this.mouse = {
