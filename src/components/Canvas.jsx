@@ -35,6 +35,8 @@ export class Canvas extends React.Component {
                 zoom:      1
             }
         };
+        this.zoomAnimation = null;
+        this.curDrawObject = null;
 
         this.svg = new SvgElement(props.width, props.height);
 
@@ -110,6 +112,7 @@ export class Canvas extends React.Component {
             strokeWidth:    10,
             strokeLinejoin: 'miter'
         }));
+
         this.svg.add(new SVG.PolyLine([[140, 550], [190, 500], [240, 550]]).attrs({
             fill:           'none',
             stroke:         'orange',
@@ -150,6 +153,8 @@ export class Canvas extends React.Component {
         this.touchChange = this.touchChange.bind(this);
         this.handleMouseWheel = this.handleMouseWheel.bind(this);
         this.zoomToPoint = this.zoomToPoint.bind(this);
+        this.handleOnMouseMoveDraw = this.handleOnMouseMoveDraw.bind(this);
+        this.handleOnMouseUpDraw = this.handleOnMouseUpDraw.bind(this);
     }
 
     componentDidMount() {
@@ -249,7 +254,7 @@ export class Canvas extends React.Component {
     }
 
     handleOnMouseDown(e) {
-        if (e.buttons === 4) {
+        if (e.buttons === 4 || (e.buttons === 1 && e.ctrlKey)) {
             e.preventDefault();
             document.body.style.cursor = 'move';
             this.mouse = {
@@ -263,6 +268,22 @@ export class Canvas extends React.Component {
             this.parent.current.onmouseleave = e => {
                 this.handleOnMouseUp(e, true);
             };
+            this.parent.current.onmouseleave = e => { this.handleOnMouseUp(e, true); };
+        } else if (e.buttons === 1) {
+            let target = e.currentTarget;
+            let boundingRect = target.getBoundingClientRect();
+            const mousePosX = this.state.canvasTranslate[0] + ((e.clientX - boundingRect.left) - (this.props.width / 2)) * this.state.canvasZoom;
+            const mousePosY = this.state.canvasTranslate[1] + ((e.clientY - boundingRect.top) - (this.props.height / 2)) * this.state.canvasZoom;
+
+            console.log(mousePosX, mousePosY);
+            this.curDrawObject = new SVG.Line(mousePosX, mousePosY, mousePosX, mousePosY).attrs({
+                fill:        'black',
+                stroke:      'black',
+                strokeWidth: 3
+            });
+            this.svg.add(this.curDrawObject);
+            this.parent.current.onmousemove = this.handleOnMouseMoveDraw;
+            this.parent.current.onmouseup = this.handleOnMouseUpDraw;
         }
     }
 
@@ -282,8 +303,26 @@ export class Canvas extends React.Component {
         };
     }
 
+    handleOnMouseMoveDraw(e) {
+        let target = e.currentTarget;
+        let boundingRect = target.getBoundingClientRect();
+        const mousePosX = this.state.canvasTranslate[0] + ((e.clientX - boundingRect.left) - (this.props.width / 2)) * this.state.canvasZoom;
+        const mousePosY = this.state.canvasTranslate[1] + ((e.clientY - boundingRect.top) - (this.props.height / 2)) * this.state.canvasZoom;
+
+        console.log(mousePosX, mousePosY);
+
+        this.curDrawObject.end(mousePosX, mousePosY);
+    }
+
+    handleOnMouseUpDraw(e) {
+        this.handleOnMouseMoveDraw(e);
+        this.curDrawObject = null;
+        this.parent.current.onmousemove = null;
+        this.parent.current.onmouseup = null;
+    }
+
     handleOnMouseUp(e, force = false) {
-        if (e.button === 1 || force) {
+        if (e.buttons === 0 || force) {
             e.preventDefault();
             document.body.style.cursor = 'default';
             this.mouse = {
