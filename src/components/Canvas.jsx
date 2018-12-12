@@ -272,8 +272,8 @@ export class Canvas extends React.Component {
         } else if (e.buttons === 1) {
             let target = e.currentTarget;
             let boundingRect = target.getBoundingClientRect();
-            const mousePosX = this.state.canvasTranslate[0] + ((e.clientX - boundingRect.left) - (this.props.width / 2)) * this.state.canvasZoom;
-            const mousePosY = this.state.canvasTranslate[1] + ((e.clientY - boundingRect.top) - (this.props.height / 2)) * this.state.canvasZoom;
+            const mousePosX = this.state.canvas.translate[0] + ((e.clientX - boundingRect.left) - (this.props.width / 2)) * this.state.canvas.zoom;
+            const mousePosY = this.state.canvas.translate[1] + ((e.clientY - boundingRect.top) - (this.props.height / 2)) * this.state.canvas.zoom;
 
             console.log(mousePosX, mousePosY);
             this.curDrawObject = new SVG.Line(mousePosX, mousePosY, mousePosX, mousePosY).attrs({
@@ -306,8 +306,8 @@ export class Canvas extends React.Component {
     handleOnMouseMoveDraw(e) {
         let target = e.currentTarget;
         let boundingRect = target.getBoundingClientRect();
-        const mousePosX = this.state.canvasTranslate[0] + ((e.clientX - boundingRect.left) - (this.props.width / 2)) * this.state.canvasZoom;
-        const mousePosY = this.state.canvasTranslate[1] + ((e.clientY - boundingRect.top) - (this.props.height / 2)) * this.state.canvasZoom;
+        const mousePosX = this.state.canvas.translate[0] + ((e.clientX - boundingRect.left) - (this.props.width / 2)) * this.state.canvas.zoom;
+        const mousePosY = this.state.canvas.translate[1] + ((e.clientY - boundingRect.top) - (this.props.height / 2)) * this.state.canvas.zoom;
 
         console.log(mousePosX, mousePosY);
 
