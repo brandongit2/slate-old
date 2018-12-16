@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import SvgElement from '../../SVG/src';
 import {distance, log_b, midpoint} from '../../utils';
-import {Brush} from './tools';
+import {Brush, RectTool} from './tools';
 import './index.css';
 
 export class Canvas extends React.Component {
@@ -90,12 +90,17 @@ export class Canvas extends React.Component {
         this.canvasInfo.width = this.svg.el.clientWidth;
         this.canvasInfo.height = this.svg.el.clientHeight;
         this.currentTool.updateCanvasInfo(this.canvasInfo);
+
+        this.updateTool();
     }
 
     updateTool() {
         switch (this.props.currentTool) {
             case 'brush':
                 this.currentTool = new Brush(this.canvasInfo);
+                break;
+            case 'rectangle':
+                this.currentTool = new RectTool(this.canvasInfo);
                 break;
             default:
         }
@@ -239,12 +244,12 @@ export class Canvas extends React.Component {
                     this.handleOnMouseDown(e);
                     this.currentTool.mouseDown(e);
                 }}
-                onMouseMove={this.currentTool.mouseMove}
-                onMouseUp={this.currentTool.mouseUp}
-                onMouseLeave={this.currentTool.mouseLeave}
-                onTouchStart={this.currentTool.touchStart}
-                onTouchMove={this.currentTool.touchMove}
-                onTouchEnd={this.currentTool.touchEnd}
+                onMouseMove={e => { this.currentTool.mouseMove(e); }}
+                onMouseUp={e => { this.currentTool.mouseUp(e); }}
+                onMouseLeave={e => { this.currentTool.mouseLeave(e); }}
+                onTouchStart={e => { this.currentTool.touchStart(e); }}
+                onTouchMove={e => { this.currentTool.touchMove(e); }}
+                onTouchEnd={e => { this.currentTool.touchEnd(e); }}
                 onKeyPress={this.handleKeyPress}
                 onWheel={this.handleMouseWheel}
                 ref={this.parent}

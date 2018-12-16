@@ -12,6 +12,7 @@ export class Brush extends Tool {
         this.mouseDown = this.mouseDown.bind(this);
         this.mouseMove = this.mouseMove.bind(this);
         this.mouseUp = this.mouseUp.bind(this);
+        this.mouseLeave = this.mouseLeave.bind(this);
         this.touchStart = this.touchStart.bind(this);
         this.touchMove = this.touchMove.bind(this);
         this.touchEnd = this.touchEnd.bind(this);
@@ -47,6 +48,7 @@ export class Brush extends Tool {
     mouseMove(e) {
         super.mouseMove(e);
 
+        console.log('brush');
         if (this.strokes[0]) {
             this.addToStroke(0, e.pageX, e.pageY);
         }
@@ -56,6 +58,15 @@ export class Brush extends Tool {
         super.mouseUp(e);
 
         this.endStroke(0);
+    }
+
+    mouseLeave(e) {
+        super.mouseLeave(e);
+
+        if (this.strokes[0]) {
+            this.addToStroke(0, e.pageX, e.pageY);
+            this.endStroke(0);
+        }
     }
 
     touchStart(e) {
