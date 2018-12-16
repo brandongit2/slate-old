@@ -30,8 +30,8 @@ class SvgElement extends Container {
      * @classdesc
      * Represents an &lt;svg&gt; element.
      */
-    constructor(width, height) {
-        super('svg', width, height);
+    constructor() {
+        super('svg', 100, 100);
 
         this.translate = [0, 0];
         this.zoom = 1;
@@ -39,24 +39,22 @@ class SvgElement extends Container {
         this.el.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
         this.el.setAttribute('version', '1.1');
         this.el.setAttribute('baseProfile', 'full');
-        this.changeSize(width, height);
+
+        this.attr('width', '100%');
+        this.attr('height', '100%');
+
+        this.updateSize();
     }
 
     /**
-     * Changes the dimensions of the SVG.
-     * @override
-     *
-     * @param {(number|string)} width - The width of the container. ('unset' for no value)
-     * @param {(number|string)} height - The height of the container. ('unset' for no value)
+     * Updates the dimensions of the SVG (always same dimensions as parent).
      *
      * @returns {SvgElement} This `SvgElement` instance.
      */
-    changeSize(width, height) {
-        this.width = width;
-        this.height = height;
+    updateSize() {
+        this.width = this.el.clientWidth;
+        this.height = this.el.clientHeight;
 
-        this.attr('width', width);
-        this.attr('height', height);
         this.updateViewBox();
         return this;
     }

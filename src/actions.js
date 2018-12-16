@@ -1,3 +1,8 @@
+export const changeTool = tool => ({
+    type: 'CHANGE_TOOL',
+    tool
+});
+
 export const newTouch = (id, x, y) => ({
     type: 'NEW_TOUCH',
     id,

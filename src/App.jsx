@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {windowResize} from './actions';
-import {Canvas} from './components';
+import {Canvas, Menubar, Toolbar} from './components';
 import config from './config.json';
 
 class App extends React.Component {
@@ -17,47 +17,16 @@ class App extends React.Component {
                 windowResize(window.innerWidth, window.innerHeight)
             );
         });
-
-        this.handleDownload = this.handleDownload.bind(this);
-    }
-
-    handleDownload() {
-        const svgElement = document.getElementsByClassName('canvas')[0];
-        const fileName = 'canvas.svg';
-        const blob = new Blob([svgElement.innerHTML], {
-            type: 'image/svg+xml;charset=utf-8'
-        });
-        const url = window.URL.createObjectURL(blob);
-        var a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        a.click();
-        window.URL.revokeObjectURL(url);
     }
 
     render() {
         return (
-            <div id="app-container">
-                <div style={{
-                    backgroundColor: '#ddd',
-                    height:          config.ui.toolbar.height,
-                    alignItems:      'center',
-                    display:         'flex'
-                }}> {/* eslint-disable-line */}
-                    <div style={{padding: 5}}>
-                        Temporary Toolbar
-                        <button
-                            onClick={this.handleDownload}
-                            style={{marginLeft: 10}}
-                        >
-                            Download
-                        </button>
-                    </div>
+            <div id="app-container" className="container vertical">
+                <Menubar height={config.ui.menubar.height}></Menubar>
+                <div className="container horizontal grow">
+                    <Toolbar width={config.ui.toolbar.width}></Toolbar>
+                    <Canvas id="main-canvas" grow />
                 </div>
-                <Canvas
-                    width={this.props.width}
-                    height={Math.max(this.props.height - config.ui.toolbar.height, 0)}
-                />
             </div>
         );
     }

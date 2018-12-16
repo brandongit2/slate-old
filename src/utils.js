@@ -35,3 +35,24 @@ export function midpoint(a, b) {
 export function log_b(x, b) {
     return Math.log(x) / Math.log(b);
 }
+
+/**
+ * Converts a given length in any CSS unit to pixels.
+ *
+ * @param {string} length - The length to convert to pixels
+ *
+ * @returns {number} The length in pixels.
+ */
+export function relToAbs(length) {
+    let number = length.match(/^[0-9]+/u)[0];
+    switch (length.match(/[A-Za-z]+$/u)[0]) {
+        case 'px':
+            return number;
+        case 'vh':
+            return window.innerHeight / number;
+        case 'vw':
+            return window.innerWidth / number;
+        default:
+            throw new Error(`Invalid unit ${length.match(/[A-Za-z]+$/u)[0]}.`);
+    }
+}

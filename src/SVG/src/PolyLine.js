@@ -38,4 +38,20 @@ export class PolyLine extends Element {
 
         return this.attr('points', str);
     }
+
+    /**
+     * Adds a point to the polyline.
+     *
+     * @param {number[]} point - The points to add to the polyline.
+     *
+     * @returns {PolyLine} This `PolyLine` instance.
+     */
+    addPoint(point) {
+        return this.attr(
+            'points',
+            this.el.getAttribute('points').length > 0 ?
+                this.el.getAttribute('points') + `, ${point[0]} ${point[1]}` :
+                `${point[0]} ${point[1]}`
+        );
+    }
 }

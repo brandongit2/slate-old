@@ -1,3 +1,7 @@
+:root {
+    --accent: #ddd;
+}
+
 body {
     margin: 0px;
     overflow: hidden;
@@ -6,4 +10,20 @@ body {
 #app-container {
     width: 100vw;
     height: 100vh;
+}
+
+.container {
+    display: flex;
+}
+
+.container.vertical {
+    flex-direction: column;
+}
+
+.container.horizontal {
+    flex-direction: row;
+}
+
+.grow {
+    flex-grow: 1;
 }
