@@ -1,25 +1,36 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
+import {generate} from 'shortid';
 
 import {changeTool} from '../../actions';
 import './index.css';
 
-export let Toolbar = ({width, changeTool}) => (
-    <div className="toolbar" style={{flexBasis: width}}>
-        <ul>
-            <li onClick={() => { changeTool('brush'); }}>brush</li>
-            <li onClick={() => { changeTool('rectangle'); }}>rectangle</li>
-        </ul>
-    </div>
-);
+export let Toolbar = ({currentTool, changeTool, width}) => {
+    let tools = ['brush', 'rectangle'];
+    return (
+        <div className="toolbar" style={{flexBasis: width}}>
+            <h2>toolbar</h2>
+            <ul id="list">
+                {tools.map(tool => (
+                    <li
+                        key={generate()}
+                        onClick={() => { changeTool(tool); }}
+                        onTouchStart={() => { changeTool(tool); }}
+                        className={currentTool === tool ? 'current' : ''}
+                    >
+                        {tool}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+};
 
 Toolbar.propTypes = {
-    width: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string
-    ]).isRequired,
-    changeTool: PropTypes.func.isRequired
+    changeTool:  PropTypes.func.isRequired,
+    currentTool: PropTypes.string.isRequired,
+    width:       PropTypes.string.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({

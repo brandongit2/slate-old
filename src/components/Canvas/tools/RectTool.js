@@ -31,7 +31,6 @@ export class RectTool extends Tool {
 
     resize(source, x, y) {
         let pos = this.rects[source].startPos.slice(); // .slice() copies array
-        console.log(pos);
 
         let width = this.stcc(x, y)[0] - this.rects[source].startPos[0];
         if (width < 0) {

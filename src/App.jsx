@@ -24,7 +24,7 @@ class App extends React.Component {
             <div id="app-container" className="container vertical">
                 <Menubar height={config.ui.menubar.height}></Menubar>
                 <div className="container horizontal grow">
-                    <Toolbar width={config.ui.toolbar.width}></Toolbar>
+                    <Toolbar currentTool={this.props.currentTool} width={config.ui.toolbar.width} />
                     <Canvas id="main-canvas" grow />
                 </div>
             </div>
@@ -33,14 +33,16 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    width:    PropTypes.number.isRequired,
-    height:   PropTypes.number.isRequired
+    dispatch:    PropTypes.func.isRequired,
+    currentTool: PropTypes.string.isRequired,
+    width:       PropTypes.number.isRequired,
+    height:      PropTypes.number.isRequired
 };
 
 const mapStateToProps = state => ({
-    width:  state.window.width,
-    height: state.window.height
+    currentTool: state.currentTool,
+    width:       state.window.width,
+    height:      state.window.height
 });
 
 export default connect(mapStateToProps)(App);

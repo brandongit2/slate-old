@@ -40,8 +40,5 @@ export class Menubar extends React.Component {
 }
 
 Menubar.propTypes = {
-    height: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string
-    ]).isRequired
+    height: PropTypes.string.isRequired
 };

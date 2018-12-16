@@ -1,4 +1,15 @@
 .toolbar {
     background: white;
     border-right: 1px solid var(--accent);
+    padding: 1rem;
+}
+
+#list {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.current {
+    font-weight: bold;
 }

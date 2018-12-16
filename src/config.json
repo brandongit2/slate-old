@@ -4,6 +4,9 @@
             "height": "30px"
         },
         "toolbar": {
+            "width": "10vw"
+        },
+        "properties-bar": {
             "width": "20vw"
         }
     },

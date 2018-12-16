@@ -48,7 +48,6 @@ export class Brush extends Tool {
     mouseMove(e) {
         super.mouseMove(e);
 
-        console.log('brush');
         if (this.strokes[0]) {
             this.addToStroke(0, e.pageX, e.pageY);
         }
