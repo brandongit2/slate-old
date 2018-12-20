@@ -1,5 +1,6 @@
 import {createStore} from 'redux';
 
+import config from './config.json';
 import rootReducer from './reducers';
 
 let store = createStore(
@@ -10,7 +11,8 @@ let store = createStore(
             height: 0
         },
         touches:     {},
-        currentTool: 'brush'
+        currentTool: 'brush',
+        properties:  config.tools
     },
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );

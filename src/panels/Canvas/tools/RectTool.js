@@ -55,7 +55,7 @@ export class RectTool extends Tool {
     mouseDown(e) {
         super.mouseDown(e);
 
-        this.begin('mouse', e.pageX, e.pageY);
+        if (e.buttons === 1 && !e.ctrlKey) this.begin('mouse', e.pageX, e.pageY);
     }
 
     mouseMove(e) {
@@ -94,7 +94,7 @@ export class RectTool extends Tool {
     touchMove(e) {
         super.touchMove(e);
 
-        if (this.touches.length === 1) {
+        if (this.touches.length === 1 && this.rects.touch) {
             this.resize('touch', ...this.touches[0]);
         }
     }

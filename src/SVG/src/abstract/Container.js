@@ -25,12 +25,24 @@ export class Container extends Element {
     /**
      * Add a child element to the container.
      *
-     * @param {Element} element - An element to be added.
+     * @param {Element} element - The element to be added.
      *
      * @returns {Element} This `Element` instance.
      */
     add(element) {
         this.el.appendChild(element.el);
+        return this;
+    }
+
+    /**
+     * Remove a child element from the container.
+     *
+     * @param {Element} element - The element to be removed.
+     *
+     * @returns {Element} This `Element` instance.
+     */
+    remove(element) {
+        this.el.removeChild(element.el);
         return this;
     }
 

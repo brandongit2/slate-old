@@ -19,7 +19,7 @@ export let Toolbar = ({currentTool, changeTool, width}) => {
                         onTouchStart={() => { changeTool(tool); }}
                         className={currentTool === tool ? 'current' : ''}
                     >
-                        {tool}
+                        {`${tool} tool`}
                     </li>
                 ))}
             </ul>

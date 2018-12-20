@@ -104,6 +104,8 @@ export class Canvas extends React.Component {
                 break;
             default:
         }
+
+        this.currentTool.updateProps(this.props.toolProps);
     }
 
     moveCanvas(x, y) {
@@ -260,11 +262,13 @@ export class Canvas extends React.Component {
 
 Canvas.propTypes = {
     grow:        PropTypes.bool.isRequired,
-    currentTool: PropTypes.string.isRequired
+    currentTool: PropTypes.string.isRequired,
+    toolProps:   PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    currentTool: state.currentTool
+    currentTool: state.currentTool,
+    toolProps:   state.properties
 });
 
 Canvas = connect(mapStateToProps)(Canvas); /* eslint-disable-line no-class-assign */

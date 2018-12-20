@@ -1,3 +1,10 @@
+export const changeProperty = (tool, prop, value) => ({
+    type: 'CHANGE_PROPERTY',
+    tool,
+    prop,
+    value
+});
+
 export const changeTool = tool => ({
     type: 'CHANGE_TOOL',
     tool

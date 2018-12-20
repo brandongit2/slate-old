@@ -1,12 +1,16 @@
 .toolbar {
-    background: white;
     border-right: 1px solid var(--accent);
     padding: 1rem;
+}
+
+h2 {
+    margin: 0px;
 }
 
 #list {
     list-style-type: none;
     margin: 0px;
+    margin-top: 0.5rem;
     padding: 0px;
 }
 

@@ -5,9 +5,7 @@ export class Brush extends Tool {
     constructor(canvasInfo) {
         super(canvasInfo);
 
-        // strokes[0] - mouse strokes
-        // strokes[1] - touch strokes
-        this.strokes = [];
+        this.strokes = {};
 
         this.mouseDown = this.mouseDown.bind(this);
         this.mouseMove = this.mouseMove.bind(this);
@@ -18,53 +16,61 @@ export class Brush extends Tool {
         this.touchEnd = this.touchEnd.bind(this);
     }
 
-    addStroke(id, x, y) {
+    addStroke(source, x, y) {
         let stroke = new PolyLine(
             [this.stcc(x, y), this.stcc(x, y)] // Repeated so that it's possible to draw dots
         ).attrs({
-            stroke:        'black',
-            strokeWidth:   3,
-            fill:          'none',
-            strokeLinecap: 'round'
+            stroke:         'black',
+            strokeWidth:    this.props.brush.size,
+            fill:           'none',
+            strokeLinecap:  'round',
+            strokeLinejoin: 'round'
         });
-        this.strokes[id] = stroke;
+        this.strokes[source] = stroke;
         this.canvasInfo.canvas.add(stroke);
     }
 
-    addToStroke(id, x, y) {
-        this.strokes[id].addPoint(this.stcc(x, y));
+    addToStroke(source, x, y) {
+        if (this.strokes[source]) this.strokes[source].addPoint(this.stcc(x, y));
     }
 
-    endStroke(id) {
-        delete this.strokes[id];
+    endStroke(source) {
+        delete this.strokes[source];
+    }
+
+    cancelStroke(source) {
+        this.canvasInfo.canvas.remove(this.strokes[source]);
+        delete this.strokes[source];
     }
 
     mouseDown(e) {
         super.mouseDown(e);
 
-        this.addStroke(0, e.pageX, e.pageY);
+        if (e.buttons === 1 && !e.ctrlKey) {
+            this.addStroke('mouse', e.pageX, e.pageY);
+        }
     }
 
     mouseMove(e) {
         super.mouseMove(e);
 
-        if (this.strokes[0]) {
-            this.addToStroke(0, e.pageX, e.pageY);
+        if (this.strokes.mouse) {
+            this.addToStroke('mouse', e.pageX, e.pageY);
         }
     }
 
     mouseUp(e) {
         super.mouseUp(e);
 
-        this.endStroke(0);
+        this.endStroke('mouse');
     }
 
     mouseLeave(e) {
         super.mouseLeave(e);
 
-        if (this.strokes[0]) {
-            this.addToStroke(0, e.pageX, e.pageY);
-            this.endStroke(0);
+        if (this.strokes.mouse) {
+            this.addToStroke('mouse', e.pageX, e.pageY);
+            this.endStroke('mouse');
         }
     }
 
@@ -72,27 +78,27 @@ export class Brush extends Tool {
         super.touchStart(e);
 
         if (this.touches.length === 1) {
-            this.addStroke(1, ...this.touches[0]);
-        } else {
-            this.endStroke(1);
+            this.addStroke('touch', ...this.touches[0]);
         }
+
+        setTimeout(() => {
+            // if (this.touches.length > 1) this.cancelStroke('touch');
+        }, 100);
     }
 
     touchMove(e) {
         super.touchMove(e);
 
         if (this.touches.length === 1) {
-            this.addToStroke(1, ...this.touches[0]);
+            this.addToStroke('touch', ...this.touches[0]);
         }
     }
 
     touchEnd(e) {
         super.touchEnd(e);
 
-        if (this.touches.length === 0) {
-            this.endStroke(1);
-        } else if (this.touches.length === 1) {
-            this.addStroke(1, ...this.touches[0]);
-        }
+        this.endStroke('touch');
+
+        this.numTouches = 0;
     }
 }

@@ -14,5 +14,10 @@
         "zoom": {
             "length": 200
         }
+    },
+    "tools": {
+        "brush": {
+            "size": 3
+        }
     }
 }

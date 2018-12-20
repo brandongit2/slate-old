@@ -1,4 +1,4 @@
-function window(state = {}, action) {
+function wndw(state = {}, action) {
     switch (action.type) {
         case 'WINDOW_RESIZE':
             return {
@@ -12,4 +12,4 @@ function window(state = {}, action) {
     return state;
 }
 
-export default window;
+export default wndw;

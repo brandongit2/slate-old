@@ -12,6 +12,8 @@ body {
     height: 100vh;
 }
 
+/* CONTAINERS */
+
 .container {
     display: flex;
 }
@@ -26,4 +28,20 @@ body {
 
 .grow {
     flex-grow: 1;
+}
+
+/* FORMS */
+
+.form-item {
+    display: flex;
+    margin: 5px;
+    align-items: center;
+}
+
+.form-item > *:not(:last-child) {
+    margin-right: 5px;
+}
+
+input {
+    margin: 0px;
 }

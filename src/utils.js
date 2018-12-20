@@ -52,7 +52,15 @@ export function relToAbs(length) {
             return window.innerHeight / number;
         case 'vw':
             return window.innerWidth / number;
+        case 'rem': {
+            let dummy = document.createElement('div');
+            document.body.appendChild(dummy);
+            dummy.style.width = '1rem';
+            let width = dummy.clientWidth;
+            document.body.removeChild(dummy);
+            return width;
+        }
         default:
-            throw new Error(`Invalid unit ${length.match(/[A-Za-z]+$/u)[0]}.`);
+            throw new Error(`Unrecognized unit ${length.match(/[A-Za-z]+$/u)[0]}.`);
     }
 }

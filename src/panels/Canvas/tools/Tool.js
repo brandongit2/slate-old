@@ -41,6 +41,10 @@ class Tool {
         this.canvasInfo = canvasInfo;
     }
 
+    updateProps(props) {
+        this.props = props;
+    }
+
     stcc(x, y) { // "screen to canvas coordinates"
         let canvas = this.canvasInfo.canvas;
         x -= canvas.el.getBoundingClientRect().left;

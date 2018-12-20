@@ -1,0 +1,8 @@
+.properties-bar {
+    border-left: 1px solid var(--accent);
+    padding: 1rem;
+}
+
+h2 {
+    margin: 0px;
+}
