@@ -29,6 +29,7 @@ class App extends React.Component {
                         width={config.ui['properties-bar'].width}
                     />
                 </div>
+                <div id="dummyContainer" />
             </div>
         );
     }

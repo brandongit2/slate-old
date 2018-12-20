@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import SvgElement from '../../SVG/src';
 import {distance, log_b, midpoint} from '../../utils';
-import {Brush, RectTool} from './tools';
+import {Brush, RectTool, TextTool} from './tools';
 import './index.css';
 
 export class Canvas extends React.Component {
@@ -101,6 +101,9 @@ export class Canvas extends React.Component {
                 break;
             case 'rectangle':
                 this.currentTool = new RectTool(this.canvasInfo);
+                break;
+            case 'text':
+                this.currentTool = new TextTool(this.canvasInfo);
                 break;
             default:
         }

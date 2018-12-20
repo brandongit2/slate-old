@@ -3,12 +3,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {changeProperty} from '../../actions';
-import {BrushProps, RectProps} from './sets';
+import {BrushProps, RectProps, TextProps} from './sets';
 import './index.css';
 
 let toolNameToComponent = {
     brush:     BrushProps,
-    rectangle: RectProps
+    rectangle: RectProps,
+    text:      TextProps
 };
 
 export let PropertiesBar = ({currentTool, updateProps, width}) => {
@@ -16,7 +17,7 @@ export let PropertiesBar = ({currentTool, updateProps, width}) => {
 
     return (
         <div className="properties-bar" style={{flexBasis: width}}>
-            <h2>properties: {currentTool}</h2> {/* eslint-disable-line react/jsx-one-expression-per-line */}
+            <h2>properties: {currentTool} tool</h2> {/* eslint-disable-line react/jsx-one-expression-per-line */}
             <P updateProps={updateProps} />
         </div>
     );

@@ -16,6 +16,7 @@ export {Path} from './Path';
 export {Polygon} from './Polygon';
 export {PolyLine} from './PolyLine';
 export {Rect} from './Rect';
+export {Text} from './Text';
 
 /**
  * Represents the SVG container tag.

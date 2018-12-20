@@ -7,7 +7,7 @@ import {changeTool} from '../../actions';
 import './index.css';
 
 export let Toolbar = ({currentTool, changeTool, width}) => {
-    let tools = ['brush', 'rectangle'];
+    let tools = ['brush', 'rectangle', 'text'];
     return (
         <div className="toolbar" style={{flexBasis: width}}>
             <h2>toolbar</h2>
