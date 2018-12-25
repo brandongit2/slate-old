@@ -23,7 +23,6 @@ export class Canvas extends React.Component {
         this.handleMouseWheel = this.handleMouseWheel.bind(this);
         this.touchChange = this.touchChange.bind(this);
         this.updateTool = this.updateTool.bind(this);
-        this.zoomToPoint = this.zoomToPoint.bind(this);
 
         this.parent = React.createRef();
         this.svg = new SvgElement();
@@ -131,47 +130,23 @@ export class Canvas extends React.Component {
         });
     }
 
-    /**
-     * Zooms the canvas in to a point.
-     *
-     * @param {number} focusX - The x-coordinate (screen-space) of the point to zoom in to.
-     * @param {number} focusY - The y-coordinate (screen-space) of the point to zoom in to.
-     * @param {number} newZoom - The new `this.state.canvas.zoom` value.
-     */
-    zoomToPoint(focusX, focusY, newZoom) {
-        if (newZoom < this.state.canvas.zoom) {
-            document.body.style.cursor = 'zoom-in';
-        } else if (newZoom > this.state.canvas.zoom) {
-            document.body.style.cursor = 'zoom-out';
-        }
+    handleMouseWheel(e) {
+        e.preventDefault();
+        e.persist();
 
         this.setState({
             ...this.state,
             canvas: {
                 ...this.state.canvas,
                 translate: this.state.canvas.translate,
-                zoom:      newZoom
+                zoom:      2 ** (log_b(this.state.canvas.zoom, 2) + e.deltaY / this.zoomFactor)
             }
         });
-
-        document.body.style.cursor = 'default';
-    }
-
-    handleMouseWheel(e) {
-        e.preventDefault();
-        e.persist();
-
-        this.zoomToPoint(
-            e.pageX,
-            e.pageY,
-            2 ** (log_b(this.state.canvas.zoom, 2) + e.deltaY / this.zoomFactor)
-        );
     }
 
     handleOnMouseDown(e) {
         if (e.buttons === 4 || (e.buttons === 1 && e.ctrlKey)) {
             e.preventDefault();
-            document.body.style.cursor = 'move';
             this.mouse = {
                 mouseX:    e.pageX,
                 mouseY:    e.pageY,
@@ -206,7 +181,6 @@ export class Canvas extends React.Component {
     handleOnMouseUp(e, force = false) {
         if (e.buttons === 0 || force) {
             e.preventDefault();
-            document.body.style.cursor = 'default';
             this.mouse = {
                 mouseX: e.pageX,
                 mouseY: e.pageY,
