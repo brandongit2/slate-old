@@ -1,13 +1,16 @@
 {
     "ui": {
         "menubar": {
-            "height": "30px"
+            "size": "40px"
+        },
+        "leftPanel": {
+            "size": "20vw"
         },
         "toolbar": {
-            "width": "10vw"
+            "size": "20%"
         },
-        "properties-bar": {
-            "width": "20vw"
+        "propertiesBar": {
+            "size": "80%"
         }
     },
     "animation": {

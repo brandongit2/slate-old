@@ -1,17 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import config from '../../../config.json';
-
-export const BrushProps = ({updateProps}) => (
+export const BrushProps = ({currentProps, updateProps}) => (
     <div id="brushSize" className="form-item">
-        <label htmlFor="brushSize">Brush size: </label>
+        <label htmlFor="brushSize">brush size: </label>
         <input
             type="range"
             min="1"
             max="30"
             name="brushSize"
-            defaultValue={config.tools.brush.size}
+            defaultValue={currentProps.brush.size}
             onChange={e => {
                 updateProps('brush', 'size', e.target.value);
             }}
@@ -20,5 +18,6 @@ export const BrushProps = ({updateProps}) => (
 );
 
 BrushProps.propTypes = {
-    updateProps: PropTypes.func.isRequired
+    currentProps: PropTypes.object.isRequired,
+    updateProps:  PropTypes.func.isRequired
 };

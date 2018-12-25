@@ -254,7 +254,7 @@ export class Canvas extends React.Component {
     render() {
         return (
             <div
-                className={`component canvas${this.props.grow ? ' grow' : ''}`}
+                className={`panel canvas${this.props.grow ? ' grow' : ''}`}
                 onMouseDown={e => {
                     this.handleOnMouseDown(e);
                     this.currentTool.mouseDown(e);

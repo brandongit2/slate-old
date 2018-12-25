@@ -1,5 +1,4 @@
-.menubar {
-    padding: 5px;
-    box-sizing: border-box;
-    border-bottom: 1px solid var(--accent);
+.panel.menubar {
+    display: flex;
+    align-items: center;
 }

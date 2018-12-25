@@ -3,12 +3,12 @@ import React from 'react';
 
 import './index.css';
 
-export const Menubar = ({height}) => (
-    <div className="menubar" style={{flexBasis: height}}>
+export const Menubar = ({size}) => (
+    <div className="panel menubar" style={{flexBasis: size}}>
         slate
     </div>
 );
 
 Menubar.propTypes = {
-    height: PropTypes.string.isRequired
+    size: PropTypes.string.isRequired
 };

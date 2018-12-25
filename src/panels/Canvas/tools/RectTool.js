@@ -63,7 +63,7 @@ export class RectTool extends Tool {
     mouseMove(e) {
         super.mouseMove(e);
 
-        if (this.rects.mouse && this.rects.mouse !== null) {
+        if (this.rects != null && this.rects.mouse != null) { /* eslint-disable-line no-eq-null */
             this.resize('mouse', e.pageX, e.pageY);
         }
     }
@@ -77,7 +77,8 @@ export class RectTool extends Tool {
     mouseLeave(e) {
         super.mouseLeave(e);
 
-        if (this.rects.mouse) {
+        /* eslint-disable-next-line no-eq-null */
+        if (this.rects != null && this.rects.mouse != null) {
             this.resize('mouse', e.pageX, e.pageY);
             this.end('mouse');
         }
@@ -96,7 +97,8 @@ export class RectTool extends Tool {
     touchMove(e) {
         super.touchMove(e);
 
-        if (this.touches.length === 1 && this.rects.touch) {
+        /* eslint-disable-next-line no-eq-null */
+        if (this.touches.length === 1 && this.rects != null && this.rects.touch != null) {
             this.resize('touch', ...this.touches[0]);
         }
     }

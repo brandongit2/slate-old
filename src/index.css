@@ -12,6 +12,10 @@ body {
     height: 100vh;
 }
 
+.panel {
+    border: 0.5px solid var(--accent);
+}
+
 /* CONTAINERS */
 
 .container {

@@ -18,16 +18,19 @@ class App extends React.Component {
     render() {
         return (
             <div id="app-container" className="container vertical">
-                <Menubar height={config.ui.menubar.height}></Menubar>
+                <Menubar size={config.ui.menubar.size}></Menubar>
                 <div className="container horizontal grow">
-                    <Toolbar
-                        currentTool={this.props.currentTool}
-                        width={config.ui.toolbar.width}
-                    />
+                    <div
+                        className="container vertical"
+                        style={{flexBasis: config.ui.leftPanel.size}}
+                    >
+                        <Toolbar
+                            currentTool={this.props.currentTool}
+                            size={config.ui.toolbar.size}
+                        />
+                        <PropertiesBar size={config.ui.propertiesBar.size} />
+                    </div>
                     <Canvas id="main-canvas" grow />
-                    <PropertiesBar
-                        width={config.ui['properties-bar'].width}
-                    />
                 </div>
                 <div id="dummyContainer" />
             </div>

@@ -3,6 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {changeProperty} from '../../actions';
+import config from '../../config.json';
 import {BrushProps, RectProps, TextProps} from './sets';
 import './index.css';
 
@@ -12,21 +13,50 @@ let toolNameToComponent = {
     text:      TextProps
 };
 
-export let PropertiesBar = ({currentTool, updateProps, width}) => {
-    let P = toolNameToComponent[currentTool];
+export class PropertiesBar extends React.Component {
+    constructor(props) {
+        super(props);
 
-    return (
-        <div className="properties-bar" style={{flexBasis: width}}>
-            <h2>properties: {currentTool} tool</h2> {/* eslint-disable-line react/jsx-one-expression-per-line */}
-            <P updateProps={updateProps} />
-        </div>
-    );
-};
+        this.state = {
+            currentProps: config.tools
+        };
+
+        this.updateProps = this.updateProps.bind(this);
+    }
+
+    updateProps(tool, prop, value) {
+        this.setState({
+            currentProps: {
+                ...this.state.currentProps,
+                [tool]: {
+                    ...this.state.currentProps[tool],
+                    [prop]: value
+                }
+            }
+        });
+        this.props.updateProps(tool, prop, value);
+    }
+
+    render() {
+        let {currentTool, size} = this.props;
+        let P = toolNameToComponent[currentTool];
+
+        return (
+            <div className="panel properties-bar" style={{flexBasis: size}}>
+                <h2>properties: {currentTool} tool</h2> {/* eslint-disable-line react/jsx-one-expression-per-line */}
+                <P
+                    currentProps={this.state.currentProps}
+                    updateProps={this.updateProps}
+                />
+            </div>
+        );
+    }
+}
 
 PropertiesBar.propTypes = {
     currentTool: PropTypes.string.isRequired,
     updateProps: PropTypes.func.isRequired,
-    width:       PropTypes.string.isRequired
+    size:        PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -39,4 +69,5 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
+/* eslint-disable-next-line no-class-assign */
 PropertiesBar = connect(mapStateToProps, mapDispatchToProps)(PropertiesBar);

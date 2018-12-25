@@ -1,5 +1,4 @@
-.properties-bar {
-    border-left: 1px solid var(--accent);
+.panel.properties-bar {
     padding: 1rem;
 }
 
