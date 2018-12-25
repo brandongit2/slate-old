@@ -118,7 +118,7 @@ export class Canvas extends React.Component {
             default:
         }
 
-        this.currentTool.updateProps(this.props.toolProps);
+        this.currentTool.updateProps(this.props.toolSettings);
     }
 
     moveCanvas(x, y) {
@@ -256,6 +256,7 @@ export class Canvas extends React.Component {
             <div
                 className={`panel canvas${this.props.grow ? ' grow' : ''}`}
                 onMouseDown={e => {
+                    e.preventDefault();
                     this.handleOnMouseDown(e);
                     this.currentTool.mouseDown(e);
                 }}
@@ -280,12 +281,12 @@ Canvas.propTypes = {
     removeSelection: PropTypes.func.isRequired,
     grow:            PropTypes.bool.isRequired,
     currentTool:     PropTypes.string.isRequired,
-    toolProps:       PropTypes.object.isRequired
+    toolSettings:    PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    currentTool: state.currentTool,
-    toolProps:   state.properties
+    currentTool:  state.currentTool,
+    toolSettings: state.toolSettings
 });
 
 const mapDispatchToProps = dispatch => ({

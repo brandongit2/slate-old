@@ -6,11 +6,11 @@ import rootReducer from './reducers';
 let store = createStore(
     rootReducer,
     {
-        currentTool: 'brush',
-        nodes:       {},
-        properties:  config.tools,
-        selections:  [],
-        window:      {
+        currentTool:  'brush',
+        nodes:        {},
+        toolSettings: config.tools,
+        selections:   [],
+        window:       {
             width:  0,
             height: 0
         },

@@ -8,8 +8,8 @@ export const addSelection = id => ({
     id
 });
 
-export const changeProperty = (tool, prop, value) => ({
-    type: 'CHANGE_PROPERTY',
+export const changeToolSetting = (tool, prop, value) => ({
+    type: 'CHANGE_TOOL_SETTING',
     tool, prop, value
 });
 

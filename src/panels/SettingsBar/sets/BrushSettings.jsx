@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export const BrushProps = ({currentProps, updateProps}) => (
+export const BrushSettings = ({currentSettings, updateSettings}) => (
     <div id="brushSize" className="form-item">
         <label htmlFor="brushSize">brush size: </label>
         <input
@@ -9,15 +9,15 @@ export const BrushProps = ({currentProps, updateProps}) => (
             min="1"
             max="30"
             name="brushSize"
-            defaultValue={currentProps.brush.size}
+            defaultValue={currentSettings.brush.size}
             onChange={e => {
-                updateProps('brush', 'size', e.target.value);
+                updateSettings('brush', 'size', e.target.value);
             }}
         />
     </div>
 );
 
-BrushProps.propTypes = {
-    currentProps: PropTypes.object.isRequired,
-    updateProps:  PropTypes.func.isRequired
+BrushSettings.propTypes = {
+    currentSettings: PropTypes.object.isRequired,
+    updateSettings:  PropTypes.func.isRequired
 };

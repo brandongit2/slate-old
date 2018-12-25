@@ -1,6 +1,6 @@
-function properties(state = {}, action) {
+function toolSettings(state = {}, action) {
     switch (action.type) {
-        case 'CHANGE_PROPERTY':
+        case 'CHANGE_TOOL_SETTING':
             return {
                 ...state,
                 [action.tool]: {
@@ -14,4 +14,4 @@ function properties(state = {}, action) {
     return state;
 }
 
-export default properties;
+export default toolSettings;

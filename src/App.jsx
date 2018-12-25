@@ -4,7 +4,14 @@ import PropTypes from 'prop-types';
 
 import {windowResize} from './actions';
 import config from './config.json';
-import {Canvas, Menubar, PropertiesBar, Toolbar} from './panels';
+import {
+    Canvas,
+    Menubar,
+    NodeView,
+    PropertiesBar,
+    SettingsBar,
+    Toolbar
+} from './panels';
 
 class App extends React.Component {
     componentDidMount() {
@@ -28,9 +35,16 @@ class App extends React.Component {
                             currentTool={this.props.currentTool}
                             size={config.ui.toolbar.size}
                         />
-                        <PropertiesBar size={config.ui.propertiesBar.size} />
+                        <SettingsBar size={config.ui.settingsBar.size} />
                     </div>
                     <Canvas id="main-canvas" grow />
+                    <div
+                        className="container vertical"
+                        style={{flexBasis: config.ui.rightPanel.size}}
+                    >
+                        <NodeView size={config.ui.nodeView.size} />
+                        <PropertiesBar size={config.ui.propertiesBar.size} />
+                    </div>
                 </div>
                 <div id="dummyContainer" />
             </div>

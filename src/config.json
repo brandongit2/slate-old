@@ -4,13 +4,22 @@
             "size": "40px"
         },
         "leftPanel": {
-            "size": "20vw"
+            "size": "17rem"
         },
         "toolbar": {
             "size": "20%"
         },
-        "propertiesBar": {
+        "settingsBar": {
             "size": "80%"
+        },
+        "rightPanel": {
+            "size": "23rem"
+        },
+        "nodeView": {
+            "size": "30%"
+        },
+        "propertiesBar": {
+            "size": "70%"
         }
     },
     "animation": {
