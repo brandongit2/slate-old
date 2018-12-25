@@ -1,8 +1,16 @@
+export const addNode = (id, node) => ({
+    type: 'ADD_NODE',
+    id, node
+});
+
+export const addSelection = id => ({
+    type: 'ADD_SELECTION',
+    id
+});
+
 export const changeProperty = (tool, prop, value) => ({
     type: 'CHANGE_PROPERTY',
-    tool,
-    prop,
-    value
+    tool, prop, value
 });
 
 export const changeTool = tool => ({
@@ -12,13 +20,20 @@ export const changeTool = tool => ({
 
 export const newTouch = (id, x, y) => ({
     type: 'NEW_TOUCH',
-    id,
-    x,
-    y
+    id, x, y
+});
+
+export const removeNode = id => ({
+    type: 'REMOVE_NODE',
+    id
+});
+
+export const removeSelection = id => ({
+    type: 'REMOVE_SELECTION',
+    id
 });
 
 export const windowResize = (width, height) => ({
     type: 'WINDOW_RESIZE',
-    width,
-    height
+    width, height
 });

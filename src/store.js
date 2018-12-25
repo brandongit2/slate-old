@@ -6,13 +6,15 @@ import rootReducer from './reducers';
 let store = createStore(
     rootReducer,
     {
-        window: {
+        currentTool: 'brush',
+        nodes:       {},
+        properties:  config.tools,
+        selections:  [],
+        window:      {
             width:  0,
             height: 0
         },
-        touches:     {},
-        currentTool: 'brush',
-        properties:  config.tools
+        touches: {}
     },
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );

@@ -1,4 +1,4 @@
-import {PolyLine} from '../../../SVG/src';
+import {PolyLine} from '../../../SVG';
 import Tool from './Tool';
 
 export class Brush extends Tool {

@@ -1,15 +1,18 @@
 import {combineReducers} from 'redux';
 
 import currentTool from './currentTool';
-import touches from './touches';
+import {nodes, selections} from './nodes';
 import properties from './properties';
+import touches from './touches';
 import wndw from './window';
 
 const rootReducer =  combineReducers({
+    currentTool,
+    nodes,
+    properties,
+    selections,
     touches,
     window: wndw,
-    currentTool,
-    properties
 });
 
 export default rootReducer;

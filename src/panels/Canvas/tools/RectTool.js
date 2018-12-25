@@ -1,11 +1,11 @@
-import {Rect} from '../../../SVG/src';
+import {generate} from 'shortid';
+
+import {Rect} from '../../../SVG';
 import Tool from './Tool';
 
 export class RectTool extends Tool {
     constructor(canvasInfo) {
         super(canvasInfo);
-
-        this.rects = {};
 
         this.mouseDown = this.mouseDown.bind(this);
         this.mouseMove = this.mouseMove.bind(this);
@@ -27,6 +27,8 @@ export class RectTool extends Tool {
             startPos: this.stcc(x, y)
         };
         this.canvasInfo.canvas.add(rect);
+
+        this.canvasInfo.addNode(generate(), rect);
     }
 
     resize(source, x, y) {

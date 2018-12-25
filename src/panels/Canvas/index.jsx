@@ -2,7 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
 
-import SvgElement from '../../SVG/src';
+import {
+    addNode,
+    removeNode,
+    addSelection,
+    removeSelection
+} from '../../actions';
+import SvgElement from '../../SVG';
 import {distance, log_b, midpoint} from '../../utils';
 import {Brush, RectTool, TextTool} from './tools';
 import './index.css';
@@ -30,9 +36,13 @@ export class Canvas extends React.Component {
         this.initialZoom = 1; // Stores zoom at moment two fingers touch the screen. Used for touch zooming.
         this.zoomFactor = 400; // Lower for longer zooming distance, and vice versa
         this.canvasInfo = { // For passing on to tool
-            width:  this.svg.el.clientWidth,
-            height: this.svg.el.clientHeight,
-            canvas: this.svg
+            width:           this.svg.el.clientWidth,
+            height:          this.svg.el.clientHeight,
+            canvas:          this.svg,
+            addNode:         this.props.addNode,
+            removeNode:      this.props.removeNode,
+            addSelection:    this.props.addSelection,
+            removeSelection: this.props.removeSelection
         };
 
         this.updateTool();
@@ -264,9 +274,13 @@ export class Canvas extends React.Component {
 }
 
 Canvas.propTypes = {
-    grow:        PropTypes.bool.isRequired,
-    currentTool: PropTypes.string.isRequired,
-    toolProps:   PropTypes.object.isRequired
+    addNode:         PropTypes.func.isRequired,
+    removeNode:      PropTypes.func.isRequired,
+    addSelection:    PropTypes.func.isRequired,
+    removeSelection: PropTypes.func.isRequired,
+    grow:            PropTypes.bool.isRequired,
+    currentTool:     PropTypes.string.isRequired,
+    toolProps:       PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -274,4 +288,11 @@ const mapStateToProps = state => ({
     toolProps:   state.properties
 });
 
-Canvas = connect(mapStateToProps)(Canvas); /* eslint-disable-line no-class-assign */
+const mapDispatchToProps = dispatch => ({
+    addNode:         (id, node) => { dispatch(addNode(id, node)); },
+    removeNode:      id => { dispatch(removeNode(id)); },
+    addSelection:    id => { dispatch(addSelection(id)); },
+    removeSelection: id => { dispatch(removeSelection(id)); }
+});
+
+Canvas = connect(mapStateToProps, mapDispatchToProps)(Canvas); /* eslint-disable-line no-class-assign */

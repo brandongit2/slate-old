@@ -45,3 +45,8 @@ body {
 input {
     margin: 0px;
 }
+
+textarea {
+    font-family: serif;
+    border: 1px solid var(--accent);
+}
