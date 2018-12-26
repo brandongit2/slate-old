@@ -19,10 +19,11 @@ export class RectTool extends Tool {
     }
 
     begin(source, x, y) {
+        console.log(this.props);
         let rect = new Rect(...this.stcc(x, y), 0, 0)
             .attrs({
                 strokeWidth: 0,
-                fill:        'black'
+                fill:        this.props.rect.colour
             });
         let layerId = generate();
         let nodeId = generate();

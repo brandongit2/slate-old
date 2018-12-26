@@ -30,6 +30,9 @@
     "tools": {
         "brush": {
             "size": 3
+        },
+        "commonDefaults": {
+            "colour": "#FFFFFF"
         }
     }
 }

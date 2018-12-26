@@ -1,8 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import {ColourSetting} from '../components/ColourSetting';
 
 export const TextSettings = ({currentSettings, updateSettings}) => (
-    <div />
+    <div>
+        <ColourSetting
+            currentSettings={currentSettings}
+            updateSettings={updateSettings}
+            tool="text"
+        />
+    </div>
 );
 
 TextSettings.propTypes = {

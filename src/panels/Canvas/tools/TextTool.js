@@ -20,11 +20,12 @@ export class TextTool extends Tool {
 
     begin(source, x, y) {
         let text = new Html(...this.stcc(x, y), 0, 0).setStyle({
-            overflow: 'visible'
+            overflow: 'visible',
         });
         let textarea = document.createElement('textarea');
         textarea.style.width = '100%';
         textarea.style.height = '100%';
+        textarea.style.color = this.props.text.colour;
         textarea.setAttribute('class', 'box');
         text.append(textarea);
         this.canvasInfo.canvas.add(text);
