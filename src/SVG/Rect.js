@@ -17,12 +17,16 @@ export class Rect extends Element {
     }
 
     move(x, y) {
+        this.x = x;
+        this.y = y;
         this.attr('x', x)
             .attr('y', y);
         return this;
     }
 
     resize(width, height) {
+        this.width = width;
+        this.height = height;
         this.attr('width', width)
             .attr('height', height);
         return this;

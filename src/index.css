@@ -10,10 +10,15 @@ body {
     overflow: hidden;
 }
 
-p, a, span, h1, h2, h3, h4, h5, h6, li, div, textarea {
+p, a, span, h1, h2, h3, h4, h5, h6, li, div, textarea, input {
     margin: 0px;
     padding: 0px;
     font-family: 'Open Sans', sans-serif;
+}
+
+#app-main {
+    background: white;
+    height: 100vh;
 }
 
 #app-container {
@@ -68,23 +73,24 @@ input {
     margin: 0px;
 }
 
-textarea {
+textarea, .layer-view input {
     border: 1px solid rgba(0, 0, 0, 0);
     background: transparent;
     resize: none;
     overflow: hidden;
     transition: all 0.2s;
     outline: none;
+    box-sizing: border-box;
 }
 
-textarea.point {
+textarea.point, .layer-view input {
     white-space: nowrap;
 }
 
-textarea:focus {
+textarea:focus, .layer-view input:focus {
     border: 2px solid var(--blue);
 }
 
-textarea:hover:not(:focus) {
+textarea:hover:not(:focus), .layer-view input:hover:not(:focus) {
     border: 1px solid var(--accent);
 }

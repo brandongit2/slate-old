@@ -1,6 +1,48 @@
-.layer-view #actions {
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
+.panel-container.layer-view > .panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.panel-container.layer-view > .panel > h2 {
+    flex-basis: auto;
+}
+
+.panel-container.layer-view > .panel > #content {
+    flex-grow: 1;
+}
+
+.layer-view #content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.layer-view .entry-container {
     width: 100%;
+    height: 30px;
+    position: relative;
+}
+
+.layer-view .entry-container:not(:last-child) {
+    border-bottom: 1px solid var(--accent);
+}
+
+.layer-view input {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    transform: translateY(-50%);
+}
+
+.layer-view #content > div:not(#actions) {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.layer-view #actions {
+    width: 100%;
+    margin-top: 10px;
+    flex-basis: auto;
 }

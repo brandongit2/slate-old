@@ -1,17 +1,17 @@
 import {combineReducers} from 'redux';
 
-import currentTool from './currentTool';
+import dialog from './dialog';
 import layers from './layers';
 import {nodes, selections} from './nodes';
-import toolSettings from './toolSettings';
+import tools from './tools';
 import touches from './touches';
 import wndw from './window';
 
 const rootReducer =  combineReducers({
-    currentTool,
+    dialog,
     layers,
     nodes,
-    toolSettings,
+    tools,
     selections,
     touches,
     window: wndw,

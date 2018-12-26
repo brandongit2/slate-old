@@ -24,15 +24,17 @@ export class RectTool extends Tool {
                 strokeWidth: 0,
                 fill:        'black'
             });
+        let layerId = generate();
+        let nodeId = generate();
         this.rects[source] = {
             obj:      rect,
-            startPos: this.stcc(x, y)
+            startPos: this.stcc(x, y),
+            layerId, nodeId
         };
         this.canvasInfo.canvas.add(rect);
 
-        let id = generate();
-        this.canvasInfo.addNode(id, rect);
-        this.canvasInfo.addLayer(generate(), 'Rectangle', id);
+        this.canvasInfo.addNode(nodeId, rect);
+        this.canvasInfo.addLayer(layerId, 'rect', 'Rectangle', nodeId);
     }
 
     resize(source, x, y) {
@@ -55,6 +57,15 @@ export class RectTool extends Tool {
     }
 
     end(source) {
+        let rect = this.rects[source];
+        if (rect != null
+            && rect.obj.width === 0
+            && rect.obj.height === 0
+        ) {
+            this.canvasInfo.canvas.remove(rect.obj);
+            this.canvasInfo.removeNode(rect.nodeId);
+            this.canvasInfo.removeLayer(rect.layerId);
+        }
         this.rects[source] = null;
     }
 

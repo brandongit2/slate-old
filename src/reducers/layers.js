@@ -7,11 +7,12 @@ function layers(state = {}, action) {
                     ...state.layers,
                     [action.id]: {
                         name:  action.name,
+                        type:  action.type,
                         nodes: action.nodes,
                         props: action.props
                     }
                 },
-                order: [...state.order, action.id]
+                order: [action.id, ...state.order]
             };
         case 'ADD_TO_LAYER':
             return {

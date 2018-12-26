@@ -6,15 +6,16 @@ import {
     addLayer,
     addToLayer,
     addNode,
+    addSelection,
     removeLayer,
     removeFromLayer,
     removeNode,
-    addSelection,
-    removeSelection
+    removeSelection,
+    showDialog
 } from '../../actions';
 import SvgElement from '../../SVG';
 import {distance, log_b, midpoint} from '../../utils';
-import {Brush, RectTool, TextTool} from './tools';
+import {BrushTool, RectTool, TextTool} from './tools';
 import './index.css';
 
 export class Canvas extends React.Component {
@@ -42,14 +43,16 @@ export class Canvas extends React.Component {
             width:           this.svg.el.clientWidth,
             height:          this.svg.el.clientHeight,
             canvas:          this.svg,
+            currentLayer:    this.props.currentLayer,
             addLayer:        this.props.addLayer,
             addToLayer:      this.props.addToLayer,
             addNode:         this.props.addNode,
+            addSelection:    this.props.addSelection,
             removeLayer:     this.props.removeLayer,
             removeFromLayer: this.props.removeFromLayer,
             removeNode:      this.props.removeNode,
-            addSelection:    this.props.addSelection,
-            removeSelection: this.props.removeSelection
+            removeSelection: this.props.removeSelection,
+            showDialog:      this.props.showDialog
         };
 
         this.updateTool();
@@ -115,9 +118,9 @@ export class Canvas extends React.Component {
     }
 
     updateTool() {
-        switch (this.props.currentTool) {
+        switch (this.props.tools.current) {
             case 'brush':
-                this.currentTool = new Brush(this.canvasInfo);
+                this.currentTool = new BrushTool(this.canvasInfo);
                 break;
             case 'rectangle':
                 this.currentTool = new RectTool(this.canvasInfo);
@@ -128,7 +131,7 @@ export class Canvas extends React.Component {
             default:
         }
 
-        this.currentTool.updateProps(this.props.toolSettings);
+        this.currentTool.updateProps(this.props.tools.settings);
     }
 
     moveCanvas(x, y) {
@@ -269,30 +272,32 @@ Canvas.propTypes = {
     addLayer:        PropTypes.func.isRequired,
     addToLayer:      PropTypes.func.isRequired,
     addNode:         PropTypes.func.isRequired,
+    addSelection:    PropTypes.func.isRequired,
     removeLayer:     PropTypes.func.isRequired,
     removeFromLayer: PropTypes.func.isRequired,
     removeNode:      PropTypes.func.isRequired,
-    addSelection:    PropTypes.func.isRequired,
     removeSelection: PropTypes.func.isRequired,
+    showDialog:      PropTypes.func.isRequired,
     grow:            PropTypes.bool.isRequired,
-    currentTool:     PropTypes.string.isRequired,
-    toolSettings:    PropTypes.object.isRequired
+    currentLayer:    PropTypes.string,
+    tools:           PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    currentTool:  state.currentTool,
-    toolSettings: state.toolSettings
+    currentLayer: state.layers.layers[state.layers.current],
+    tools:        state.tools
 });
 
 const mapDispatchToProps = dispatch => ({
     addLayer:        (id, name, nodes) => { dispatch(addLayer(id, name, nodes)); },
     addToLayer:      (id, node) => { dispatch(addToLayer(id, node)); },
     addNode:         (id, node) => { dispatch(addNode(id, node)); },
+    addSelection:    id => { dispatch(addSelection(id)); },
     removeNode:      id => { dispatch(removeNode(id)); },
     removeLayer:     id => { dispatch(removeLayer(id)); },
     removeFromLayer: (id, node) => { dispatch(removeFromLayer(id, node)); },
-    addSelection:    id => { dispatch(addSelection(id)); },
-    removeSelection: id => { dispatch(removeSelection(id)); }
+    removeSelection: id => { dispatch(removeSelection(id)); },
+    showDialog:      (title, content) => { dispatch(showDialog(title, content)); }
 });
 
 Canvas = connect(mapStateToProps, mapDispatchToProps)(Canvas); /* eslint-disable-line no-class-assign */

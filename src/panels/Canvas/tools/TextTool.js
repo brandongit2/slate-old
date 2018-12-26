@@ -54,7 +54,7 @@ export class TextTool extends Tool {
         });
 
         this.canvasInfo.addNode(nodeId, text);
-        this.canvasInfo.addLayer(layerId, 'Text', nodeId);
+        this.canvasInfo.addLayer(layerId, 'text', 'Text', nodeId);
     }
 
     resize(source, x, y) {

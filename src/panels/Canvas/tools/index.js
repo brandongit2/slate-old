@@ -1,3 +1,3 @@
-export {Brush} from './Brush';
+export {BrushTool} from './BrushTool';
 export {RectTool} from './RectTool';
 export {TextTool} from './TextTool';

@@ -1,7 +1,7 @@
 import {PolyLine} from '../../../SVG';
 import Tool from './Tool';
 
-export class Brush extends Tool {
+export class BrushTool extends Tool {
     constructor(canvasInfo) {
         super(canvasInfo);
 
@@ -17,17 +17,24 @@ export class Brush extends Tool {
     }
 
     addStroke(source, x, y) {
-        let stroke = new PolyLine(
-            [this.stcc(x, y), this.stcc(x, y)] // Repeated so that it's possible to draw dots
-        ).attrs({
-            stroke:         'black',
-            strokeWidth:    this.props.brush.size,
-            fill:           'none',
-            strokeLinecap:  'round',
-            strokeLinejoin: 'round'
-        });
-        this.strokes[source] = stroke;
-        this.canvasInfo.canvas.add(stroke);
+        if (this.canvasInfo.currentLayer != null && this.canvasInfo.currentLayer.type === 'draw') {
+            let stroke = new PolyLine(
+                [this.stcc(x, y), this.stcc(x, y)] // Repeated so that it's possible to draw dots
+            ).attrs({
+                stroke:         'black',
+                strokeWidth:    this.props.brush.size,
+                fill:           'none',
+                strokeLinecap:  'round',
+                strokeLinejoin: 'round'
+            });
+            this.strokes[source] = stroke;
+            this.canvasInfo.canvas.add(stroke);
+        } else {
+            this.canvasInfo.showDialog(
+                'Cannot begin drawing.',
+                'You must be on a drawing layer in order to draw.'
+            );
+        }
     }
 
     addToStroke(source, x, y) {

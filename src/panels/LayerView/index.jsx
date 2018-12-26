@@ -9,20 +9,34 @@ export let LayerView = ({renameLayer, layers, layerOrder, size}) => (
     <div className="panel-container layer-view" style={{flexBasis: size}}>
         <div className="panel">
             <h2>layers</h2>
-            <div>
-                {layerOrder.map(layer => (
-                    <input
-                        key={`input_${layer}`}
-                        type="text"
-                        value={layers[layer].name}
-                        onChange={e => {
-                            renameLayer(layer, e.target.value);
-                        }}
-                    />
-                ))}
-            </div>
-            <div id="actions">
-                <span>add layer</span>
+            <div id="content">
+                <div>
+                    {(() => {
+                        let arr = [];
+                        layerOrder.forEach(layer => {
+                            if (layers[layer] != null) {
+                                arr.push(
+                                    <div
+                                        className="entry-container"
+                                        key={`input_${layer}`}
+                                    >
+                                        <input
+                                            type="text"
+                                            value={layers[layer].name}
+                                            onChange={e => {
+                                                renameLayer(layer, e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                );
+                            }
+                        });
+                        return arr;
+                    })()}
+                </div>
+                <div id="actions">
+                    <span>add layer</span>
+                </div>
             </div>
         </div>
     </div>

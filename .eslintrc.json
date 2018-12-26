@@ -137,7 +137,6 @@
             }
         ],
         "no-empty-function": "warn",
-        "no-eq-null": "error",
         "no-eval": "warn",
         "no-extra-bind": "warn",
         "no-extra-label": "warn",
