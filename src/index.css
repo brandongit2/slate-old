@@ -2,6 +2,7 @@
 
 :root {
     --accent: #ddd;
+    --blue: #00a4ff;
 }
 
 body {
@@ -69,13 +70,21 @@ input {
 
 textarea {
     border: 1px solid rgba(0, 0, 0, 0);
+    background: transparent;
     resize: none;
-    box-sizing: border-box;
     overflow: hidden;
-    white-space: nowrap;
     transition: all 0.2s;
+    outline: none;
 }
 
-textarea:hover {
+textarea.point {
+    white-space: nowrap;
+}
+
+textarea:focus {
+    border: 2px solid var(--blue);
+}
+
+textarea:hover:not(:focus) {
     border: 1px solid var(--accent);
 }

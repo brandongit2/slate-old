@@ -15,7 +15,7 @@
         "rightPanel": {
             "size": "23rem"
         },
-        "nodeView": {
+        "layerView": {
             "size": "40%"
         },
         "propertiesBar": {

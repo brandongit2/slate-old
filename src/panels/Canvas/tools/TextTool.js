@@ -19,18 +19,23 @@ export class TextTool extends Tool {
     }
 
     begin(source, x, y) {
-        let text = new Html(...this.stcc(x, y), 0, 0);
-        this.texts[source] = {
-            obj:      text,
-            startPos: this.stcc(x, y)
-        };
+        let text = new Html(...this.stcc(x, y), 0, 0).setStyle({
+            overflow: 'visible'
+        });
         let textarea = document.createElement('textarea');
         textarea.style.width = '100%';
         textarea.style.height = '100%';
+        textarea.setAttribute('class', 'box');
         text.append(textarea);
         this.canvasInfo.canvas.add(text);
         textarea.focus();
-        let id = generate();
+        let nodeId = generate();
+        let layerId = generate();
+        this.texts[source] = {
+            obj:      text,
+            startPos: this.stcc(x, y),
+            textarea, nodeId
+        };
 
         let focus = e => {
             e.preventDefault();
@@ -42,12 +47,14 @@ export class TextTool extends Tool {
 
         textarea.addEventListener('blur', e => {
             if (e.target.value.length === 0) {
+                this.canvasInfo.removeLayer(layerId);
+                this.canvasInfo.removeNode(nodeId);
                 this.canvasInfo.canvas.remove(text);
-                this.canvasInfo.removeNode(id);
             }
         });
 
-        this.canvasInfo.addNode(id, text);
+        this.canvasInfo.addNode(nodeId, text);
+        this.canvasInfo.addLayer(layerId, 'Text', nodeId);
     }
 
     resize(source, x, y) {
@@ -73,6 +80,7 @@ export class TextTool extends Tool {
         if (this.texts[source] && this.texts[source] !== null) {
             if (this.texts[source].obj.width < 20 || this.texts[source].obj.height < 20) {
                 this.texts[source].obj.resize(128, 20);
+                this.texts[source].textarea.setAttribute('class', 'point');
             }
         }
         this.texts[source] = null;

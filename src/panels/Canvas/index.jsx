@@ -3,7 +3,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {
+    addLayer,
+    addToLayer,
     addNode,
+    removeLayer,
+    removeFromLayer,
     removeNode,
     addSelection,
     removeSelection
@@ -38,7 +42,11 @@ export class Canvas extends React.Component {
             width:           this.svg.el.clientWidth,
             height:          this.svg.el.clientHeight,
             canvas:          this.svg,
+            addLayer:        this.props.addLayer,
+            addToLayer:      this.props.addToLayer,
             addNode:         this.props.addNode,
+            removeLayer:     this.props.removeLayer,
+            removeFromLayer: this.props.removeFromLayer,
             removeNode:      this.props.removeNode,
             addSelection:    this.props.addSelection,
             removeSelection: this.props.removeSelection
@@ -258,7 +266,11 @@ export class Canvas extends React.Component {
 }
 
 Canvas.propTypes = {
+    addLayer:        PropTypes.func.isRequired,
+    addToLayer:      PropTypes.func.isRequired,
     addNode:         PropTypes.func.isRequired,
+    removeLayer:     PropTypes.func.isRequired,
+    removeFromLayer: PropTypes.func.isRequired,
     removeNode:      PropTypes.func.isRequired,
     addSelection:    PropTypes.func.isRequired,
     removeSelection: PropTypes.func.isRequired,
@@ -273,8 +285,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+    addLayer:        (id, name, nodes) => { dispatch(addLayer(id, name, nodes)); },
+    addToLayer:      (id, node) => { dispatch(addToLayer(id, node)); },
     addNode:         (id, node) => { dispatch(addNode(id, node)); },
     removeNode:      id => { dispatch(removeNode(id)); },
+    removeLayer:     id => { dispatch(removeLayer(id)); },
+    removeFromLayer: (id, node) => { dispatch(removeFromLayer(id, node)); },
     addSelection:    id => { dispatch(addSelection(id)); },
     removeSelection: id => { dispatch(removeSelection(id)); }
 });

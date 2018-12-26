@@ -30,7 +30,9 @@ export class RectTool extends Tool {
         };
         this.canvasInfo.canvas.add(rect);
 
-        this.canvasInfo.addNode(generate(), rect);
+        let id = generate();
+        this.canvasInfo.addNode(id, rect);
+        this.canvasInfo.addLayer(generate(), 'Rectangle', id);
     }
 
     resize(source, x, y) {

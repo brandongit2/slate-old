@@ -6,8 +6,8 @@ import {windowResize} from './actions';
 import config from './config.json';
 import {
     Canvas,
+    LayerView,
     Menubar,
-    NodeView,
     PropertiesBar,
     SettingsBar,
     Toolbar
@@ -42,7 +42,7 @@ class App extends React.Component {
                         className="container vertical"
                         style={{flexBasis: config.ui.rightPanel.size}}
                     >
-                        <NodeView size={config.ui.nodeView.size} />
+                        <LayerView size={config.ui.layerView.size} />
                         <PropertiesBar size={config.ui.propertiesBar.size} />
                     </div>
                 </div>

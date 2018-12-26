@@ -1,3 +1,14 @@
+// id is used internally; name is displayed in UI
+export const addLayer = (id, name, nodes, props = {}) => ({
+    type: 'ADD_LAYER',
+    id, name, nodes, props
+});
+
+export const addToLayer = (id, node) => ({
+    type: 'ADD_TO_LAYER',
+    id, node
+});
+
 export const addNode = (id, node) => ({
     type: 'ADD_NODE',
     id, node
@@ -23,6 +34,16 @@ export const newTouch = (id, x, y) => ({
     id, x, y
 });
 
+export const removeLayer = id => ({
+    type: 'REMOVE_LAYER',
+    id
+});
+
+export const removeFromLayer = (id, node) => ({
+    type: 'REMOVE_FROM_LAYER',
+    id, node
+});
+
 export const removeNode = id => ({
     type: 'REMOVE_NODE',
     id
@@ -31,6 +52,11 @@ export const removeNode = id => ({
 export const removeSelection = id => ({
     type: 'REMOVE_SELECTION',
     id
+});
+
+export const renameLayer = (id, name) => ({
+    type: 'RENAME_LAYER',
+    id, name
 });
 
 export const windowResize = (width, height) => ({

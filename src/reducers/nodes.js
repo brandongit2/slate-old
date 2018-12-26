@@ -6,7 +6,7 @@ export function nodes(state = {}, action) {
                 [action.id]: action.node
             };
         case 'REMOVE_NODE': {
-            let newState = state;
+            let newState = JSON.parse(JSON.stringify(state)); // Clones state
             delete newState[action.id];
             return newState;
         }
