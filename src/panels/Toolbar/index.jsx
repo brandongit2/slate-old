@@ -9,20 +9,22 @@ import './index.css';
 export let Toolbar = ({currentTool, changeTool, size}) => {
     let tools = ['brush', 'rectangle', 'text'];
     return (
-        <div className="panel toolbar" style={{flexBasis: size}}>
-            <h2>toolbar</h2>
-            <ul id="list">
-                {tools.map(tool => (
-                    <li
-                        key={generate()}
-                        onClick={() => { changeTool(tool); }}
-                        onTouchStart={() => { changeTool(tool); }}
-                        className={currentTool === tool ? 'current' : ''}
-                    >
-                        {`${tool} tool`}
-                    </li>
-                ))}
-            </ul>
+        <div className="panel-container toolbar" style={{flexBasis: size}}>
+            <div className="panel">
+                <h2>toolbar</h2>
+                <ul id="list">
+                    {tools.map(tool => (
+                        <li
+                            key={generate()}
+                            onClick={() => { changeTool(tool); }}
+                            onTouchStart={() => { changeTool(tool); }}
+                            className={currentTool === tool ? 'current' : ''}
+                        >
+                            {`${tool} tool`}
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 };

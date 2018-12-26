@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700');
+
 :root {
     --accent: #ddd;
 }
@@ -7,20 +9,34 @@ body {
     overflow: hidden;
 }
 
+p, a, span, h1, h2, h3, h4, h5, h6, li, div, textarea {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Open Sans', sans-serif;
+}
+
 #app-container {
     width: 100vw;
     height: 100vh;
 }
 
-.panel {
+.panel-container {
     border: 0.5px solid var(--accent);
+    position: relative;
     padding: 1rem;
+    overflow: hidden;
+}
+
+.panel {
+    height: 100%;
+    position: relative;
 }
 
 /* CONTAINERS */
 
 .container {
     display: flex;
+    flex-basis: 0px;
 }
 
 .container.vertical {
@@ -52,6 +68,14 @@ input {
 }
 
 textarea {
-    font-family: serif;
+    border: 1px solid rgba(0, 0, 0, 0);
+    resize: none;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+textarea:hover {
     border: 1px solid var(--accent);
 }

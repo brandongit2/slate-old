@@ -7,6 +7,8 @@ export class RectTool extends Tool {
     constructor(canvasInfo) {
         super(canvasInfo);
 
+        this.rects = {};
+
         this.mouseDown = this.mouseDown.bind(this);
         this.mouseMove = this.mouseMove.bind(this);
         this.mouseUp = this.mouseUp.bind(this);

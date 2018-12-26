@@ -4,7 +4,7 @@ import React from 'react';
 import './index.css';
 
 export const Menubar = ({size}) => (
-    <div className="panel menubar" style={{flexBasis: size}}>
+    <div className="panel-container menubar" style={{flexBasis: size}}>
         slate
     </div>
 );

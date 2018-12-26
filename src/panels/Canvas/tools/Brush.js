@@ -76,21 +76,16 @@ export class Brush extends Tool {
 
     touchStart(e) {
         super.touchStart(e);
-
-        if (this.touches.length === 1) {
-            this.addStroke('touch', ...this.touches[0]);
+        if (Object.keys(this.touches).length === 1) {
+            this.addStroke('touch', ...Object.values(this.touches)[0]);
         }
-
-        setTimeout(() => {
-            // if (this.touches.length > 1) this.cancelStroke('touch');
-        }, 100);
     }
 
     touchMove(e) {
         super.touchMove(e);
 
-        if (this.touches.length === 1) {
-            this.addToStroke('touch', ...this.touches[0]);
+        if (Object.keys(this.touches).length === 1) {
+            this.addToStroke('touch', ...Object.values(this.touches)[0]);
         }
     }
 

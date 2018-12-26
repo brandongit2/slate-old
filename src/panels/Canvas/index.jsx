@@ -67,7 +67,10 @@ export class Canvas extends React.Component {
             handleTouches(e);
             if (Object.keys(this.touches).length === 2) {
                 this.initialZoom = this.state.canvas.zoom;
-                this.initialTouchDistance = distance(this.touches[0], this.touches[1]);
+                this.initialTouchDistance = distance(
+                    Object.values(this.touches)[0],
+                    Object.values(this.touches)[1]
+                );
             }
             this.touchChange();
         });
@@ -96,8 +99,8 @@ export class Canvas extends React.Component {
         this.svg.setZoom(this.state.canvas.zoom);
         this.svg.setTranslate(...this.state.canvas.translate);
 
-        this.canvasInfo.width = this.svg.el.clientWidth;
-        this.canvasInfo.height = this.svg.el.clientHeight;
+        this.canvasInfo.width = this.svg.el.getBoundingClientRect().width;
+        this.canvasInfo.height = this.svg.el.getBoundingClientRect().height;
         this.currentTool.updateCanvasInfo(this.canvasInfo);
 
         this.updateTool();
@@ -197,8 +200,12 @@ export class Canvas extends React.Component {
             let newState = this.state.canvas;
 
             this.prevTouchCenter = this.touchCenter;
-            this.touchCenter = midpoint(this.touches[0], this.touches[1]);
-            this.touchDistance = distance(this.touches[0], this.touches[1]);
+            this.touchCenter = midpoint(
+                Object.values(this.touches)[0], Object.values(this.touches)[1]
+            );
+            this.touchDistance = distance(
+                Object.values(this.touches)[0], Object.values(this.touches)[1]
+            );
             if (this.prevTouchCenter[0] !== null && this.touchCenter[0] !== null) {
                 let dTouchCenter = [
                     this.prevTouchCenter[0] - this.touchCenter[0],
@@ -228,7 +235,9 @@ export class Canvas extends React.Component {
     render() {
         return (
             <div
-                className={`panel canvas${this.props.grow ? ' grow' : ''}`}
+                className={
+                    `panel-container canvas${this.props.grow ? ' grow' : ''}`
+                }
                 onMouseDown={e => {
                     e.preventDefault();
                     this.handleOnMouseDown(e);

@@ -30,8 +30,8 @@ class SvgElement extends Container {
 
     // Updates the dimensions of the SVG (always same dimensions as parent).
     updateSize() {
-        this.width = this.el.clientWidth;
-        this.height = this.el.clientHeight;
+        this.width = this.el.getBoundingClientRect().width;
+        this.height = this.el.getBoundingClientRect().height;
 
         this.updateViewBox();
         return this;

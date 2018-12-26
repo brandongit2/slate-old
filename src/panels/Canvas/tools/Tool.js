@@ -3,7 +3,7 @@
 class Tool {
     constructor(canvasInfo) {
         this.updateCanvasInfo(canvasInfo);
-        this.touches = [];
+        this.touches = {};
     }
 
     /*
@@ -33,7 +33,7 @@ class Tool {
 
     touchEnd(e) {
         for (let touch of e.changedTouches) {
-            this.touches.splice(touch.identifier, 1);
+            delete this.touches[touch.identifier];
         }
     }
 
@@ -49,8 +49,8 @@ class Tool {
         let canvas = this.canvasInfo.canvas;
         x -= canvas.el.getBoundingClientRect().left;
         y -= canvas.el.getBoundingClientRect().top;
-        x -= canvas.el.clientWidth / 2;
-        y -= canvas.el.clientHeight / 2;
+        x -= canvas.el.getBoundingClientRect().width / 2;
+        y -= canvas.el.getBoundingClientRect().height / 2;
         x *= canvas.zoom;
         y *= canvas.zoom;
         x += canvas.translate[0];

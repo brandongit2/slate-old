@@ -30,8 +30,24 @@ export class TextTool extends Tool {
         text.append(textarea);
         this.canvasInfo.canvas.add(text);
         textarea.focus();
+        let id = generate();
 
-        this.canvasInfo.addNode(generate(), text);
+        let focus = e => {
+            e.preventDefault();
+            e.stopPropagation();
+            e.target.focus();
+        };
+        text.el.addEventListener('mousedown', focus);
+        text.el.addEventListener('touchstart', focus);
+
+        textarea.addEventListener('blur', e => {
+            if (e.target.value.length === 0) {
+                this.canvasInfo.canvas.remove(text);
+                this.canvasInfo.removeNode(id);
+            }
+        });
+
+        this.canvasInfo.addNode(id, text);
     }
 
     resize(source, x, y) {
@@ -55,8 +71,8 @@ export class TextTool extends Tool {
 
     end(source) {
         if (this.texts[source] && this.texts[source] !== null) {
-            if (this.texts[source].obj.width < 16 || this.texts[source].obj.height < 16) {
-                this.texts[source].obj.resize(128, 16);
+            if (this.texts[source].obj.width < 20 || this.texts[source].obj.height < 20) {
+                this.texts[source].obj.resize(128, 20);
             }
         }
         this.texts[source] = null;
@@ -97,7 +113,7 @@ export class TextTool extends Tool {
     touchStart(e) {
         super.touchStart(e);
 
-        if (this.touches.length === 1) {
+        if (e.target.tagName === 'svg' && this.touches.length === 1) {
             this.begin('touch', ...this.touches[0]);
         } else {
             this.end('touch');

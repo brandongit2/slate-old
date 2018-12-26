@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {changeToolSetting} from '../../actions';
 import config from '../../config.json';
 import {BrushSettings, RectSettings, TextSettings} from './sets';
-import './index.css';
 
 let toolNameToComponent = {
     brush:     BrushSettings,
@@ -42,13 +41,18 @@ export class SettingsBar extends React.Component {
         let P = toolNameToComponent[currentTool];
 
         return (
-            <div className="panel settings-bar" style={{flexBasis: size}}>
-                {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-                <h2>settings: {currentTool} tool</h2>
-                <P
-                    currentSettings={this.state.currentSettings}
-                    updateSettings={this.updateSettings}
-                />
+            <div
+                className="panel-container settings-bar"
+                style={{flexBasis: size}}
+            >
+                <div className="panel">
+                    {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+                    <h2>settings: {currentTool} tool</h2>
+                    <P
+                        currentSettings={this.state.currentSettings}
+                        updateSettings={this.updateSettings}
+                    />
+                </div>
             </div>
         );
     }
