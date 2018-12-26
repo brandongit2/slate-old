@@ -38,9 +38,11 @@ export class TextTool extends Tool {
         };
 
         let focus = e => {
-            e.preventDefault();
-            e.stopPropagation();
-            e.target.focus();
+            if (e.buttons === 1) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.target.focus();
+            }
         };
         text.el.addEventListener('mousedown', focus);
         text.el.addEventListener('touchstart', focus);
@@ -90,7 +92,6 @@ export class TextTool extends Tool {
         super.mouseDown(e);
 
         if (e.target.tagName === 'svg' && e.buttons === 1 && !e.ctrlKey) {
-            e.preventDefault();
             this.begin('mouse', e.pageX, e.pageY);
         }
     }
