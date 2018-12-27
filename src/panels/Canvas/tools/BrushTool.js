@@ -25,7 +25,7 @@ export class BrushTool extends Tool {
             ).attrs({
                 stroke:         this.props.brush.color,
                 strokeWidth:    this.props.brush.size,
-                fill:           'none',
+                fill:           this.props.brush.colour,
                 strokeLinecap:  'round',
                 strokeLinejoin: 'round'
             });

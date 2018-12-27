@@ -20,7 +20,7 @@ export class TextTool extends Tool {
 
     begin(source, x, y) {
         let text = new Html(...this.stcc(x, y), 0, 0).setStyle({
-            overflow: 'visible'
+            overflow: 'visible',
         });
         let textarea = document.createElement('textarea');
         textarea.style.width = '100%';

@@ -19,6 +19,7 @@ export class RectTool extends Tool {
     }
 
     begin(source, x, y) {
+        console.log(this.props);
         let rect = new Rect(...this.stcc(x, y), 0, 0)
             .attrs({
                 strokeWidth: this.props.rect.strokeWidth,
