@@ -19,21 +19,27 @@ export class RectTool extends Tool {
     }
 
     begin(source, x, y) {
-        console.log(this.props);
-        let rect = new Rect(...this.stcc(x, y), 0, 0)
-            .attrs({
-                strokeWidth: this.props.rect.strokeWidth,
-                stroke:      this.props.rect.stroke,
-                fill:        this.props.rect.fill
-            });
-        let layerId = generate();
-        let nodeId = generate();
-        this.rects[source] = {
-            obj:      rect,
-            startPos: this.stcc(x, y),
-            layerId, nodeId
-        };
-        this.canvasInfo.canvas.add(rect);
+        console.log(this.canvasInfo.currentLayer);
+        if (this.canvasInfo.currentLayer != null && this.canvasInfo.currentLayer.type === 'draw') {
+            let rect = new Rect(...this.stcc(x, y), 0, 0)
+                .attrs({
+                    strokeWidth: this.props.rect.strokeWidth,
+                    stroke:      this.props.rect.stroke,
+                    fill:        this.props.rect.fill
+                });
+            let nodeId = generate();
+            this.rects[source] = {
+                obj:      rect,
+                startPos: this.stcc(x, y),
+                nodeId
+            };
+            this.canvasInfo.canvas.add(rect);
+        } else {
+            this.canvasInfo.showDialog(
+                'Cannot begin drawing.',
+                'You must be on a drawing layer in order to draw.'
+            );
+        }
     }
 
     resize(source, x, y) {
@@ -62,7 +68,8 @@ export class RectTool extends Tool {
                 this.canvasInfo.canvas.remove(rect.obj);
             } else {
                 this.canvasInfo.addNode(rect.nodeId, rect);
-                this.canvasInfo.addLayer(rect.layerId, 'rect', 'Rectangle', rect.nodeId);
+                this.canvasInfo.addToLayer(this.canvasInfo.currentLayer.id, rect.nodeId);
+                this.canvasInfo.switchLayer(this.canvasInfo.currentLayer.id);
             }
         }
         this.rects[source] = null;

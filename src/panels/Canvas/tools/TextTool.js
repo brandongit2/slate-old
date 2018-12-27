@@ -1,5 +1,6 @@
 import {generate} from 'shortid';
 
+import {TextNode} from '../nodes';
 import {Html} from '../../../SVG';
 import Tool from './Tool';
 
@@ -9,6 +10,8 @@ export class TextTool extends Tool {
 
         this.texts = {};
 
+        this.begin = this.begin.bind(this);
+        this.addNode = this.addNode.bind(this);
         this.mouseDown = this.mouseDown.bind(this);
         this.mouseMove = this.mouseMove.bind(this);
         this.mouseUp = this.mouseUp.bind(this);
@@ -19,6 +22,7 @@ export class TextTool extends Tool {
     }
 
     begin(source, x, y) {
+        let node = new TextNode(...this.stcc(x, y), this.props, this.addNode);
         let text = new Html(...this.stcc(x, y), 0, 0).setStyle({
             overflow: 'visible',
         });
@@ -50,13 +54,16 @@ export class TextTool extends Tool {
         text.el.addEventListener('touchstart', focus);
 
         textarea.addEventListener('blur', e => {
-            console.log('uh oh');
             if (e.target.value.length === 0) {
                 this.canvasInfo.canvas.remove(text);
                 this.canvasInfo.removeLayer(layerId);
                 this.canvasInfo.removeNode(nodeId);
             }
         });
+    }
+
+    addNode(node) {
+
     }
 
     resize(source, x, y) {
@@ -88,6 +95,7 @@ export class TextTool extends Tool {
 
             this.canvasInfo.addNode(text.nodeId, text.obj);
             this.canvasInfo.addLayer(text.layerId, 'text', 'Text', text.nodeId);
+            this.canvasInfo.switchLayer(text.layerId);
         }
         delete this.texts[source];
     }

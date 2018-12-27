@@ -25,7 +25,7 @@ export class BrushTool extends Tool {
             ).attrs({
                 stroke:         this.props.brush.color,
                 strokeWidth:    this.props.brush.size,
-                fill:           this.props.brush.colour,
+                fill:           'none',
                 strokeLinecap:  'round',
                 strokeLinejoin: 'round'
             });
@@ -48,6 +48,7 @@ export class BrushTool extends Tool {
             let nodeId = generate();
             this.canvasInfo.addNode(nodeId, this.strokes[source]);
             this.canvasInfo.addToLayer(this.canvasInfo.currentLayer.id, nodeId);
+            this.canvasInfo.switchLayer(this.canvasInfo.currentLayer.id);
         }
         delete this.strokes[source];
     }

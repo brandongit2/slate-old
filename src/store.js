@@ -12,8 +12,9 @@ let store = createStore(
             content: 'Dialog content'
         },
         layers: {
-            current: 'initial',
-            layers:  {
+            current:  'initial',
+            selected: [],
+            layers:   {
                 initial: {
                     name:  'Base',
                     type:  'draw',
@@ -27,8 +28,7 @@ let store = createStore(
             current:  'brush',
             settings: config.tools
         },
-        selections: [],
-        window:     {
+        window: {
             width:  0,
             height: 0
         },

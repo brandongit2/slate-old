@@ -7,7 +7,7 @@ function layers(state = {}, action) {
                     ...state.layers,
                     [action.id]: {
                         name:  action.name,
-                        type:  action.type,
+                        type:  action.layerType,
                         nodes: action.nodes,
                         props: action.props
                     }
@@ -62,6 +62,11 @@ function layers(state = {}, action) {
                         name: action.name
                     }
                 }
+            };
+        case 'SWITCH_LAYER':
+            return {
+                ...state,
+                current: action.id
             };
         default:
     }

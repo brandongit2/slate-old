@@ -3,10 +3,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {generate} from 'shortid';
 
-import {addLayer, renameLayer} from '../../actions';
+import {addLayer, renameLayer, switchLayer} from '../../actions';
 import './index.css';
 
-export let LayerView = ({add, rename, currentLayer, layers, layerOrder, size}) => (
+export let LayerView = ({
+    add, rename, currentLayer, layers, layerOrder, size, switchLay
+}) => (
     <div className="panel-container layer-view" style={{flexBasis: size}}>
         <div className="panel">
             <h2>layers</h2>
@@ -40,7 +42,9 @@ export let LayerView = ({add, rename, currentLayer, layers, layerOrder, size}) =
                     <button
                         type="button"
                         onClick={() => {
-                            add(generate(), 'draw', 'Drawing', []);
+                            let id = generate();
+                            add(id, 'draw', 'Drawing', []);
+                            switchLay(id);
                         }}
                     >
                         add drawing layer
@@ -57,7 +61,8 @@ LayerView.propTypes = {
     currentLayer: PropTypes.string.isRequired,
     layers:       PropTypes.object.isRequired,
     layerOrder:   PropTypes.array.isRequired,
-    size:         PropTypes.string.isRequired
+    size:         PropTypes.string.isRequired,
+    switchLay:    PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -70,7 +75,8 @@ const mapDispatchToProps = dispatch => ({
     add: (id, type, name, nodes) => {
         dispatch(addLayer(id, type, name, nodes));
     },
-    rename: (id, name) => { dispatch(renameLayer(id, name)); }
+    rename:    (id, name) => { dispatch(renameLayer(id, name)); },
+    switchLay: id => { dispatch(switchLayer(id)); }
 });
 
 LayerView = connect(mapStateToProps, mapDispatchToProps)(LayerView);

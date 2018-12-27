@@ -1,7 +1,7 @@
 // id is used internally; name is displayed in UI
-export const addLayer = (id, type, name, nodes, props = {}) => ({
+export const addLayer = (id, layerType, name, nodes, props = {}) => ({
     type: 'ADD_LAYER',
-    id, name, nodes, props
+    id, layerType, name, nodes, props
 });
 
 export const addToLayer = (id, node) => ({
@@ -12,11 +12,6 @@ export const addToLayer = (id, node) => ({
 export const addNode = (id, node) => ({
     type: 'ADD_NODE',
     id, node
-});
-
-export const addSelection = id => ({
-    type: 'ADD_SELECTION',
-    id
 });
 
 export const changeToolSetting = (tool, prop, value) => ({
@@ -53,11 +48,6 @@ export const removeNode = id => ({
     id
 });
 
-export const removeSelection = id => ({
-    type: 'REMOVE_SELECTION',
-    id
-});
-
 export const renameLayer = (id, name) => ({
     type: 'RENAME_LAYER',
     id, name
@@ -66,6 +56,11 @@ export const renameLayer = (id, name) => ({
 export const showDialog = (title, content) => ({
     type: 'SHOW_DIALOG',
     title, content
+});
+
+export const switchLayer = id => ({
+    type: 'SWITCH_LAYER',
+    id
 });
 
 export const windowResize = (width, height) => ({

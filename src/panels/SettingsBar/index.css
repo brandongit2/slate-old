@@ -2,3 +2,7 @@
     text-align: right;
     padding-right: 10px;
 }
+
+.settings-bar tr.disabled {
+    opacity: 0.5;
+}

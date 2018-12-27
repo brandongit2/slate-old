@@ -6,12 +6,11 @@ import {
     addLayer,
     addToLayer,
     addNode,
-    addSelection,
     removeLayer,
     removeFromLayer,
     removeNode,
-    removeSelection,
-    showDialog
+    showDialog,
+    switchLayer
 } from '../../actions';
 import SvgElement from '../../SVG';
 import {distance, log_b, midpoint} from '../../utils';
@@ -39,21 +38,6 @@ export class Canvas extends React.Component {
         this.touchDistance = null;
         this.initialZoom = 1; // Stores zoom at moment two fingers touch the screen. Used for touch zooming.
         this.zoomFactor = 400; // Lower for longer zooming distance, and vice versa
-        this.canvasInfo = { // For passing on to tool
-            width:           this.svg.el.clientWidth,
-            height:          this.svg.el.clientHeight,
-            canvas:          this.svg,
-            currentLayer:    this.props.currentLayer,
-            addLayer:        this.props.addLayer,
-            addToLayer:      this.props.addToLayer,
-            addNode:         this.props.addNode,
-            addSelection:    this.props.addSelection,
-            removeLayer:     this.props.removeLayer,
-            removeFromLayer: this.props.removeFromLayer,
-            removeNode:      this.props.removeNode,
-            removeSelection: this.props.removeSelection,
-            showDialog:      this.props.showDialog
-        };
 
         this.updateTool();
 
@@ -118,6 +102,21 @@ export class Canvas extends React.Component {
     }
 
     updateTool() {
+        this.canvasInfo = { // For passing on to tool
+            width:           this.svg.el.clientWidth,
+            height:          this.svg.el.clientHeight,
+            canvas:          this.svg,
+            currentLayer:    this.props.currentLayer,
+            addLayer:        this.props.addLayer,
+            addToLayer:      this.props.addToLayer,
+            addNode:         this.props.addNode,
+            removeLayer:     this.props.removeLayer,
+            removeFromLayer: this.props.removeFromLayer,
+            removeNode:      this.props.removeNode,
+            showDialog:      this.props.showDialog,
+            switchLayer:     this.props.switchLayer
+        };
+        
         switch (this.props.tools.current) {
             case 'brush':
                 this.currentTool = new BrushTool(this.canvasInfo);
@@ -272,12 +271,11 @@ Canvas.propTypes = {
     addLayer:        PropTypes.func.isRequired,
     addToLayer:      PropTypes.func.isRequired,
     addNode:         PropTypes.func.isRequired,
-    addSelection:    PropTypes.func.isRequired,
     removeLayer:     PropTypes.func.isRequired,
     removeFromLayer: PropTypes.func.isRequired,
     removeNode:      PropTypes.func.isRequired,
-    removeSelection: PropTypes.func.isRequired,
     showDialog:      PropTypes.func.isRequired,
+    switchLayer:     PropTypes.func.isRequired,
     grow:            PropTypes.bool.isRequired,
     currentLayer:    PropTypes.object,
     tools:           PropTypes.object.isRequired
@@ -295,12 +293,11 @@ const mapDispatchToProps = dispatch => ({
     addLayer:        (id, name, nodes) => { dispatch(addLayer(id, name, nodes)); },
     addToLayer:      (id, node) => { dispatch(addToLayer(id, node)); },
     addNode:         (id, node) => { dispatch(addNode(id, node)); },
-    addSelection:    id => { dispatch(addSelection(id)); },
     removeNode:      id => { dispatch(removeNode(id)); },
     removeLayer:     id => { dispatch(removeLayer(id)); },
     removeFromLayer: (id, node) => { dispatch(removeFromLayer(id, node)); },
-    removeSelection: id => { dispatch(removeSelection(id)); },
-    showDialog:      (title, content) => { dispatch(showDialog(title, content)); }
+    showDialog:      (title, content) => { dispatch(showDialog(title, content)); },
+    switchLayer:     id => { dispatch(switchLayer(id)); }
 });
 
 Canvas = connect(mapStateToProps, mapDispatchToProps)(Canvas); /* eslint-disable-line no-class-assign */

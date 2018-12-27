@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {ColourSetting} from '../components/ColourSetting';
 
 export const RectSettings = ({currentSettings, updateSettings}) => (
     <table>
@@ -22,7 +21,8 @@ export const RectSettings = ({currentSettings, updateSettings}) => (
                     />
                 </td>
             </tr>
-            <tr className={currentSettings.rect.strokeWidth === 0 ? 'unavailable' : ''}>
+            {/* eslint-disable-next-line eqeqeq */}
+            <tr className={currentSettings.rect.strokeWidth == 0 ? 'disabled' : ''}>
                 <td className="label">
                     <label htmlFor="stroke">stroke color:</label>
                 </td>
@@ -31,6 +31,7 @@ export const RectSettings = ({currentSettings, updateSettings}) => (
                         type="color"
                         name="stroke"
                         defaultValue={currentSettings.rect.stroke}
+                        disabled={currentSettings.rect.strokeWidth == 0 /* eslint-disable-line eqeqeq */}
                         onChange={e => {
                             updateSettings('rect', 'stroke', e.target.value);
                         }}

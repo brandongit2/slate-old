@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {ColourSetting} from '../components/ColourSetting';
 
 export const BrushSettings = ({currentSettings, updateSettings}) => (
     <table>
