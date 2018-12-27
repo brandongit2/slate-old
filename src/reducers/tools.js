@@ -11,7 +11,7 @@ function tools(state = {}, action) {
                 settings: {
                     ...state.settings,
                     [action.tool]: {
-                        ...state[action.tool],
+                        ...state.settings[action.tool],
                         [action.prop]: action.value
                     }
                 }

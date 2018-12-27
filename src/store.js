@@ -12,9 +12,15 @@ let store = createStore(
             content: 'Dialog content'
         },
         layers: {
-            current: '',
-            layers:  {},
-            order:   []
+            current: 'initial',
+            layers:  {
+                initial: {
+                    name:  'Base',
+                    type:  'draw',
+                    nodes: []
+                }
+            },
+            order: ['initial']
         },
         nodes: {},
         tools: {

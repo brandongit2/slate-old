@@ -22,8 +22,9 @@ export class RectTool extends Tool {
         console.log(this.props);
         let rect = new Rect(...this.stcc(x, y), 0, 0)
             .attrs({
-                strokeWidth: 0,
-                fill:        this.props.rect.colour
+                strokeWidth: this.props.rect.strokeWidth,
+                stroke:      this.props.rect.stroke,
+                fill:        this.props.rect.fill
             });
         let layerId = generate();
         let nodeId = generate();
@@ -33,9 +34,6 @@ export class RectTool extends Tool {
             layerId, nodeId
         };
         this.canvasInfo.canvas.add(rect);
-
-        this.canvasInfo.addNode(nodeId, rect);
-        this.canvasInfo.addLayer(layerId, 'rect', 'Rectangle', nodeId);
     }
 
     resize(source, x, y) {
@@ -59,13 +57,13 @@ export class RectTool extends Tool {
 
     end(source) {
         let rect = this.rects[source];
-        if (rect != null
-            && rect.obj.width === 0
-            && rect.obj.height === 0
-        ) {
-            this.canvasInfo.canvas.remove(rect.obj);
-            this.canvasInfo.removeNode(rect.nodeId);
-            this.canvasInfo.removeLayer(rect.layerId);
+        if (rect != null) {
+            if (rect.obj.width === 0 && rect.obj.height === 0) {
+                this.canvasInfo.canvas.remove(rect.obj);
+            } else {
+                this.canvasInfo.addNode(rect.nodeId, rect);
+                this.canvasInfo.addLayer(rect.layerId, 'rect', 'Rectangle', rect.nodeId);
+            }
         }
         this.rects[source] = null;
     }

@@ -279,13 +279,16 @@ Canvas.propTypes = {
     removeSelection: PropTypes.func.isRequired,
     showDialog:      PropTypes.func.isRequired,
     grow:            PropTypes.bool.isRequired,
-    currentLayer:    PropTypes.string,
+    currentLayer:    PropTypes.object,
     tools:           PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    currentLayer: state.layers.layers[state.layers.current],
-    tools:        state.tools
+    currentLayer: {
+        ...state.layers.layers[state.layers.current],
+        id: state.layers.current
+    },
+    tools: state.tools
 });
 
 const mapDispatchToProps = dispatch => ({

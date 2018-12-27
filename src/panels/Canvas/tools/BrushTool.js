@@ -1,3 +1,5 @@
+import {generate} from 'shortid';
+
 import {PolyLine} from '../../../SVG';
 import Tool from './Tool';
 
@@ -21,7 +23,7 @@ export class BrushTool extends Tool {
             let stroke = new PolyLine(
                 [this.stcc(x, y), this.stcc(x, y)] // Repeated so that it's possible to draw dots
             ).attrs({
-                stroke:         'black',
+                stroke:         this.props.brush.color,
                 strokeWidth:    this.props.brush.size,
                 fill:           this.props.brush.colour,
                 strokeLinecap:  'round',
@@ -42,6 +44,11 @@ export class BrushTool extends Tool {
     }
 
     endStroke(source) {
+        if (this.strokes[source] != null) {
+            let nodeId = generate();
+            this.canvasInfo.addNode(nodeId, this.strokes[source]);
+            this.canvasInfo.addToLayer(this.canvasInfo.currentLayer.id, nodeId);
+        }
         delete this.strokes[source];
     }
 

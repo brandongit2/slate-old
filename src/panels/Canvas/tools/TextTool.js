@@ -25,7 +25,8 @@ export class TextTool extends Tool {
         let textarea = document.createElement('textarea');
         textarea.style.width = '100%';
         textarea.style.height = '100%';
-        textarea.style.color = this.props.text.colour;
+        textarea.style.fontSize = `${this.props.text.fontSize}pt`;
+        textarea.style.color = this.props.text.color;
         textarea.setAttribute('class', 'box');
         text.append(textarea);
         this.canvasInfo.canvas.add(text);
@@ -35,27 +36,27 @@ export class TextTool extends Tool {
         this.texts[source] = {
             obj:      text,
             startPos: this.stcc(x, y),
-            textarea, nodeId
+            textarea, nodeId, layerId
         };
 
         let focus = e => {
-            e.preventDefault();
-            e.stopPropagation();
-            e.target.focus();
+            if (e.buttons === 1) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.target.focus();
+            }
         };
         text.el.addEventListener('mousedown', focus);
         text.el.addEventListener('touchstart', focus);
 
         textarea.addEventListener('blur', e => {
+            console.log('uh oh');
             if (e.target.value.length === 0) {
+                this.canvasInfo.canvas.remove(text);
                 this.canvasInfo.removeLayer(layerId);
                 this.canvasInfo.removeNode(nodeId);
-                this.canvasInfo.canvas.remove(text);
             }
         });
-
-        this.canvasInfo.addNode(nodeId, text);
-        this.canvasInfo.addLayer(layerId, 'text', 'Text', nodeId);
     }
 
     resize(source, x, y) {
@@ -78,20 +79,23 @@ export class TextTool extends Tool {
     }
 
     end(source) {
-        if (this.texts[source] && this.texts[source] !== null) {
-            if (this.texts[source].obj.width < 20 || this.texts[source].obj.height < 20) {
-                this.texts[source].obj.resize(128, 20);
-                this.texts[source].textarea.setAttribute('class', 'point');
+        let text = this.texts[source];
+        if (text) {
+            if (text.obj.width < 20 || text.obj.height < 20) {
+                text.obj.resize(128, 20);
+                text.textarea.setAttribute('class', 'point');
             }
+
+            this.canvasInfo.addNode(text.nodeId, text.obj);
+            this.canvasInfo.addLayer(text.layerId, 'text', 'Text', text.nodeId);
         }
-        this.texts[source] = null;
+        delete this.texts[source];
     }
 
     mouseDown(e) {
         super.mouseDown(e);
 
         if (e.target.tagName === 'svg' && e.buttons === 1 && !e.ctrlKey) {
-            e.preventDefault();
             this.begin('mouse', e.pageX, e.pageY);
         }
     }
@@ -99,7 +103,7 @@ export class TextTool extends Tool {
     mouseMove(e) {
         super.mouseMove(e);
 
-        if (this.texts.mouse && this.texts.mouse !== null) {
+        if (this.texts.mouse) {
             this.resize('mouse', e.pageX, e.pageY);
         }
     }
@@ -132,7 +136,7 @@ export class TextTool extends Tool {
     touchMove(e) {
         super.touchMove(e);
 
-        if (this.texts.touch !== null && this.touches.length === 1) {
+        if (this.texts.touch && this.touches.length === 1) {
             this.resize('touch', ...this.touches[0]);
         }
     }

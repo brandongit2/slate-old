@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
+import {generate} from 'shortid';
 
-import {renameLayer} from '../../actions';
+import {addLayer, renameLayer} from '../../actions';
 import './index.css';
 
-export let LayerView = ({renameLayer, layers, layerOrder, size}) => (
+export let LayerView = ({add, rename, currentLayer, layers, layerOrder, size}) => (
     <div className="panel-container layer-view" style={{flexBasis: size}}>
         <div className="panel">
             <h2>layers</h2>
@@ -23,8 +24,9 @@ export let LayerView = ({renameLayer, layers, layerOrder, size}) => (
                                         <input
                                             type="text"
                                             value={layers[layer].name}
+                                            style={{fontWeight: layer === currentLayer ? '600' : '400'}}
                                             onChange={e => {
-                                                renameLayer(layer, e.target.value);
+                                                rename(layer, e.target.value);
                                             }}
                                         />
                                     </div>
@@ -35,7 +37,14 @@ export let LayerView = ({renameLayer, layers, layerOrder, size}) => (
                     })()}
                 </div>
                 <div id="actions">
-                    <span>add layer</span>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            add(generate(), 'draw', 'Drawing', []);
+                        }}
+                    >
+                        add drawing layer
+                    </button>
                 </div>
             </div>
         </div>
@@ -43,19 +52,25 @@ export let LayerView = ({renameLayer, layers, layerOrder, size}) => (
 );
 
 LayerView.propTypes = {
-    renameLayer: PropTypes.func.isRequired,
-    layers:      PropTypes.object.isRequired,
-    layerOrder:  PropTypes.array.isRequired,
-    size:        PropTypes.string.isRequired
+    add:          PropTypes.func.isRequired,
+    rename:       PropTypes.func.isRequired,
+    currentLayer: PropTypes.string.isRequired,
+    layers:       PropTypes.object.isRequired,
+    layerOrder:   PropTypes.array.isRequired,
+    size:         PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
-    layers:     state.layers.layers,
-    layerOrder: state.layers.order
+    currentLayer: state.layers.current,
+    layers:       state.layers.layers,
+    layerOrder:   state.layers.order
 });
 
 const mapDispatchToProps = dispatch => ({
-    renameLayer: (id, name) => { dispatch(renameLayer(id, name)); }
+    add: (id, type, name, nodes) => {
+        dispatch(addLayer(id, type, name, nodes));
+    },
+    rename: (id, name) => { dispatch(renameLayer(id, name)); }
 });
 
 LayerView = connect(mapStateToProps, mapDispatchToProps)(LayerView);
