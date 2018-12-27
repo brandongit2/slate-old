@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {changeToolSetting} from '../../actions';
 import config from '../../config.json';
 import {BrushSettings, RectSettings, TextSettings} from './sets';
+import './index.css';
 
 let toolNameToComponent = {
     brush:     BrushSettings,

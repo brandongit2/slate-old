@@ -6,7 +6,7 @@ import {generate} from 'shortid';
 import {addLayer, renameLayer} from '../../actions';
 import './index.css';
 
-export let LayerView = ({add, rename, layers, layerOrder, size}) => (
+export let LayerView = ({add, rename, currentLayer, layers, layerOrder, size}) => (
     <div className="panel-container layer-view" style={{flexBasis: size}}>
         <div className="panel">
             <h2>layers</h2>
@@ -24,6 +24,7 @@ export let LayerView = ({add, rename, layers, layerOrder, size}) => (
                                         <input
                                             type="text"
                                             value={layers[layer].name}
+                                            style={{fontWeight: layer === currentLayer ? '600' : '400'}}
                                             onChange={e => {
                                                 rename(layer, e.target.value);
                                             }}
@@ -51,16 +52,18 @@ export let LayerView = ({add, rename, layers, layerOrder, size}) => (
 );
 
 LayerView.propTypes = {
-    add:         PropTypes.func.isRequired,
-    rename:      PropTypes.func.isRequired,
-    layers:      PropTypes.object.isRequired,
-    layerOrder:  PropTypes.array.isRequired,
-    size:        PropTypes.string.isRequired
+    add:          PropTypes.func.isRequired,
+    rename:       PropTypes.func.isRequired,
+    currentLayer: PropTypes.string.isRequired,
+    layers:       PropTypes.object.isRequired,
+    layerOrder:   PropTypes.array.isRequired,
+    size:         PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
-    layers:     state.layers.layers,
-    layerOrder: state.layers.order
+    currentLayer: state.layers.current,
+    layers:       state.layers.layers,
+    layerOrder:   state.layers.order
 });
 
 const mapDispatchToProps = dispatch => ({

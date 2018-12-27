@@ -29,7 +29,17 @@
     },
     "tools": {
         "brush": {
-            "size": 3
+            "size": 3,
+            "color": "#000000"
+        },
+        "rect": {
+            "strokeWidth": 0,
+            "stroke": "#000000",
+            "fill": "#000000"
+        },
+        "text": {
+            "fontSize": 12,
+            "color": "#000000"
         }
     }
 }

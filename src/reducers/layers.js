@@ -28,9 +28,13 @@ function layers(state = {}, action) {
         case 'REMOVE_LAYER': {
             let newState = JSON.parse(JSON.stringify(state.layers)); // Clones state
             delete newState[action.id];
+            let newOrder = JSON.parse(JSON.stringify(state.order)); // Clones state
+            let index = newOrder.indexOf(action.id);
+            newOrder.splice(index, 1);
             return {
                 ...state,
-                layers: newState
+                layers: newState,
+                order:  newOrder
             };
         }
         case 'REMOVE_FROM_LAYER': {

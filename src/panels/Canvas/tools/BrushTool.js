@@ -23,7 +23,7 @@ export class BrushTool extends Tool {
             let stroke = new PolyLine(
                 [this.stcc(x, y), this.stcc(x, y)] // Repeated so that it's possible to draw dots
             ).attrs({
-                stroke:         'black',
+                stroke:         this.props.brush.color,
                 strokeWidth:    this.props.brush.size,
                 fill:           'none',
                 strokeLinecap:  'round',
