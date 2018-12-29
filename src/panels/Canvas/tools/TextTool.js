@@ -63,7 +63,7 @@ export class TextTool extends Tool {
     }
 
     addNode(node) {
-
+        // TODO
     }
 
     resize(source, x, y) {
