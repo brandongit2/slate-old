@@ -5,7 +5,7 @@ import './index.css';
 
 export const Menubar = ({size}) => (
     <div className="panel-container menubar" style={{flexBasis: size}}>
-        slate
+        slate!
     </div>
 );
 
