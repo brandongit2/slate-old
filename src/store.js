@@ -23,8 +23,9 @@ let store = createStore(
             },
             order: ['initial']
         },
-        nodes: {},
-        tools: {
+        nodes:  {},
+        panels: [],
+        tools:  {
             current:  'brush',
             settings: config.tools
         },

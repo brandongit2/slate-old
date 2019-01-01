@@ -7,49 +7,33 @@ import {addLayer, renameLayer, switchLayer} from '../../actions';
 import './index.css';
 
 export let LayerView = ({
-    add, rename, currentLayer, layers, layerOrder, size, switchLay
+    add, rename, currentLayer, layers, layerOrder, switchLay
 }) => (
-    <div className="panel-container layer-view" style={{flexBasis: size}}>
-        <div className="panel">
-            <h2>layers</h2>
-            <div id="content">
-                <div>
-                    {(() => {
-                        let arr = [];
-                        layerOrder.forEach(layer => {
-                            if (layers[layer] != null) {
-                                arr.push(
-                                    <div
-                                        className="entry-container"
-                                        key={`input_${layer}`}
-                                    >
-                                        <input
-                                            type="text"
-                                            value={layers[layer].name}
-                                            style={{fontWeight: layer === currentLayer ? '600' : '400'}}
-                                            onChange={e => {
-                                                rename(layer, e.target.value);
-                                            }}
-                                        />
-                                    </div>
-                                );
-                            }
-                        });
-                        return arr;
-                    })()}
-                </div>
-                <div id="actions">
-                    <button
-                        type="button"
+    <div className="layer-view">
+        <h2>layers</h2>
+        <div id="content">
+            <div>
+                {layerOrder.map(layer => (
+                    <div className="entry-container"
+                         key={`input_${layer}`}>
+                        <input type="text"
+                               value={layers[layer].name}
+                               style={{fontWeight: layer === currentLayer ? '600' : '400'}}
+                               onChange={e => {
+                                   rename(layer, e.target.value);
+                               }} />
+                    </div>
+                ))}
+            </div>
+            <div id="actions">
+                <button type="button"
                         onClick={() => {
                             let id = generate();
                             add(id, 'draw', 'Drawing', []);
                             switchLay(id);
-                        }}
-                    >
-                        add drawing layer
-                    </button>
-                </div>
+                        }}>
+                    add drawing layer
+                </button>
             </div>
         </div>
     </div>
@@ -61,7 +45,6 @@ LayerView.propTypes = {
     currentLayer: PropTypes.string.isRequired,
     layers:       PropTypes.object.isRequired,
     layerOrder:   PropTypes.array.isRequired,
-    size:         PropTypes.string.isRequired,
     switchLay:    PropTypes.func.isRequired
 };
 

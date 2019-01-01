@@ -14,17 +14,11 @@ let toolNameToComponent = {
 };
 
 export class SettingsBar extends React.Component {
-    constructor(props) {
-        super(props);
+    state = {
+        currentSettings: config.tools
+    };
 
-        this.state = {
-            currentSettings: config.tools
-        };
-
-        this.updateSettings = this.updateSettings.bind(this);
-    }
-
-    updateSettings(tool, prop, value) {
+    updateSettings = (tool, prop, value) => {
         this.setState({
             currentSettings: {
                 ...this.state.currentSettings,
@@ -37,23 +31,15 @@ export class SettingsBar extends React.Component {
         this.props.updateSettings(tool, prop, value);
     }
 
-    render() {
-        let {currentTool, size} = this.props;
+    render = () => {
+        let {currentTool} = this.props;
         let P = toolNameToComponent[currentTool];
 
         return (
-            <div
-                className="panel-container settings-bar"
-                style={{flexBasis: size}}
-            >
-                <div className="panel">
-                    {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-                    <h2>settings: {currentTool} tool</h2>
-                    <P
-                        currentSettings={this.state.currentSettings}
-                        updateSettings={this.updateSettings}
-                    />
-                </div>
+            <div className="settings-bar">
+                <h2>settings: {currentTool} tool</h2>
+                <P currentSettings={this.state.currentSettings}
+                   updateSettings={this.updateSettings} />
             </div>
         );
     }
@@ -61,8 +47,7 @@ export class SettingsBar extends React.Component {
 
 SettingsBar.propTypes = {
     currentTool:    PropTypes.string.isRequired,
-    updateSettings: PropTypes.func.isRequired,
-    size:           PropTypes.string.isRequired
+    updateSettings: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

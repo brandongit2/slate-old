@@ -6,7 +6,10 @@ import {hideDialog} from '../../actions';
 import './index.css';
 
 export let Dialog = ({hide, visible, title, content}) => (
-    <div className="dialog-container" style={{zIndex: visible ? '100' : '-100'}}>
+    <div className="dialog-container" style={{
+        zIndex:  visible ? 100 : -100,
+        opacity: visible ? 1 : 0
+    }}>
         <div className="dialog">
             <h1>{title}</h1>
             <p>{content}</p>

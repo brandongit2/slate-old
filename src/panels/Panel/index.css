@@ -1,0 +1,6 @@
+.panel {
+    position: relative;
+    padding: 1em;
+    border: 0.5px solid var(--accent);
+    box-sizing: border-box;
+}

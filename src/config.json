@@ -1,27 +1,4 @@
 {
-    "ui": {
-        "menubar": {
-            "size": "40px"
-        },
-        "leftPanel": {
-            "size": "17rem"
-        },
-        "toolbar": {
-            "size": "20%"
-        },
-        "settingsBar": {
-            "size": "80%"
-        },
-        "rightPanel": {
-            "size": "23rem"
-        },
-        "layerView": {
-            "size": "40%"
-        },
-        "propertiesBar": {
-            "size": "60%"
-        }
-    },
     "animation": {
         "zoom": {
             "length": 200

@@ -4,73 +4,62 @@ import PropTypes from 'prop-types';
 
 import {windowResize} from './actions';
 import {Dialog} from './components';
-import config from './config.json';
 import {
     Canvas,
     LayerView,
-    Menubar,
+    MenuBar,
+    PanelContainer,
     PropertiesBar,
     SettingsBar,
     Toolbar
 } from './panels';
 
 class App extends React.Component {
-    componentDidMount() {
-        windowResize(window.innerWidth, window.innerHeight);
+    componentDidMount = () => {
+        this.props.resize(window.innerWidth, window.innerHeight);
 
         window.addEventListener('resize', () => {
-            windowResize(window.innerWidth, window.innerHeight);
+            this.props.resize(window.innerWidth, window.innerHeight);
         });
     }
 
-    render() {
-        let dialog = this.props.dialog;
-        return (
-            <div id="app-main">
-                <div id="app-container" className="container vertical">
-                    <Menubar size={config.ui.menubar.size}></Menubar>
-                    <div className="container horizontal grow">
-                        <div
-                            className="container vertical"
-                            style={{flexBasis: config.ui.leftPanel.size}}
-                        >
-                            <Toolbar
-                                currentTool={this.props.currentTool}
-                                size={config.ui.toolbar.size}
-                            />
-                            <SettingsBar size={config.ui.settingsBar.size} />
-                        </div>
-                        <Canvas id="main-canvas" grow />
-                        <div
-                            className="container vertical"
-                            style={{flexBasis: config.ui.rightPanel.size}}
-                        >
-                            <LayerView size={config.ui.layerView.size} />
-                            <PropertiesBar size={config.ui.propertiesBar.size} />
-                        </div>
-                    </div>
-                </div>
-                <Dialog
-                    visible={dialog.visible}
-                    title={dialog.title}
-                    content={dialog.content}
-                />
-                <div id="dummyContainer" />
-            </div>
-        );
-    }
+    render = () => (
+        <div id="app-container">
+            <PanelContainer direction="vertical" size="grow">
+                <MenuBar size="40px"></MenuBar>
+                <PanelContainer direction="horizontal" size="grow">
+                    <PanelContainer direction="vertical"
+                                    size="17rem">
+                        <Toolbar size="20%"
+                                 currentTool={this.props.currentTool} />
+                        <SettingsBar size="grow" />
+                    </PanelContainer>
+                    <Canvas size="grow" />
+                    <PanelContainer direction="vertical"
+                                    size="23rem">
+                        <LayerView size="40%" />
+                        <PropertiesBar size="grow" />
+                    </PanelContainer>
+                </PanelContainer>
+            </PanelContainer>
+            <Dialog visible={this.props.dialog.visible}
+                    title={this.props.dialog.title}
+                    content={this.props.dialog.content} />
+            <div id="dummyContainer" />
+        </div>
+    );
 }
 
 App.propTypes = {
-    windowResize: PropTypes.func.isRequired,
-    currentTool:  PropTypes.string.isRequired,
-    dialog:       PropTypes.object.isRequired,
-    width:        PropTypes.number.isRequired,
-    height:       PropTypes.number.isRequired
+    resize:      PropTypes.func.isRequired,
+    currentTool: PropTypes.string.isRequired,
+    dialog:      PropTypes.object.isRequired,
+    width:       PropTypes.number.isRequired,
+    height:      PropTypes.number.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
-    windowResize: (width, height) => {
+    resize: (width, height) => {
         dispatch(windowResize(width, height));
     }
 });
