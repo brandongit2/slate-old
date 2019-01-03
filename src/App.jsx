@@ -26,7 +26,7 @@ class App extends React.Component {
     render = () => (
         <div id="app-container">
             <PanelContainer direction="vertical" size="grow">
-                <MenuBar size="40px"></MenuBar>
+                <MenuBar size="40px" />
                 <PanelContainer direction="horizontal" size="grow">
                     <PanelContainer direction="vertical"
                                     size="17rem">
@@ -34,7 +34,7 @@ class App extends React.Component {
                                  currentTool={this.props.currentTool} />
                         <SettingsBar size="grow" />
                     </PanelContainer>
-                    <Canvas size="grow" />
+                    <Canvas size="grow" panelStyle={{padding: '0px'}} />
                     <PanelContainer direction="vertical"
                                     size="23rem">
                         <LayerView size="40%" />

@@ -1,6 +1,6 @@
 import {generate} from 'shortid';
 
-import {PolyLine} from '../../../SVG';
+import {PolyLine} from '../../../svg';
 import Tool from './Tool';
 
 export class BrushTool extends Tool {

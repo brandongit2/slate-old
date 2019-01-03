@@ -1,7 +1,7 @@
 import {generate} from 'shortid';
 
 import {TextNode} from '../nodes';
-import {Html} from '../../../SVG';
+import {Html} from '../../../svg';
 import Tool from './Tool';
 
 export class TextTool extends Tool {

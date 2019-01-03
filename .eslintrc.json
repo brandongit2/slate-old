@@ -102,7 +102,6 @@
             "error",
             "unix"
         ],
-        "lines-between-class-members": "error",
         "new-cap": "warn",
         "new-parens": "error",
         "no-async-promise-executor": "error",
@@ -306,15 +305,6 @@
             {
                 "words": true,
                 "nonwords": false
-            }
-        ],
-        "spaced-comment": [
-            "error",
-            "always",
-            {
-                "exceptions": [
-                    "/"
-                ]
             }
         ],
         "switch-colon-spacing": "error",

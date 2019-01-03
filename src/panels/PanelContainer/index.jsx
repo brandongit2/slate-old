@@ -9,7 +9,7 @@ export const PanelContainer = ({children, direction, size}) => {
     let style = {flexDirection: direction === 'horizontal' ? 'row' : 'column'};
 
     if (size === 'grow') {
-        Object.assign(style, {flexGrow: 1});
+        Object.assign(style, {flexBasis: '0px', flexGrow: 1});
     } else {
         Object.assign(style, {flexBasis: size});
     }
@@ -21,7 +21,9 @@ export const PanelContainer = ({children, direction, size}) => {
                     return child;
                 } else {
                     return (
-                        <Panel key={generate()} size={child.props.size}>
+                        <Panel key={generate()}
+                               size={child.props.size}
+                               panelStyle={child.props.panelStyle}>
                             {child}
                         </Panel>
                     );

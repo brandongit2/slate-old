@@ -6,46 +6,11 @@ class Tool {
         this.touches = {};
     }
 
-    /*
-     * Make sure then when you implement the below methods, you call
-     * super.[method](e) first.
-     */
-
-    mouseDown() {}
-
-    mouseMove() {}
-
-    mouseUp() {}
-
-    mouseLeave() {}
-
-    touchStart(e) {
-        for (let touch of e.changedTouches) {
-            this.touches[touch.identifier] = [touch.pageX, touch.pageY];
-        }
+    addNode = node => {
+        this.canvasInfo.addNode(node);
     }
 
-    touchMove(e) {
-        for (let touch of e.changedTouches) {
-            this.touches[touch.identifier] = [touch.pageX, touch.pageY];
-        }
-    }
-
-    touchEnd(e) {
-        for (let touch of e.changedTouches) {
-            delete this.touches[touch.identifier];
-        }
-    }
-
-    updateCanvasInfo(canvasInfo) {
-        this.canvasInfo = canvasInfo;
-    }
-
-    updateProps(props) {
-        this.props = props;
-    }
-
-    stcc(x, y) { // "screen to canvas coordinates"
+    stcc = (x, y) => { // "screen to canvas coordinates"
         let canvas = this.canvasInfo.canvas;
         x -= canvas.el.getBoundingClientRect().left;
         y -= canvas.el.getBoundingClientRect().top;
@@ -56,6 +21,45 @@ class Tool {
         x += canvas.translate[0];
         y += canvas.translate[1];
         return [x, y];
+    }
+
+    updateCanvasInfo = canvasInfo => {
+        this.canvasInfo = canvasInfo;
+    }
+
+    updateSettings = settings => {
+        this.settings = settings;
+    }
+
+    /*
+     * Make sure then when you implement the below methods, you call
+     * super.[method](e) first.
+     */
+
+    mouseDown = () => {}
+
+    mouseMove = () => {}
+
+    mouseUp = () => {}
+
+    mouseLeave = () => {}
+
+    touchStart = e => {
+        for (let touch of e.changedTouches) {
+            this.touches[touch.identifier] = [touch.pageX, touch.pageY];
+        }
+    }
+
+    touchMove = e => {
+        for (let touch of e.changedTouches) {
+            this.touches[touch.identifier] = [touch.pageX, touch.pageY];
+        }
+    }
+
+    touchEnd = e => {
+        for (let touch of e.changedTouches) {
+            delete this.touches[touch.identifier];
+        }
     }
 }
 

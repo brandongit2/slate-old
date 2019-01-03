@@ -1,6 +1,6 @@
 import {generate} from 'shortid';
 
-import {Rect} from '../../../SVG';
+import {Rect} from '../../../svg';
 import Tool from './Tool';
 
 export class RectTool extends Tool {

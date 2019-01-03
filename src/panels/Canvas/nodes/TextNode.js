@@ -1,7 +1,7 @@
-import {Html} from '../../../SVG';
+import {Html} from '../../../svg';
 
 export class TextNode {
-    constructor(x, y, props, addNode) {
+    constructor(x, y, props) {
         this.html = new Html(x, y, 0, 0).setStyle({
             overflow: 'visible'
         });
@@ -12,6 +12,5 @@ export class TextNode {
         this.textarea.style.color = props.text.color;
         this.textarea.setAttribute('class', 'box');
         this.html.append(this.textarea);
-
     }
 }

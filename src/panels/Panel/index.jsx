@@ -3,7 +3,7 @@ import React from 'react';
 
 import './index.css';
 
-export const Panel = ({children, size}) => {
+export const Panel = ({children, size, panelStyle}) => {
     let style;
 
     if (size === 'grow') {
@@ -12,14 +12,20 @@ export const Panel = ({children, size}) => {
         style = {flexBasis: size};
     }
 
-    return <div className="panel" style={style}>{children}</div>;
+    return (
+        <div className="panel" style={Object.assign(style, panelStyle)}>
+            {children}
+        </div>
+    );
 };
 
 Panel.defaultProps = {
-    size: 'grow'
+    size:       'grow',
+    panelStyle: {}
 };
 
 Panel.propTypes = {
-    children: PropTypes.element,
-    size:     PropTypes.string
+    children:   PropTypes.element,
+    size:       PropTypes.string,
+    panelStyle: PropTypes.object
 };
