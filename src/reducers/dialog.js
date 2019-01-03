@@ -7,7 +7,6 @@ function dialog(state = {}, action) {
                 content: action.content
             };
         case 'HIDE_DIALOG':
-            console.log('hiding dialog');
             return {
                 ...state,
                 visible: false

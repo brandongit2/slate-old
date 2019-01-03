@@ -1,9 +1,18 @@
 /* eslint-disable no-empty-function */
 
 class Tool {
+    touches = {};
+
     constructor(canvasInfo) {
         this.updateCanvasInfo(canvasInfo);
-        this.touches = {};
+
+        this.mouseDown = this.mouseDown.bind(this);
+        this.mouseMove = this.mouseMove.bind(this);
+        this.mouseUp = this.mouseUp.bind(this);
+        this.mouseLeave = this.mouseLeave.bind(this);
+        this.touchStart = this.touchStart.bind(this);
+        this.touchMove = this.touchMove.bind(this);
+        this.touchEnd = this.touchEnd.bind(this);
     }
 
     addNode = node => {
@@ -36,27 +45,27 @@ class Tool {
      * super.[method](e) first.
      */
 
-    mouseDown = () => {}
+    mouseDown() {}
 
-    mouseMove = () => {}
+    mouseMove() {}
 
-    mouseUp = () => {}
+    mouseUp() {}
 
-    mouseLeave = () => {}
+    mouseLeave() {}
 
-    touchStart = e => {
+    touchStart(e) {
         for (let touch of e.changedTouches) {
             this.touches[touch.identifier] = [touch.pageX, touch.pageY];
         }
     }
 
-    touchMove = e => {
+    touchMove(e) {
         for (let touch of e.changedTouches) {
             this.touches[touch.identifier] = [touch.pageX, touch.pageY];
         }
     }
 
-    touchEnd = e => {
+    touchEnd(e) {
         for (let touch of e.changedTouches) {
             delete this.touches[touch.identifier];
         }

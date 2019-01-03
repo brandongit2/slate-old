@@ -4,28 +4,15 @@ import {Rect} from '../../../svg';
 import Tool from './Tool';
 
 export class RectTool extends Tool {
-    constructor(canvasInfo) {
-        super(canvasInfo);
+    rects = {};
 
-        this.rects = {};
-
-        this.mouseDown = this.mouseDown.bind(this);
-        this.mouseMove = this.mouseMove.bind(this);
-        this.mouseUp = this.mouseUp.bind(this);
-        this.mouseLeave = this.mouseLeave.bind(this);
-        this.touchStart = this.touchStart.bind(this);
-        this.touchMove = this.touchMove.bind(this);
-        this.touchEnd = this.touchEnd.bind(this);
-    }
-
-    begin(source, x, y) {
-        console.log(this.canvasInfo.currentLayer);
+    begin = (source, x, y) => {
         if (this.canvasInfo.currentLayer != null && this.canvasInfo.currentLayer.type === 'draw') {
             let rect = new Rect(...this.stcc(x, y), 0, 0)
                 .attrs({
-                    strokeWidth: this.props.rect.strokeWidth,
-                    stroke:      this.props.rect.stroke,
-                    fill:        this.props.rect.fill
+                    strokeWidth: this.settings.rect.strokeWidth,
+                    stroke:      this.settings.rect.stroke,
+                    fill:        this.settings.rect.fill
                 });
             let nodeId = generate();
             this.rects[source] = {
@@ -42,7 +29,7 @@ export class RectTool extends Tool {
         }
     }
 
-    resize(source, x, y) {
+    resize = (source, x, y) => {
         let pos = this.rects[source].startPos.slice(); // .slice() copies array
 
         let width = this.stcc(x, y)[0] - this.rects[source].startPos[0];
@@ -61,7 +48,7 @@ export class RectTool extends Tool {
         this.rects[source].obj.resize(width, height);
     }
 
-    end(source) {
+    end = source => {
         let rect = this.rects[source];
         if (rect != null) {
             if (rect.obj.width === 0 && rect.obj.height === 0) {
@@ -108,7 +95,7 @@ export class RectTool extends Tool {
     touchStart(e) {
         super.touchStart(e);
 
-        if (this.touches.length === 1) {
+        if (Object.keys(this.touches).length === 1) {
             this.begin('touch', ...this.touches[0]);
         } else {
             this.end('touch');
@@ -118,8 +105,11 @@ export class RectTool extends Tool {
     touchMove(e) {
         super.touchMove(e);
 
-        /* eslint-disable-next-line no-eq-null */
-        if (this.touches.length === 1 && this.rects != null && this.rects.touch != null) {
+        if (
+            Object.keys(this.touches).length === 1
+            && this.rects != null
+            && this.rects.touch != null
+        ) {
             this.resize('touch', ...this.touches[0]);
         }
     }
@@ -127,9 +117,9 @@ export class RectTool extends Tool {
     touchEnd(e) {
         super.touchEnd(e);
 
-        if (this.touches.length === 0) {
+        if (Object.keys(this.touches).length === 0) {
             this.end('touch');
-        } else if (this.touches.length === 1) {
+        } else if (Object.keys(this.touches).length === 1) {
             this.begin('touch', ...this.touches[0]);
         }
     }

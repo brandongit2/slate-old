@@ -22,15 +22,15 @@ export class TextTool extends Tool {
     }
 
     begin(source, x, y) {
-        let node = new TextNode(...this.stcc(x, y), this.props, this.addNode);
+        let node = new TextNode(...this.stcc(x, y), this.settings, this.addNode);
         let text = new Html(...this.stcc(x, y), 0, 0).setStyle({
             overflow: 'visible',
         });
         let textarea = document.createElement('textarea');
         textarea.style.width = '100%';
         textarea.style.height = '100%';
-        textarea.style.fontSize = `${this.props.text.fontSize}pt`;
-        textarea.style.color = this.props.text.color;
+        textarea.style.fontSize = `${this.settings.text.fontSize}pt`;
+        textarea.style.color = this.settings.text.color;
         textarea.setAttribute('class', 'box');
         text.append(textarea);
         this.canvasInfo.canvas.add(text);
@@ -55,9 +55,10 @@ export class TextTool extends Tool {
 
         textarea.addEventListener('blur', e => {
             if (e.target.value.length === 0) {
-                this.canvasInfo.canvas.remove(text);
-                this.canvasInfo.removeLayer(layerId);
-                this.canvasInfo.removeNode(nodeId);
+                // STILL BROKEN
+                // this.canvasInfo.canvas.remove(text);
+                // this.canvasInfo.removeLayer(layerId);
+                // this.canvasInfo.removeNode(nodeId);
             }
         });
     }
@@ -134,7 +135,7 @@ export class TextTool extends Tool {
     touchStart(e) {
         super.touchStart(e);
 
-        if (e.target.tagName === 'svg' && this.touches.length === 1) {
+        if (e.target.tagName === 'svg' && Object.keys(this.touches).length === 1) {
             this.begin('touch', ...this.touches[0]);
         } else {
             this.end('touch');
@@ -144,7 +145,7 @@ export class TextTool extends Tool {
     touchMove(e) {
         super.touchMove(e);
 
-        if (this.texts.touch && this.touches.length === 1) {
+        if (this.texts.touch && Object.keys(this.touches).length === 1) {
             this.resize('touch', ...this.touches[0]);
         }
     }
@@ -152,9 +153,9 @@ export class TextTool extends Tool {
     touchEnd(e) {
         super.touchEnd(e);
 
-        if (this.touches.length === 0) {
+        if (Object.keys(this.touches).length === 0) {
             this.end('touch');
-        } else if (this.touches.length === 1) {
+        } else if (Object.keys(this.touches).length === 1) {
             this.begin('touch', ...this.touches[0]);
         }
     }

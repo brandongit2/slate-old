@@ -4,27 +4,15 @@ import {PolyLine} from '../../../svg';
 import Tool from './Tool';
 
 export class BrushTool extends Tool {
-    constructor(canvasInfo) {
-        super(canvasInfo);
+    strokes = {};
 
-        this.strokes = {};
-
-        this.mouseDown = this.mouseDown.bind(this);
-        this.mouseMove = this.mouseMove.bind(this);
-        this.mouseUp = this.mouseUp.bind(this);
-        this.mouseLeave = this.mouseLeave.bind(this);
-        this.touchStart = this.touchStart.bind(this);
-        this.touchMove = this.touchMove.bind(this);
-        this.touchEnd = this.touchEnd.bind(this);
-    }
-
-    addStroke(source, x, y) {
+    addStroke = (source, x, y) => {
         if (this.canvasInfo.currentLayer != null && this.canvasInfo.currentLayer.type === 'draw') {
             let stroke = new PolyLine(
                 [this.stcc(x, y), this.stcc(x, y)] // Repeated so that it's possible to draw dots
             ).attrs({
-                stroke:         this.props.brush.color,
-                strokeWidth:    this.props.brush.size,
+                stroke:         this.settings.brush.color,
+                strokeWidth:    this.settings.brush.size,
                 fill:           'none',
                 strokeLinecap:  'round',
                 strokeLinejoin: 'round'
@@ -39,11 +27,11 @@ export class BrushTool extends Tool {
         }
     }
 
-    addToStroke(source, x, y) {
+    addToStroke = (source, x, y) => {
         if (this.strokes[source]) this.strokes[source].addPoint(this.stcc(x, y));
     }
 
-    endStroke(source) {
+    endStroke = source => {
         if (this.strokes[source] != null) {
             let nodeId = generate();
             this.canvasInfo.addNode(nodeId, this.strokes[source]);
@@ -53,7 +41,7 @@ export class BrushTool extends Tool {
         delete this.strokes[source];
     }
 
-    cancelStroke(source) {
+    cancelStroke = source => {
         this.canvasInfo.canvas.remove(this.strokes[source]);
         delete this.strokes[source];
     }
@@ -108,7 +96,6 @@ export class BrushTool extends Tool {
         super.touchEnd(e);
 
         this.endStroke('touch');
-
         this.numTouches = 0;
     }
 }

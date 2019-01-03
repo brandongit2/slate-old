@@ -19,13 +19,17 @@ import './index.css';
 
 const ZOOM_FACTOR = 400; // Lower for longer zooming distance, and vice versa
 const toolNameToClass = {
-    brush: BrushTool,
-    rect:  RectTool,
-    text:  TextTool
+    brush:     BrushTool,
+    rectangle: RectTool,
+    text:      TextTool
 };
 
 export class Canvas extends React.Component {
-    canvasInfo = {};
+    canvasInfo = {
+        width:  0,
+        height: 0
+    };
+    currentTool = null;
     mouse = {
         x:      null,
         y:      null,
@@ -54,6 +58,19 @@ export class Canvas extends React.Component {
         this.parent = React.createRef();
         this.svg = new SvgElement();
 
+        Object.assign(this.canvasInfo, {
+            addLayer:        props.addLayer,
+            addToLayer:      props.addToLayer,
+            addNode:         props.addNode,
+            removeLayer:     props.removeLayer,
+            removeFromLayer: props.removeFromLayer,
+            removeNode:      props.removeNode,
+            showDialog:      props.showDialog,
+            switchLayer:     props.switchLayer,
+            currentLayer:    props.currentLayer,
+            canvas:          this.svg
+        });
+
         this.updateTool();
     }
 
@@ -63,6 +80,8 @@ export class Canvas extends React.Component {
         this.svg.render(this.parent.current);
         this.svg.updateSize();
 
+        // These event listeners must be added to the ref in order to make them
+        // non-passive.
         this.parent.current.addEventListener(
             'touchstart', this.handleTouchStart, {passive: false}
         );
@@ -98,6 +117,8 @@ export class Canvas extends React.Component {
                 isDown: true
             };
         }
+
+        this.currentTool.mouseDown(e);
     }
 
     handleMouseMove = e => {
@@ -118,6 +139,8 @@ export class Canvas extends React.Component {
                 isDown: true
             };
         }
+
+        this.currentTool.mouseMove(e);
     }
 
     handleMouseUp = e => {
@@ -130,6 +153,8 @@ export class Canvas extends React.Component {
                 isDown: false
             };
         }
+
+        this.currentTool.mouseUp(e);
     }
 
     handleMouseWheel = e => {
@@ -143,6 +168,8 @@ export class Canvas extends React.Component {
                 zoom:      2 ** (log_b(this.state.canvas.zoom, 2) + e.deltaY / ZOOM_FACTOR)
             }
         });
+
+        this.currentTool.mouseWheel(e);
     }
 
     handleTouchStart = e => {
@@ -156,6 +183,8 @@ export class Canvas extends React.Component {
             );
         }
         this.touchChange();
+
+        this.currentTool.touchStart(e);
     };
 
     handleTouchMove = e => {
@@ -163,6 +192,8 @@ export class Canvas extends React.Component {
 
         this.updateTouches(e);
         this.touchChange();
+
+        this.currentTool.touchMove(e);
     };
 
     handleTouchEnd = e => {
@@ -174,6 +205,8 @@ export class Canvas extends React.Component {
         for (let touch of e.changedTouches) {
             delete this.touches.list[touch.identifier];
         }
+
+        this.currentTool.touchEnd(e);
     };
 
     /****************************** OTHER METHODS *******************************/
@@ -222,7 +255,7 @@ export class Canvas extends React.Component {
 
     updateTool = () => {
         this.currentTool = new toolNameToClass[this.props.tools.current](
-            this.state.canvasInfo
+            this.canvasInfo
         );
         this.currentTool.updateSettings(this.props.tools.settings);
     }
