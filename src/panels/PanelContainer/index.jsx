@@ -17,7 +17,7 @@ export const PanelContainer = ({children, direction, size}) => {
     return (
         <div className="panel-container" style={style}>
             {children.map(child => {
-                if (child.type.name === 'PanelContainer') {
+                if (child.type.isPanelContainer) {
                     return child;
                 } else {
                     return (
@@ -32,6 +32,9 @@ export const PanelContainer = ({children, direction, size}) => {
         </div>
     );
 };
+
+// For identification, even in uglified production builds
+PanelContainer.isPanelContainer = true;
 
 PanelContainer.defaultProps = {
     size: 'grow'

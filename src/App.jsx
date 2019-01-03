@@ -26,7 +26,7 @@ class App extends React.Component {
     render = () => (
         <div id="app-container">
             <PanelContainer direction="vertical" size="grow">
-                <MenuBar size="40px" />
+                <MenuBar size="40px" panelStyle={{padding: '0px'}} />
                 <PanelContainer direction="horizontal" size="grow">
                     <PanelContainer direction="vertical"
                                     size="17rem">
