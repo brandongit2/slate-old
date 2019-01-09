@@ -1,15 +1,10 @@
-function wndw(state = {}, action) {
-    switch (action.type) {
-        case 'WINDOW_RESIZE':
-            return {
-                ...state,
-                width:  action.width,
-                height: action.height
-            };
-        default:
+export function wndw(state = {}, action) {
+    if (action.type === 'WINDOW_RESIZE') {
+        return {
+            width:  action.width,
+            height: action.height
+        };
+    } else {
+        return state;
     }
-
-    return state;
 }
-
-export default wndw;

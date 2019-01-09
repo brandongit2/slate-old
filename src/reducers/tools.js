@@ -1,25 +1,21 @@
-function tools(state = {}, action) {
-    switch (action.type) {
-        case 'CHANGE_TOOL':
-            return {
-                ...state,
-                current: action.tool
-            };
-        case 'CHANGE_TOOL_SETTING':
-            return {
-                ...state,
-                settings: {
-                    ...state.settings,
-                    [action.tool]: {
-                        ...state.settings[action.tool],
-                        [action.prop]: action.value
-                    }
-                }
-            };
-        default:
+export function currentTool(state = {}, action) {
+    if (action.type === 'CHANGE_TOOL') {
+        return action.tool;
+    } else {
+        return state;
     }
-
-    return state;
 }
 
-export default tools;
+export function toolSettings(state = {}, action) {
+    if (action.type === 'CHANGE_TOOL_SETTING') {
+        return {
+            ...state,
+            [action.tool]: {
+                ...state[action.tool],
+                [action.prop]: action.value
+            }
+        };
+    } else {
+        return state;
+    }
+}

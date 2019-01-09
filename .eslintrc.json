@@ -49,6 +49,7 @@
             "multi-line",
             "consistent"
         ],
+        "default-case": "warn",
         "eol-last": "error",
         "eqeqeq": [
             "error",

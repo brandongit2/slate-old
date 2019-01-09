@@ -29,8 +29,14 @@ Dialog.propTypes = {
     content: PropTypes.string
 };
 
+const mapStateToProps = state => ({
+    visible: state.isDialogVisible,
+    title:   state.dialog.title,
+    content: state.dialog.content
+});
+
 const mapDispatchToProps = dispatch => ({
     hide: () => { dispatch(hideDialog()); }
 });
 
-Dialog = connect(null, mapDispatchToProps)(Dialog);
+Dialog = connect(mapStateToProps, mapDispatchToProps)(Dialog);

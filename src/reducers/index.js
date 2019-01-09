@@ -1,18 +1,16 @@
 import {combineReducers} from 'redux';
 
-import dialog from './dialog';
-import layers from './layers';
-import nodes from './nodes';
-import tools from './tools';
-import touches from './touches';
-import wndw from './window';
+import {isDialogVisible, dialog} from './dialog';
+import {currentNode, groups, nodes} from './nodes';
+import {currentTool, toolSettings} from './tools';
+import {panels} from './panels';
+import {wndw} from './window';
 
-const rootReducer =  combineReducers({
-    dialog,
-    layers,
-    nodes,
-    tools,
-    touches,
+const rootReducer = combineReducers({
+    isDialogVisible, dialog,
+    currentNode, groups, nodes,
+    currentTool, toolSettings,
+    panels,
     window: wndw,
 });
 

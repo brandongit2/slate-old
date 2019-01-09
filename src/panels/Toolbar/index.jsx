@@ -30,8 +30,12 @@ Toolbar.propTypes = {
     currentTool: PropTypes.string.isRequired
 };
 
+const mapStateToProps = state => ({
+    currentTool: state.currentTool
+});
+
 const mapDispatchToProps = dispatch => ({
     changeTool: tool => { dispatch(changeTool(tool)); }
 });
 
-Toolbar = connect(null, mapDispatchToProps)(Toolbar);
+Toolbar = connect(mapStateToProps, mapDispatchToProps)(Toolbar);

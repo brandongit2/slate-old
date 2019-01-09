@@ -3,14 +3,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {
-    addLayer,
-    addToLayer,
-    addNode,
-    removeLayer,
-    removeFromLayer,
-    removeNode,
     showDialog,
-    switchLayer
+    addGroup,
+    addNode,
+    removeGroup,
+    removeNode,
+    moveNode,
+    switchNode
 } from '../../actions';
 import SvgElement from '../../svg';
 import {distance, log_b, midpoint} from '../../utils';
@@ -25,11 +24,6 @@ const toolNameToClass = {
 };
 
 export class Canvas extends React.Component {
-    canvasInfo = {
-        width:  0,
-        height: 0
-    };
-    currentTool = null;
     mouse = {
         x:      null,
         y:      null,
@@ -58,19 +52,6 @@ export class Canvas extends React.Component {
         this.parent = React.createRef();
         this.svg = new SvgElement();
 
-        Object.assign(this.canvasInfo, {
-            addLayer:        props.addLayer,
-            addToLayer:      props.addToLayer,
-            addNode:         props.addNode,
-            removeLayer:     props.removeLayer,
-            removeFromLayer: props.removeFromLayer,
-            removeNode:      props.removeNode,
-            showDialog:      props.showDialog,
-            switchLayer:     props.switchLayer,
-            currentLayer:    props.currentLayer,
-            canvas:          this.svg
-        });
-
         this.updateTool();
     }
 
@@ -97,10 +78,6 @@ export class Canvas extends React.Component {
         this.svg.updateSize();
         this.svg.setZoom(this.state.canvas.zoom);
         this.svg.setTranslate(...this.state.canvas.translate);
-
-        this.canvasInfo.width = this.svg.el.getBoundingClientRect().width;
-        this.canvasInfo.height = this.svg.el.getBoundingClientRect().height;
-        this.currentTool.updateCanvasInfo(this.canvasInfo);
 
         this.updateTool();
     }
@@ -254,10 +231,24 @@ export class Canvas extends React.Component {
     }
 
     updateTool = () => {
-        this.currentTool = new toolNameToClass[this.props.tools.current](
-            this.canvasInfo
-        );
-        this.currentTool.updateSettings(this.props.tools.settings);
+        this.currentTool = new toolNameToClass[this.props.currentToolName]();
+
+        this.currentTool.updateProps({
+            width:  this.svg.el.getBoundingClientRect().width,
+            height: this.svg.el.getBoundingClientRect().height,
+            canvas: this.svg,
+
+            currentGroup: this.props.currentGroup,
+            currentNode:  this.props.currentNode,
+
+            addGroup:    this.props.addGroup,
+            addNode:     this.props.addNode,
+            removeGroup: this.props.removeGroup,
+            removeNode:  this.props.removeNode,
+            showDialog:  this.props.showDialog,
+            switchNode:  this.props.switchNode,
+        });
+        this.currentTool.updateSettings(this.props.toolSettings);
     }
 
     updateTouches = e => {
@@ -281,35 +272,56 @@ export class Canvas extends React.Component {
 }
 
 Canvas.propTypes = {
-    addLayer:        PropTypes.func.isRequired,
-    addToLayer:      PropTypes.func.isRequired,
-    addNode:         PropTypes.func.isRequired,
-    removeLayer:     PropTypes.func.isRequired,
-    removeFromLayer: PropTypes.func.isRequired,
-    removeNode:      PropTypes.func.isRequired,
     showDialog:      PropTypes.func.isRequired,
-    switchLayer:     PropTypes.func.isRequired,
-    currentLayer:    PropTypes.object.isRequired,
-    tools:           PropTypes.object.isRequired
+    addGroup:        PropTypes.func.isRequired,
+    addNode:         PropTypes.func.isRequired,
+    removeGroup:     PropTypes.func.isRequired,
+    removeNode:      PropTypes.func.isRequired,
+    switchNode:      PropTypes.func.isRequired,
+    groups:          PropTypes.object.isRequired,
+    currentGroup:    PropTypes.object.isRequired,
+    currentNode:     PropTypes.object.isRequired,
+    currentToolName: PropTypes.string.isRequired,
+    toolSettings:    PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    currentLayer: {
-        ...state.layers.layers[state.layers.current],
-        id: state.layers.current
-    },
-    tools: state.tools
+    groups:       state.groups,
+    currentGroup: (() => {
+        if (state.currentNode === 'none') {
+            return {id: 'root', ...state.groups.root};
+        } else {
+            let currentGroup;
+            for (let groupId of Object.keys(state.groups)) {
+                if (state.groups[groupId].nodes.indexOf(state.currentNode) !== -1) {
+                    currentGroup = {
+                        id: groupId,
+                        ...state.groups[groupId]
+                    };
+                }
+            }
+            return currentGroup;
+        }
+    })(),
+    currentNode: state.nodes[state.currentNode]
+        ? state.nodes[state.currentNode]
+        : {id: 'none', displayName: ''},
+    currentToolName: state.currentTool,
+    toolSettings:    state.toolSettings
 });
 
 const mapDispatchToProps = dispatch => ({
-    addLayer:        (id, name, nodes) => { dispatch(addLayer(id, name, nodes)); },
-    addToLayer:      (id, node) => { dispatch(addToLayer(id, node)); },
-    addNode:         (id, node) => { dispatch(addNode(id, node)); },
-    removeNode:      id => { dispatch(removeNode(id)); },
-    removeLayer:     id => { dispatch(removeLayer(id)); },
-    removeFromLayer: (id, node) => { dispatch(removeFromLayer(id, node)); },
-    showDialog:      (title, content) => { dispatch(showDialog(title, content)); },
-    switchLayer:     id => { dispatch(switchLayer(id)); }
+    showDialog: (title, content) => { dispatch(showDialog(title, content)); },
+    addGroup:   (parentGroup, id, displayName, groupType) => {
+        dispatch(addGroup(parentGroup, id, displayName, groupType));
+    },
+    addNode: (parentGroup, id, displayName, svgObject) => {
+        dispatch(addNode(parentGroup, id, displayName, svgObject));
+    },
+    removeGroup: id => { dispatch(removeGroup(id)); },
+    removeNode:  id => { dispatch(removeNode(id)); },
+    moveNode:    (nodeId, parent, index) => { dispatch(moveNode(nodeId, parent, index)); },
+    switchNode:  id => { dispatch(switchNode(id)); }
 });
 
 Canvas = connect(mapStateToProps, mapDispatchToProps)(Canvas); /* eslint-disable-line no-class-assign */

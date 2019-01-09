@@ -7,24 +7,27 @@ export class BrushTool extends Tool {
     strokes = {};
 
     addStroke = (source, x, y) => {
-        if (this.canvasInfo.currentLayer != null && this.canvasInfo.currentLayer.type === 'draw') {
-            let stroke = new PolyLine(
-                [this.stcc(x, y), this.stcc(x, y)] // Repeated so that it's possible to draw dots
-            ).attrs({
-                stroke:         this.settings.brush.color,
-                strokeWidth:    this.settings.brush.size,
-                fill:           'none',
-                strokeLinecap:  'round',
-                strokeLinejoin: 'round'
-            });
-            this.strokes[source] = stroke;
-            this.canvasInfo.canvas.add(stroke);
+        let nodeId = generate();
+        let stroke = new PolyLine(
+            [this.stcc(x, y), this.stcc(x, y)] // Repeated so that it's possible to draw dots
+        ).attrs({
+            id:             nodeId,
+            fill:           'none',
+            stroke:         this.settings.brush.color,
+            strokeWidth:    this.settings.brush.size,
+            strokeLinecap:  'round',
+            strokeLinejoin: 'round'
+        });
+        this.strokes[source] = stroke;
+
+        if (this.currentGroup.type === 'draw') {
+            this.addNode(this.currentGroup.id, nodeId, 'Stroke', stroke);
         } else {
-            this.canvasInfo.showDialog(
-                'Cannot begin drawing.',
-                'You must be on a drawing layer in order to draw.'
-            );
+            let newGroupId = generate();
+            this.addGroup(this.currentGroup.id, newGroupId, 'Drawing', 'draw');
+            this.addNode(newGroupId, nodeId, 'Stroke', stroke);
         }
+        this.switchNode(nodeId);
     }
 
     addToStroke = (source, x, y) => {
@@ -32,17 +35,11 @@ export class BrushTool extends Tool {
     }
 
     endStroke = source => {
-        if (this.strokes[source] != null) {
-            let nodeId = generate();
-            this.canvasInfo.addNode(nodeId, this.strokes[source]);
-            this.canvasInfo.addToLayer(this.canvasInfo.currentLayer.id, nodeId);
-            this.canvasInfo.switchLayer(this.canvasInfo.currentLayer.id);
-        }
         delete this.strokes[source];
     }
 
     cancelStroke = source => {
-        this.canvasInfo.canvas.remove(this.strokes[source]);
+        this.canvas.remove(this.strokes[source]);
         delete this.strokes[source];
     }
 

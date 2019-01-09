@@ -3,9 +3,9 @@
 class Tool {
     touches = {};
 
-    constructor(canvasInfo) {
-        this.updateCanvasInfo(canvasInfo);
-
+    constructor() {
+        // These functions cannot be arrow functions as you can't access `super`
+        // from arrow functions.
         this.mouseDown = this.mouseDown.bind(this);
         this.mouseMove = this.mouseMove.bind(this);
         this.mouseUp = this.mouseUp.bind(this);
@@ -16,24 +16,23 @@ class Tool {
     }
 
     addNode = node => {
-        this.canvasInfo.addNode(node);
+        this.addNode(node);
     }
 
     stcc = (x, y) => { // "screen to canvas coordinates"
-        let canvas = this.canvasInfo.canvas;
-        x -= canvas.el.getBoundingClientRect().left;
-        y -= canvas.el.getBoundingClientRect().top;
-        x -= canvas.el.getBoundingClientRect().width / 2;
-        y -= canvas.el.getBoundingClientRect().height / 2;
-        x *= canvas.zoom;
-        y *= canvas.zoom;
-        x += canvas.translate[0];
-        y += canvas.translate[1];
+        x -= this.canvas.el.getBoundingClientRect().left;
+        y -= this.canvas.el.getBoundingClientRect().top;
+        x -= this.canvas.el.getBoundingClientRect().width / 2;
+        y -= this.canvas.el.getBoundingClientRect().height / 2;
+        x *= this.canvas.zoom;
+        y *= this.canvas.zoom;
+        x += this.canvas.translate[0];
+        y += this.canvas.translate[1];
         return [x, y];
     }
 
-    updateCanvasInfo = canvasInfo => {
-        this.canvasInfo = canvasInfo;
+    updateProps = props => {
+        Object.assign(this, props);
     }
 
     updateSettings = settings => {

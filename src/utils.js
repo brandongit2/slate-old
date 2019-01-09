@@ -64,3 +64,19 @@ export function relToAbs(length) {
             throw new Error(`Unrecognized unit ${length.match(/[A-Za-z]+$/u)[0]}.`);
     }
 }
+
+/**
+ * Finds the ID of the parent of an object.
+ *
+ * @param {string} id - The ID of the object.
+ * @param {object} groups - A list of current groups.
+ *
+ * @returns {string} The ID of the parent.
+ */
+export function getParentId(id, groups) {
+    for (let groupId of Object.keys(groups)) {
+        for (let childId of groups[groupId]) {
+            if (childId === id) return groupId;
+        }
+    }
+}

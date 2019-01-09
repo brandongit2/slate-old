@@ -1,46 +1,29 @@
-// id is used internally; name is displayed in UI
-export const addLayer = (id, layerType, name, nodes, props = {}) => ({
-    type: 'ADD_LAYER',
-    id, layerType, name, nodes, props
-});
+// DIALOG
 
-export const addToLayer = (id, node) => ({
-    type: 'ADD_TO_LAYER',
-    id, node
-});
-
-export const addNode = (id, node) => ({
-    type: 'ADD_NODE',
-    id, node
-});
-
-export const changeToolSetting = (tool, prop, value) => ({
-    type: 'CHANGE_TOOL_SETTING',
-    tool, prop, value
-});
-
-export const changeTool = tool => ({
-    type: 'CHANGE_TOOL',
-    tool
+export const showDialog = (title, content) => ({
+    type: 'SHOW_DIALOG',
+    title, content
 });
 
 export const hideDialog = () => ({
     type: 'HIDE_DIALOG'
 });
 
-export const newTouch = (id, x, y) => ({
-    type: 'NEW_TOUCH',
-    id, x, y
+// NODES
+
+export const addGroup = (parentGroup, id, displayName, groupType) => ({
+    type: 'ADD_GROUP',
+    parentGroup, id, displayName, groupType
 });
 
-export const removeLayer = id => ({
-    type: 'REMOVE_LAYER',
+export const addNode = (parentGroup, id, displayName, svgObject) => ({
+    type: 'ADD_NODE',
+    parentGroup, id, displayName, svgObject
+});
+
+export const removeGroup = id => ({
+    type: 'REMOVE_GROUP',
     id
-});
-
-export const removeFromLayer = (id, node) => ({
-    type: 'REMOVE_FROM_LAYER',
-    id, node
 });
 
 export const removeNode = id => ({
@@ -48,20 +31,39 @@ export const removeNode = id => ({
     id
 });
 
-export const renameLayer = (id, name) => ({
-    type: 'RENAME_LAYER',
-    id, name
+export const renameGroup = (groupId, newName) => ({
+    type: 'RENAME_GROUP',
+    groupId, newName
 });
 
-export const showDialog = (title, content) => ({
-    type: 'SHOW_DIALOG',
-    title, content
+export const renameNode = (nodeId, newName) => ({
+    type: 'RENAME_NODE',
+    nodeId, newName
 });
 
-export const switchLayer = id => ({
-    type: 'SWITCH_LAYER',
+export const moveNode = (nodeId, parent, index) => ({
+    type: 'MOVE_NODE',
+    nodeId, parent, index
+});
+
+export const switchNode = id => ({
+    type: 'SWITCH_NODE',
     id
 });
+
+// TOOLS
+
+export const changeTool = tool => ({
+    type: 'CHANGE_TOOL',
+    tool
+});
+
+export const changeToolSetting = (tool, prop, value) => ({
+    type: 'CHANGE_TOOL_SETTING',
+    tool, prop, value
+});
+
+// MISCELLANEOUS
 
 export const windowResize = (width, height) => ({
     type: 'WINDOW_RESIZE',

@@ -6,8 +6,8 @@ import {windowResize} from './actions';
 import {Dialog} from './components';
 import {
     Canvas,
-    LayerView,
     MenuBar,
+    NodeView,
     PanelContainer,
     PropertiesBar,
     SettingsBar,
@@ -21,7 +21,7 @@ class App extends React.Component {
         window.addEventListener('resize', () => {
             this.props.resize(window.innerWidth, window.innerHeight);
         });
-    }
+    };
 
     render = () => (
         <div id="app-container">
@@ -30,45 +30,29 @@ class App extends React.Component {
                 <PanelContainer direction="horizontal" size="grow">
                     <PanelContainer direction="vertical"
                                     size="17rem">
-                        <Toolbar size="20%"
-                                 currentTool={this.props.currentTool} />
+                        <Toolbar size="20%" />
                         <SettingsBar size="grow" />
                     </PanelContainer>
                     <Canvas size="grow" panelStyle={{padding: '0px'}} />
                     <PanelContainer direction="vertical"
                                     size="23rem">
-                        <LayerView size="40%" />
+                        <NodeView size="40%" />
                         <PropertiesBar size="grow" />
                     </PanelContainer>
                 </PanelContainer>
             </PanelContainer>
-            <Dialog visible={this.props.dialog.visible}
-                    title={this.props.dialog.title}
-                    content={this.props.dialog.content} />
+            <Dialog />
             <div id="dummyContainer" />
         </div>
     );
 }
 
 App.propTypes = {
-    resize:      PropTypes.func.isRequired,
-    currentTool: PropTypes.string.isRequired,
-    dialog:      PropTypes.object.isRequired,
-    width:       PropTypes.number.isRequired,
-    height:      PropTypes.number.isRequired
+    resize: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
-    resize: (width, height) => {
-        dispatch(windowResize(width, height));
-    }
+    resize: (width, height) => { dispatch(windowResize(width, height)); }
 });
 
-const mapStateToProps = state => ({
-    currentTool: state.tools.current,
-    dialog:      state.dialog,
-    width:       state.window.width,
-    height:      state.window.height
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);

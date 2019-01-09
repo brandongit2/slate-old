@@ -51,7 +51,7 @@ SettingsBar.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    currentTool: state.tools.current
+    currentTool: state.currentTool
 });
 
 const mapDispatchToProps = dispatch => ({
