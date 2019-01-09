@@ -13,14 +13,15 @@ let store = createStore(
         },
 
         currentNode: 'none',
-        groups:      {
+        things:      {
             root: {
+                thingType:   'group',
                 displayName: 'Root',
                 type:        '',
+                expanded:    true,
                 nodes:       []
             }
         },
-        nodes: {},
 
         currentTool:  'brush',
         toolSettings: config.tools,

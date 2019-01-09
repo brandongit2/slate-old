@@ -24,7 +24,7 @@ export class BrushTool extends Tool {
             this.addNode(this.currentGroup.id, nodeId, 'Stroke', stroke);
         } else {
             let newGroupId = generate();
-            this.addGroup(this.currentGroup.id, newGroupId, 'Drawing', 'draw');
+            this.addGroup(this.currentGroup.id, newGroupId, 'Drawing', 'draw', false);
             this.addNode(newGroupId, nodeId, 'Stroke', stroke);
         }
         this.switchNode(nodeId);

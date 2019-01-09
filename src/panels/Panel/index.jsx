@@ -3,13 +3,18 @@ import React from 'react';
 
 import './index.css';
 
-export const Panel = ({children, size, panelStyle}) => {
+export const Panel = ({children, parentDirection, size, panelStyle}) => {
     let style;
 
     if (size === 'grow') {
         style = {flexGrow: 1};
     } else {
         style = {flexBasis: size};
+        if (parentDirection === 'horizontal') {
+            style.width = size;
+        } else {
+            style.height = size;
+        }
     }
 
     return (
@@ -25,7 +30,8 @@ Panel.defaultProps = {
 };
 
 Panel.propTypes = {
-    children:   PropTypes.element,
-    size:       PropTypes.string,
-    panelStyle: PropTypes.object
+    children:        PropTypes.element,
+    parentDirection: PropTypes.string.isRequired,
+    size:            PropTypes.string,
+    panelStyle:      PropTypes.object
 };

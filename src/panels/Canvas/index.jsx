@@ -6,9 +6,8 @@ import {
     showDialog,
     addGroup,
     addNode,
-    removeGroup,
-    removeNode,
-    moveNode,
+    removeThing,
+    moveThing,
     switchNode
 } from '../../actions';
 import SvgElement from '../../svg';
@@ -243,8 +242,7 @@ export class Canvas extends React.Component {
 
             addGroup:    this.props.addGroup,
             addNode:     this.props.addNode,
-            removeGroup: this.props.removeGroup,
-            removeNode:  this.props.removeNode,
+            removeThing: this.props.removeThing,
             showDialog:  this.props.showDialog,
             switchNode:  this.props.switchNode,
         });
@@ -275,10 +273,9 @@ Canvas.propTypes = {
     showDialog:      PropTypes.func.isRequired,
     addGroup:        PropTypes.func.isRequired,
     addNode:         PropTypes.func.isRequired,
-    removeGroup:     PropTypes.func.isRequired,
-    removeNode:      PropTypes.func.isRequired,
+    removeThing:     PropTypes.func.isRequired,
     switchNode:      PropTypes.func.isRequired,
-    groups:          PropTypes.object.isRequired,
+    things:          PropTypes.object.isRequired,
     currentGroup:    PropTypes.object.isRequired,
     currentNode:     PropTypes.object.isRequired,
     currentToolName: PropTypes.string.isRequired,
@@ -286,41 +283,42 @@ Canvas.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    groups:       state.groups,
+    things:       state.things,
     currentGroup: (() => {
         if (state.currentNode === 'none') {
-            return {id: 'root', ...state.groups.root};
+            return {id: 'root', ...state.things.root};
         } else {
             let currentGroup;
-            for (let groupId of Object.keys(state.groups)) {
-                if (state.groups[groupId].nodes.indexOf(state.currentNode) !== -1) {
-                    currentGroup = {
-                        id: groupId,
-                        ...state.groups[groupId]
-                    };
+            for (let groupId of Object.keys(state.things)) {
+                if (state.things[groupId].thingType === 'group') {
+                    if (state.things[groupId].nodes.includes(state.currentNode)) {
+                        currentGroup = {
+                            id: groupId,
+                            ...state.things[groupId]
+                        };
+                    }
                 }
             }
             return currentGroup;
         }
     })(),
-    currentNode: state.nodes[state.currentNode]
-        ? state.nodes[state.currentNode]
-        : {id: 'none', displayName: ''},
+    currentNode: state.things[state.currentNode]
+        ? state.things[state.currentNode]
+        : {thingType: 'node', id: 'none', displayName: ''},
     currentToolName: state.currentTool,
     toolSettings:    state.toolSettings
 });
 
 const mapDispatchToProps = dispatch => ({
     showDialog: (title, content) => { dispatch(showDialog(title, content)); },
-    addGroup:   (parentGroup, id, displayName, groupType) => {
-        dispatch(addGroup(parentGroup, id, displayName, groupType));
+    addGroup:   (parentGroup, id, displayName, groupType, expanded) => {
+        dispatch(addGroup(parentGroup, id, displayName, groupType, expanded));
     },
     addNode: (parentGroup, id, displayName, svgObject) => {
         dispatch(addNode(parentGroup, id, displayName, svgObject));
     },
-    removeGroup: id => { dispatch(removeGroup(id)); },
-    removeNode:  id => { dispatch(removeNode(id)); },
-    moveNode:    (nodeId, parent, index) => { dispatch(moveNode(nodeId, parent, index)); },
+    removeThing: id => { dispatch(removeThing(id)); },
+    moveThing:   (id, parent, index) => { dispatch(moveThing(id, parent, index)); },
     switchNode:  id => { dispatch(switchNode(id)); }
 });
 

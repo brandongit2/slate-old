@@ -11,9 +11,9 @@ export const hideDialog = () => ({
 
 // NODES
 
-export const addGroup = (parentGroup, id, displayName, groupType) => ({
+export const addGroup = (parentGroup, id, displayName, groupType, expanded) => ({
     type: 'ADD_GROUP',
-    parentGroup, id, displayName, groupType
+    parentGroup, id, displayName, groupType, expanded
 });
 
 export const addNode = (parentGroup, id, displayName, svgObject) => ({
@@ -21,13 +21,8 @@ export const addNode = (parentGroup, id, displayName, svgObject) => ({
     parentGroup, id, displayName, svgObject
 });
 
-export const removeGroup = id => ({
-    type: 'REMOVE_GROUP',
-    id
-});
-
-export const removeNode = id => ({
-    type: 'REMOVE_NODE',
+export const removeThing = id => ({
+    type: 'REMOVE_THING',
     id
 });
 
@@ -36,14 +31,14 @@ export const renameGroup = (groupId, newName) => ({
     groupId, newName
 });
 
-export const renameNode = (nodeId, newName) => ({
+export const renameThing = (id, newName) => ({
     type: 'RENAME_NODE',
-    nodeId, newName
+    id, newName
 });
 
-export const moveNode = (nodeId, parent, index) => ({
-    type: 'MOVE_NODE',
-    nodeId, parent, index
+export const moveThing = (id, parent, index) => ({
+    type: 'MOVE_THING',
+    id, parent, index
 });
 
 export const switchNode = id => ({

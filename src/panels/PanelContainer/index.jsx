@@ -22,6 +22,7 @@ export const PanelContainer = ({children, direction, size}) => {
                 } else {
                     return (
                         <Panel key={generate()}
+                               parentDirection={direction}
                                size={child.props.size}
                                panelStyle={child.props.panelStyle}>
                             {child}
