@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export const GroupView = ({children, things, content}) => (
+export const GroupView = ({children, things, content, currentNode}) => (
     <div className="group-view">
         <div className="entry-container">{children}</div>
         <div className="children">
@@ -11,7 +11,8 @@ export const GroupView = ({children, things, content}) => (
                     return (
                         <GroupView key={`group_${thingId}`}
                                    things={things}
-                                   content={thing.nodes}>
+                                   content={thing.nodes}
+                                   currentNode={currentNode}>
                             {thing.displayName}
                         </GroupView>
                     );
@@ -19,7 +20,9 @@ export const GroupView = ({children, things, content}) => (
                     return (
                         <div key={`node_${thingId}`}
                              className="entry-container">
-                            {thing.displayName}
+                            <span className={thingId === currentNode ? 'current' : ''}>
+                                {thing.displayName}
+                            </span>
                         </div>
                     );
                 }
@@ -29,7 +32,8 @@ export const GroupView = ({children, things, content}) => (
 );
 
 GroupView.propTypes = {
-    children: PropTypes.string.isRequired,
-    things:   PropTypes.object.isRequired,
-    content:  PropTypes.array.isRequired
+    children:    PropTypes.string.isRequired,
+    things:      PropTypes.object.isRequired,
+    content:     PropTypes.array.isRequired,
+    currentNode: PropTypes.string.isRequired
 };

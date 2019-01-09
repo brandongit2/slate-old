@@ -69,14 +69,14 @@ export function relToAbs(length) {
  * Finds the ID of the parent of an object.
  *
  * @param {string} id - The ID of the object.
- * @param {object} groups - A list of current groups.
+ * @param {object} things - A list of current things.
  *
  * @returns {string} The ID of the parent.
  */
-export function getParentId(id, groups) {
-    for (let groupId of Object.keys(groups)) {
-        for (let childId of groups[groupId]) {
-            if (childId === id) return groupId;
+export function getParentId(id, things) {
+    for (let thingId of Object.keys(things)) {
+        if (things[thingId].thingType === 'group') {
+            if (things[thingId].nodes.includes(id)) return thingId;
         }
     }
 }

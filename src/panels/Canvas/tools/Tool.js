@@ -52,6 +52,8 @@ class Tool {
 
     mouseLeave() {}
 
+    mouseWheel() {}
+
     touchStart(e) {
         for (let touch of e.changedTouches) {
             this.touches[touch.identifier] = [touch.pageX, touch.pageY];

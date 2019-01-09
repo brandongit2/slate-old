@@ -18,28 +18,34 @@ export class BrushTool extends Tool {
             strokeLinecap:  'round',
             strokeLinejoin: 'round'
         });
-        this.strokes[source] = stroke;
+        this.strokes[source] = {nodeId, stroke};
 
-        if (this.currentGroup.type === 'draw') {
-            this.addNode(this.currentGroup.id, nodeId, 'Stroke', stroke);
-        } else {
-            let newGroupId = generate();
-            this.addGroup(this.currentGroup.id, newGroupId, 'Drawing', 'draw', false);
-            this.addNode(newGroupId, nodeId, 'Stroke', stroke);
-        }
-        this.switchNode(nodeId);
+        this.canvas.add(stroke);
     }
 
     addToStroke = (source, x, y) => {
-        if (this.strokes[source]) this.strokes[source].addPoint(this.stcc(x, y));
+        if (this.strokes[source]) {
+            this.strokes[source].stroke.addPoint(this.stcc(x, y));
+        }
     }
 
     endStroke = source => {
+        if (this.strokes[source]) {
+            if (this.currentGroup.type === 'draw') {
+                this.addNode(this.currentGroup.id, this.strokes[source].nodeId, 'Stroke', this.strokes[source].stroke);
+            } else {
+                let newGroupId = generate();
+                this.addGroup(this.currentGroup.id, newGroupId, 'Drawing', 'draw', false);
+                this.addNode(newGroupId, this.strokes[source].nodeId, 'Stroke', this.strokes[source].stroke);
+            }
+            this.switchNode(this.strokes[source].nodeId);
+        }
+
         delete this.strokes[source];
     }
 
     cancelStroke = source => {
-        this.canvas.remove(this.strokes[source]);
+        this.canvas.remove(this.strokes[source].stroke);
         delete this.strokes[source];
     }
 

@@ -1,10 +1,13 @@
 import {getParentId} from '../utils';
 
 export function currentNode(state = {}, action) {
-    if (action.type === 'SWITCH_NODE') {
-        return action.id;
-    } else {
-        return state;
+    switch (action.type) {
+        case 'SWITCH_NODE':
+            return action.id;
+        case 'REMOVE_THING':
+            return 'none';
+        default:
+            return state;
     }
 }
 
@@ -47,15 +50,6 @@ export function things(state = {}, action) {
             let index = parent.indexOf(action.id);
             newState[parentId].nodes.splice(index, 1);
             return newState;
-        }
-        case 'RENAME_GROUP': {
-            return {
-                ...state,
-                [action.id]: {
-                    ...state[action.groupId],
-                    displayName: action.displayName
-                }
-            };
         }
         case 'MOVE_THING': {
             let newState = JSON.parse(JSON.stringify(state)); // Clones state

@@ -23,6 +23,7 @@ const toolNameToClass = {
 };
 
 export class Canvas extends React.Component {
+    static currentTool = null;
     mouse = {
         x:      null,
         y:      null,
@@ -71,6 +72,14 @@ export class Canvas extends React.Component {
         this.parent.current.addEventListener(
             'touchend', this.handleTouchEnd, {passive: false}
         );
+    };
+
+    shouldComponentUpdate = nextProps => {
+        if (JSON.stringify(this.props.things) !== JSON.stringify(nextProps.things)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     componentDidUpdate = () => {
@@ -79,7 +88,7 @@ export class Canvas extends React.Component {
         this.svg.setTranslate(...this.state.canvas.translate);
 
         this.updateTool();
-    }
+    };
 
     /****************************** EVENT HANDLERS ******************************/
 
@@ -95,7 +104,7 @@ export class Canvas extends React.Component {
         }
 
         this.currentTool.mouseDown(e);
-    }
+    };
 
     handleMouseMove = e => {
         e.preventDefault();
@@ -117,7 +126,7 @@ export class Canvas extends React.Component {
         }
 
         this.currentTool.mouseMove(e);
-    }
+    };
 
     handleMouseUp = e => {
         e.preventDefault();
@@ -131,7 +140,7 @@ export class Canvas extends React.Component {
         }
 
         this.currentTool.mouseUp(e);
-    }
+    };
 
     handleMouseWheel = e => {
         e.preventDefault();
@@ -146,7 +155,7 @@ export class Canvas extends React.Component {
         });
 
         this.currentTool.mouseWheel(e);
-    }
+    };
 
     handleTouchStart = e => {
         e.preventDefault();
@@ -194,7 +203,7 @@ export class Canvas extends React.Component {
                 translate: [x, y]
             }
         });
-    }
+    };
 
     touchChange = () => { // For when a touch is added or moved
         if (Object.keys(this.touches.list).length === 2) {
@@ -227,7 +236,7 @@ export class Canvas extends React.Component {
                 }
             });
         }
-    }
+    };
 
     updateTool = () => {
         this.currentTool = new toolNameToClass[this.props.currentToolName]();
@@ -240,21 +249,25 @@ export class Canvas extends React.Component {
             currentGroup: this.props.currentGroup,
             currentNode:  this.props.currentNode,
 
-            addGroup:    this.props.addGroup,
-            addNode:     this.props.addNode,
-            removeThing: this.props.removeThing,
-            showDialog:  this.props.showDialog,
-            switchNode:  this.props.switchNode,
+            addGroup: this.props.addGroup,
+            addNode:  (parentGroup, id, displayName, svgObject) => {
+                this.props.addNode(parentGroup, id, displayName, svgObject);
+            },
+            removeThing: id => {
+                this.props.removeThing(id);
+            },
+            showDialog: this.props.showDialog,
+            switchNode: this.props.switchNode
         });
         this.currentTool.updateSettings(this.props.toolSettings);
-    }
+    };
 
     updateTouches = e => {
         this.touches.prev = this.touches.list;
         for (let touch of e.changedTouches) {
             this.touches.list[touch.identifier] = [touch.pageX, touch.pageY];
         }
-    }
+    };
 
     render = () => {
         return (
@@ -266,7 +279,7 @@ export class Canvas extends React.Component {
                  onMouseUp={this.handleMouseUp}
                  onMouseLeave={this.handleMouseLeave} />
         );
-    }
+    };
 }
 
 Canvas.propTypes = {

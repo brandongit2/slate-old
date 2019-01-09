@@ -10,21 +10,23 @@ export class TextTool extends Tool {
         let text = new Html(...this.stcc(x, y), 0, 0).setStyle({
             overflow: 'visible',
         });
+        let nodeId = generate();
+
         let textarea = document.createElement('textarea');
+        textarea.setAttribute('id', nodeId);
         textarea.style.width = '100%';
         textarea.style.height = '100%';
         textarea.style.fontSize = `${this.settings.text.fontSize}pt`;
         textarea.style.color = this.settings.text.color;
         textarea.setAttribute('class', 'box');
         text.append(textarea);
-        this.canvasInfo.canvas.add(text);
+        this.canvas.add(text);
         textarea.focus();
-        let nodeId = generate();
-        let layerId = generate();
+
         this.texts[source] = {
             obj:      text,
             startPos: this.stcc(x, y),
-            textarea, nodeId, layerId
+            textarea, nodeId
         };
 
         let focus = e => {
@@ -39,8 +41,8 @@ export class TextTool extends Tool {
 
         textarea.addEventListener('blur', e => {
             if (e.target.value.length === 0) {
-                this.canvasInfo.canvas.remove(text);
-                this.canvasInfo.removeNode(nodeId);
+                this.removeThing(e.target.getAttribute('id'));
+                this.canvas.el.removeChild(e.target.parentNode.parentNode);
             }
         });
     }
@@ -72,9 +74,8 @@ export class TextTool extends Tool {
                 text.textarea.setAttribute('class', 'point');
             }
 
-            this.canvasInfo.addNode(text.nodeId, text.obj);
-            this.canvasInfo.addLayer(text.layerId, 'text', 'Text', text.nodeId);
-            this.canvasInfo.switchLayer(text.layerId);
+            this.addNode(this.currentGroup.id, text.nodeId, 'Text', text.obj);
+            this.switchNode(text.nodeId);
         }
         delete this.texts[source];
     }

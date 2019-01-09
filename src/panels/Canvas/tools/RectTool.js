@@ -7,26 +7,20 @@ export class RectTool extends Tool {
     rects = {};
 
     begin = (source, x, y) => {
-        if (this.canvasInfo.currentLayer != null && this.canvasInfo.currentLayer.type === 'draw') {
-            let rect = new Rect(...this.stcc(x, y), 0, 0)
-                .attrs({
-                    strokeWidth: this.settings.rect.strokeWidth,
-                    stroke:      this.settings.rect.stroke,
-                    fill:        this.settings.rect.fill
-                });
-            let nodeId = generate();
-            this.rects[source] = {
-                obj:      rect,
-                startPos: this.stcc(x, y),
-                nodeId
-            };
-            this.canvasInfo.canvas.add(rect);
-        } else {
-            this.canvasInfo.showDialog(
-                'Cannot begin drawing.',
-                'You must be on a drawing layer in order to draw.'
-            );
-        }
+        let nodeId = generate();
+        let rect = new Rect(...this.stcc(x, y), 0, 0)
+            .attrs({
+                id:          nodeId,
+                strokeWidth: this.settings.rect.strokeWidth,
+                stroke:      this.settings.rect.stroke,
+                fill:        this.settings.rect.fill
+            });
+        this.rects[source] = {
+            obj:      rect,
+            startPos: this.stcc(x, y),
+            nodeId
+        };
+        this.canvas.add(rect);
     }
 
     resize = (source, x, y) => {
@@ -50,16 +44,22 @@ export class RectTool extends Tool {
 
     end = source => {
         let rect = this.rects[source];
-        if (rect != null) {
+        if (rect) {
             if (rect.obj.width === 0 && rect.obj.height === 0) {
-                this.canvasInfo.canvas.remove(rect.obj);
+                this.canvas.remove(rect.obj);
             } else {
-                this.canvasInfo.addNode(rect.nodeId, rect);
-                this.canvasInfo.addToLayer(this.canvasInfo.currentLayer.id, rect.nodeId);
-                this.canvasInfo.switchLayer(this.canvasInfo.currentLayer.id);
+                if (this.currentGroup.type === 'draw') {
+                    this.addNode(this.currentGroup.id, rect.nodeId, 'Rect', rect.obj);
+                } else {
+                    let newGroupId = generate();
+                    this.addGroup(this.currentGroup.id, newGroupId, 'Drawing', 'draw', false);
+                    this.addNode(newGroupId, rect.nodeId, 'Rect', rect.obj);
+                }
+                this.switchNode(rect.nodeId);
             }
         }
-        this.rects[source] = null;
+
+        delete this.rects[source];
     }
 
     mouseDown(e) {
@@ -96,7 +96,11 @@ export class RectTool extends Tool {
         super.touchStart(e);
 
         if (Object.keys(this.touches).length === 1) {
-            this.begin('touch', ...this.touches[0]);
+            try {
+                this.begin('touch', ...this.touches[0]);
+            } catch {
+                this.end('touch');
+            }
         } else {
             this.end('touch');
         }
@@ -120,7 +124,11 @@ export class RectTool extends Tool {
         if (Object.keys(this.touches).length === 0) {
             this.end('touch');
         } else if (Object.keys(this.touches).length === 1) {
-            this.begin('touch', ...this.touches[0]);
+            try {
+                this.begin('touch', ...this.touches[0]);
+            } catch {
+                this.end('touch');
+            }
         }
     }
 }

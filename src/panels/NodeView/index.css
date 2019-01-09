@@ -25,6 +25,10 @@
     border-bottom: 1px solid var(--accent);
 }
 
+.entry-container > span.current {
+    text-decoration: bold;
+}
+
 .node-view #actions {
     width: 100%;
     flex-basis: auto;
